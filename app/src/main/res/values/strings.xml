@@ -217,6 +217,7 @@
     <string name="cancel_booking">Cancel Booking</string>
     <string name="edit_photo"><u>Edit Photo</u></string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="edit_profile_update">Update Profile</string>
     <string name="name">Name</string>
     <string name="save_changes">Save Changes</string>
     <string name="details_optional">Details(Optional)</string>

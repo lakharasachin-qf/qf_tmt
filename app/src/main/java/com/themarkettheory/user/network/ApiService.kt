@@ -49,8 +49,8 @@ import retrofit2.Call
 interface ApiService {
 
     companion object {
-        /*  *//* var BASE_URL = "https://dev.themarkettheory.com/api/" */ // Development
-        var BASE_URL = "https://themarkettheory.com/api/v1/" // Live
+           var BASE_URL = "https://dev.themarkettheory.com/api/"  // Development
+        /*var BASE_URL = "https://themarkettheory.com/api/v1/"*/ // Live
 
         fun create(token: String?): ApiService {
             val client = OkHttpClient.Builder()

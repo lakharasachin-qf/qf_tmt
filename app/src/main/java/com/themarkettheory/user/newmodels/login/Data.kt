@@ -92,6 +92,8 @@ data class Data(
     var admin_email: String = "",
     @SerializedName("admin_mobile")
     var admin_mobile: String = "",
+    @SerializedName("terms_condition")
+    var terms_condition: String = "",
     @SerializedName("is_notification")
     var is_notification: Int = 0
 )

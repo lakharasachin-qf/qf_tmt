@@ -126,6 +126,10 @@ class Data {
     @Expose
     var referralCode: String? = null
 
+    @SerializedName("terms_condition")
+    @Expose
+    var terms_condition: String? = null
+
     @SerializedName("notification_status")
     @Expose
     var notification_status: Int? = null

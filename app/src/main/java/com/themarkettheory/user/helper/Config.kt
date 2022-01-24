@@ -74,6 +74,7 @@ class Config {
         var isCouponComingFromOverviewViewAll = false
         var isCouponComingFromMenuFragment = false
         const val autoDialogDismissTimeInSec = 3
+        const val autoDialogDismissTimeInSecs = 1
         var isPreOrder = false
         var fragmentName = ""
         const val mapFragment = "mapFragment"

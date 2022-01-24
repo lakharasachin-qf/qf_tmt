@@ -283,6 +283,7 @@ object Utils {
 
         val newCalendar = Calendar.getInstance()
         newCalendar.add(Calendar.YEAR, -5)
+
         val dateDialog = DatePickerDialog(
             context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 val newDate = Calendar.getInstance()
@@ -291,14 +292,14 @@ object Utils {
                 onComplete()
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH),
             newCalendar.get(Calendar.DAY_OF_MONTH)
+
         )
 
         val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         val inputDate: Date
         try {
             inputDate = dateFormat.parse(dateFormat.format(Date()))
-            dateDialog.datePicker.maxDate = inputDate.time
-
+            dateDialog.datePicker.maxDate = newCalendar.getTimeInMillis()
             dateDialog.show()
         } catch (e: ParseException) {
             e.printStackTrace()

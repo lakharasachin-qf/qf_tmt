@@ -39,6 +39,7 @@ class VerifyOtpActivity : BaseActivity(), View.OnClickListener {
     private val firebaseAuthOTPtimeOut: Long = 60
     private var mobileNumber = ""
     private var email = ""
+    private var termAndCondition = ""
 
     //Layout Components
     private lateinit var tvOTPMobileCode: MaterialTextView
@@ -290,15 +291,22 @@ class VerifyOtpActivity : BaseActivity(), View.OnClickListener {
                         )
                     )
                 }
+
                 Log.e("User Response", gson.toJson(res))
                 prefs.setAccessToken(this@VerifyOtpActivity, res.data.token)
                 prefs.setLoginModel(res.data)
+                termAndCondition = res.data.terms_condition
                 if (res.data.emailVerified == 0) {
                     showMsgDialogAndProceed(res, "", false)
                 } else if (res.data.mobileVerified == 0) {
                     showMsgDialogAndProceed(null, "Please verify your mobile", true)
                 } else if (res.data.emailVerified == 1 && res.data.mobileVerified == 1 && res.data.zip.isEmpty()) {
-                    startActivity(Intent(this@VerifyOtpActivity, ProfileActivity::class.java))
+                    startActivity(
+                        Intent(
+                            this@VerifyOtpActivity,
+                            ProfileActivity::class.java
+                        ).putExtra("terms_condition", termAndCondition)
+                    )
                     Utils.slideEnter(this)
                     finish()
                 } else if (res.data.emailVerified == 1 && res.data.mobileVerified == 1 && res.data.zip.isNotEmpty()

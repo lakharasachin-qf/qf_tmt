@@ -7,6 +7,7 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.os.HandlerCompat.postDelayed
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -25,10 +26,17 @@ import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.viewmodel.ProfileViewModel
 import com.themarkettheory.user.viewmodel.RegisterViewModel
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_webview.*
 import kotlinx.android.synthetic.main.button_progress.*
 import okhttp3.MultipartBody
 import java.io.File
 import java.util.*
+import android.webkit.WebView
+
+import android.webkit.WebViewClient
+
+
+
 
 class ProfileActivity : BaseActivity(), View.OnClickListener {
     lateinit var profileViewModel: ProfileViewModel
@@ -36,6 +44,7 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
     private var documentPath: String? = ""
     private var phone: String? = ""
     private var countryId: String? = ""
+    private var termAndCondition: String? = ""
 
 
     private val socialLoginResponse: String? = ""
@@ -64,6 +73,10 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
 
         getProfileResponse()
 
+
+        termAndCondition = intent.getStringExtra("terms_condition")
+
+        Log.e("Terms Data:", gson.toJson(termAndCondition))
         if (Config.isLoginWithSocialButton) {
             val socialLoginResponse = gson.fromJson(
                 myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbSocialLogin),
@@ -107,7 +120,6 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
             }
         })
 
-        Log.e("user Name:", gson.toJson(model?.name));
         profileViewModel.responseGetProfile.observe(this, Observer {
             if (it.status!! == 1) {
                 model = it.data
@@ -148,9 +160,8 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
                 }
             }
 
-            tvCheckBoxText -> showMsgDialogAndProceed(
-                null,
-                "Terms & Condition will be display here",
+            tvCheckBoxText -> showMsgDialogAndProceeds(
+                termAndCondition.toString(),
                 true
             )
 
@@ -210,6 +221,46 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
                 it.btnDialogLogout.setOnClickListener {
                     myDialog.dismiss()
                 }*/
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun showMsgDialogAndProceeds(msg: String, isMsgShow: Boolean) {
+        try {
+            val myDialog = DialogToast(this@ProfileActivity)
+            myDialog.show()
+            myDialog.holder?.let {
+                it.tvTitle.text = "Profile"
+                it.tvMessage.text = msg
+                it.btnDialogCancel.visibility = View.GONE
+                var i = Config.autoDialogDismissTimeInSec
+                it.btnDialogLogout.apply {
+                    visibility = View.GONE
+                    post(object : Runnable {
+                        override fun run() {
+                            if (i == 0) {
+                                val wv = WebView(this@ProfileActivity)
+                                wv.loadUrl(msg)
+                                wv.webViewClient = object : WebViewClient() {
+                                    override fun shouldOverrideUrlLoading(view: WebView, msg: String): Boolean
+                                    {
+                                        view.loadUrl(msg)
+                                        return true
+                                    }
+                                }
+                                myDialog.setContentView(wv)
+                                myDialog.dismiss()
+
+                            } else {
+                                i--
+                                postDelayed(this, 1000)
+                            }
+                        }
+                    })
+                }
+
             }
         } catch (e: Exception) {
             e.printStackTrace()

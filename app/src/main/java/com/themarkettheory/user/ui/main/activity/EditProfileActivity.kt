@@ -182,10 +182,23 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             //endregion
             // setting gender
             gender = loginRes.data!!.gender.toString()
-            if (loginRes.data!!.gender.equals(1)) llMaleEdit.background =
-                ContextCompat.getDrawable(this, R.drawable.ic_gender_enable_bg) else
+
+
+            if (gender==null)
+                llFemalEdit.background =
+                    ContextCompat.getDrawable(this, R.drawable.ic_gender_disable_bg)
+            else
+                llMaleEdit.background =
+                    ContextCompat.getDrawable(this, R.drawable.ic_gender_disable_bg)
+
+
+            if (loginRes.data!!.gender.equals(1))
+                llMaleEdit.background =
+                    ContextCompat.getDrawable(this, R.drawable.ic_gender_enable_bg)
+            else if(loginRes.data!!.gender.equals(2))
                 llFemalEdit.background =
                     ContextCompat.getDrawable(this, R.drawable.ic_gender_enable_bg)
+
 
             //Progress Bar Response
             profileViewModel.isLoading.observe(this, {
@@ -210,13 +223,15 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
     private fun loginResponse(res: NewLoginResponse) {
         try {
-            Log.e("LOGN RES",gson.toJson(res))
+            Log.e("LOGIN RES", gson.toJson(res))
             myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbNewLoginRes)
             myRoomDatabase.daoConfig()
                 .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(res)))
-            Toast.makeText(this, res.message.trim(), Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, res.message.trim(), Toast.LENGTH_LONG).show()
             //   setProfileInfo()
-            ivBack.performClick()
+            showMsgDialogForUpdateProfile(res.message.trim())
+            //ivBack.performClick()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -306,6 +321,36 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                     showMsgDialogAndProceed(Config.msgToastForInternet)
                 }
             }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showMsgDialogForUpdateProfile(msg: String) {
+        try {
+            val myDialog = DialogToast(this@EditProfileActivity)
+            myDialog.show()
+            myDialog.holder?.let {
+                it.tvTitle.text = getString(R.string.edit_profile_update)
+                it.tvMessage.text = msg
+                it.btnDialogCancel.visibility = View.GONE
+                it.btnDialogLogout.text = "OK"
+                it.btnDialogLogout.visibility = View.GONE
+                var i = Config.autoDialogDismissTimeInSecs
+                it.btnDialogLogout.post(object : Runnable {
+                    override fun run() {
+                        if (i == 0) {
+                            myDialog.dismiss()
+                            ivBack.performClick()
+
+                        } else {
+                            i--
+                            it.btnDialogLogout.postDelayed(this, 1000)
+                        }
+                    }
+                })
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
