@@ -510,13 +510,15 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Date())
                 if (selectedIndex == 1) {
 
+
+                    //change payment_id in live mode
                     cartViewModel.confirmOrder(
                         bucketDataList[0].serviceId.toString(),
                         menuArray,
                         subTotal.toString(),
                         totalAmt.toString(),
                         "",
-                        paymentData.paymentId.toString(),
+                        "payment_id",  //paymentData.paymentId.toString(),
                         totalPoints.toString(),
                         edMyBucketSpecialInstaruction.text.toString().trim(),
                         currentTimess,
