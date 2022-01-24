@@ -23,7 +23,7 @@ data class Offer(
     @SerializedName("max_discount")
     var maxDiscount: Int?,
     @SerializedName("discount_amount")
-    var discountAmount: Int?,
+    var discountAmount: Int? = 0,
     @SerializedName("image")
     var image: String?,
     @SerializedName("type")

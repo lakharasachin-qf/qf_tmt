@@ -21,6 +21,14 @@ import com.themarkettheory.user.ui.main.adapter.SearchRestaurantListAdapter
 import com.themarkettheory.user.ui.restaurant.VendorDetailActivity
 import com.themarkettheory.user.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
+import android.view.inputmethod.EditorInfo
+
+import android.widget.TextView
+
+import android.widget.TextView.OnEditorActionListener
+
+
+
 
 
 class SearchActivity : BaseActivity(), View.OnClickListener {
@@ -100,7 +108,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
                 if (!it.data.isNullOrEmpty()) {
                     adapterSearchRestaurant.addSearchRestaurantList(it.data!! as ArrayList<SearchRestaurantData>)
                 } else {
-                    showMsgDialogAndProceed(it.message!!.toString().trim())
+                   // showMsgDialogAndProceed(it.message!!.toString().trim())
                 }
             })
             //endregion
@@ -108,7 +116,17 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
             //region Search Edittext
             etRestaurantListSearch.requestFocus()
             PubFun.showKeyboard(this@SearchActivity)
-
+            etRestaurantListSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    try {
+                        lastEditText = System.currentTimeMillis()
+                        handlerSearch.postDelayed(runnableSearch, delay)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                false
+            })
             etRestaurantListSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,

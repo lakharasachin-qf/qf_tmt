@@ -216,6 +216,7 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
     }
 
     fun get_cart(booking_id: Int, is_redeem: Int, isLiveDeal: Int,isDineIn: Int) {
+        Log.e("booking_id","{$booking_id}")
         isLoading.value = true
         disposable = apiService
             .get_cart(booking_id, is_redeem, isLiveDeal,isDineIn)

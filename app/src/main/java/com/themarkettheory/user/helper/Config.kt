@@ -25,6 +25,8 @@ class Config {
         var currentLng = ""
         const val signUpActivity = "signUpActivity"
         const val signInActivity = "signInActivity"
+        const val editProfileActivity = "editProfileActivity"
+        const val editProfileActivityVerify = "editProfileActivityVerifyDone"
         var serviceDetail: Data? = null
         var overviewImage: ArrayList<Image>? = null
         var FragmentCalled: Fragment? = null

@@ -1,13 +1,20 @@
 package com.themarkettheory.user.ui.main.activity
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.os.HandlerCompat.postDelayed
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -16,7 +23,6 @@ import com.canhub.cropper.CropImageView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.textview.MaterialTextView
 import com.themarkettheory.user.R
-import com.themarkettheory.user.database.dbtables.TableConfig
 import com.themarkettheory.user.helper.*
 import com.themarkettheory.user.model.CountryList
 import com.themarkettheory.user.model.Data
@@ -31,11 +37,6 @@ import kotlinx.android.synthetic.main.button_progress.*
 import okhttp3.MultipartBody
 import java.io.File
 import java.util.*
-import android.webkit.WebView
-
-import android.webkit.WebViewClient
-
-
 
 
 class ProfileActivity : BaseActivity(), View.OnClickListener {
@@ -160,10 +161,11 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
                 }
             }
 
-            tvCheckBoxText -> showMsgDialogAndProceeds(
-                termAndCondition.toString(),
-                true
-            )
+            tvCheckBoxText -> showTermsCondition()
+//                showMsgDialogAndProceeds(
+//                termAndCondition.toString(),
+//                true
+//            )
 
             edDob -> {
                 Utils.setDatePickerDialog(this, edDob) {
@@ -244,8 +246,10 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
                                 val wv = WebView(this@ProfileActivity)
                                 wv.loadUrl(msg)
                                 wv.webViewClient = object : WebViewClient() {
-                                    override fun shouldOverrideUrlLoading(view: WebView, msg: String): Boolean
-                                    {
+                                    override fun shouldOverrideUrlLoading(
+                                        view: WebView,
+                                        msg: String
+                                    ): Boolean {
                                         view.loadUrl(msg)
                                         return true
                                     }
@@ -265,6 +269,30 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+
+    private fun showTermsCondition() {
+        val builder = AlertDialog.Builder(this@ProfileActivity, R.style.MyAlertDialogStyle_extend)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_term_condition, null)
+        builder.setView(dialogView)
+        val alertDialog = builder.create()
+      //  alertDialog.setContentView(R.layout.dialog_term_condition)
+
+         val webView = dialogView.findViewById(R.id.webview) as WebView
+        val close = dialogView.findViewById(R.id.close) as ImageView
+        close.setOnClickListener {
+            alertDialog.dismiss()
+        }
+       // webView.settings.loadWithOverviewMode = true
+       // webView.settings.setSupportZoom(true)
+        webView.settings.javaScriptEnabled = true
+        Log.e("Terms And",intent.getStringExtra("terms_condition").toString())
+        webView.loadUrl(prefs.getLoginModel().terms_condition)
+        alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        alertDialog.show()
+
     }
 
     private fun showMsgDialogAndProceed(res: NewLoginResponse?, msg: String, isMsgShow: Boolean) {
@@ -476,3 +504,4 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
 }
+

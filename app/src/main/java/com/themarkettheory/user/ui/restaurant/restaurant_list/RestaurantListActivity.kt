@@ -3,6 +3,7 @@ package com.themarkettheory.user.ui.restaurant.restaurant_list
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
@@ -654,6 +655,7 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
                                 it.data!!.offers!!
                             )
                             else -> {
+                                Log.e("SEARCH",gson.toJson(it.data))
                                 if (it.data!!.restaurant!!.isNotEmpty()) {
                                     when (Config.isRestaurantListOpeningFrom) {
                                         Config.restaurantListOpeningFromPopularLocationSeeAll -> rvRestaurantListPopularLocation.visibility =
@@ -785,6 +787,13 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
         favorite: String,
         popularLocationId: String
     ) {
+        Log.e("CategoryName",subCategoryName)
+        Log.e("type",type)
+        Log.e("foodType",foodType)
+        Log.e("sortType",sortType)
+        Log.e("favorite",favorite)
+        Log.e("popularLocationId",popularLocationId)
+
         try {
             if (PubFun.isInternetConnection(this@RestaurantListActivity)) {
                 homeViewModel.service_list(

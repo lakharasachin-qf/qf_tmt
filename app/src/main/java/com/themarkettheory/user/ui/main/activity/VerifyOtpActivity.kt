@@ -279,173 +279,189 @@ class VerifyOtpActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun checkResponse(res: NewLoginResponse) {
-        if (res.data != null) {
-            if (res.data.token.isNotEmpty()) {
+
+        when (myRoomDatabase.daoConfig()
+            .selectConfigTableByField(Config.dbVerifyOTPNavigatesFrom)) {
+
+            Config.editProfileActivity -> {
                 myRoomDatabase.daoConfig().apply {
-                    deleteConfigTableByField(Config.dbNewLoginRes)
+                    deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
                     insertConfigTable(
                         TableConfig(
-                            Config.dbNewLoginRes,
-                            gson.toJson(res)
-
+                            Config.dbVerifyOTPNavigatesFrom,
+                            Config.editProfileActivityVerify
                         )
                     )
                 }
+                Utils.slideExit(this)
+                finish()
+                return
+        }
+    }
 
-                Log.e("User Response", gson.toJson(res))
-                prefs.setAccessToken(this@VerifyOtpActivity, res.data.token)
-                prefs.setLoginModel(res.data)
-                termAndCondition = res.data.terms_condition
-                if (res.data.emailVerified == 0) {
-                    showMsgDialogAndProceed(res, "", false)
-                } else if (res.data.mobileVerified == 0) {
-                    showMsgDialogAndProceed(null, "Please verify your mobile", true)
-                } else if (res.data.emailVerified == 1 && res.data.mobileVerified == 1 && res.data.zip.isEmpty()) {
-                    startActivity(
-                        Intent(
-                            this@VerifyOtpActivity,
-                            ProfileActivity::class.java
-                        ).putExtra("terms_condition", termAndCondition)
+    if (res.data != null)
+    {
+        if (res.data.token.isNotEmpty()) {
+            myRoomDatabase.daoConfig().apply {
+                deleteConfigTableByField(Config.dbNewLoginRes)
+                insertConfigTable(
+                    TableConfig(
+                        Config.dbNewLoginRes,
+                        gson.toJson(res)
+
                     )
-                    Utils.slideEnter(this)
-                    finish()
-                } else if (res.data.emailVerified == 1 && res.data.mobileVerified == 1 && res.data.zip.isNotEmpty()
-                ) {
-                    startActivity(Intent(this@VerifyOtpActivity, CitySelectionActivity::class.java))
-                    Utils.slideEnter(this)
-                    finish()
-                }
-            } else {
-                startActivity(Intent(this@VerifyOtpActivity, Log::class.java))
+                )
+            }
+            Log.e("User Response", gson.toJson(res))
+            prefs.setAccessToken(this@VerifyOtpActivity, res.data.token)
+            prefs.setLoginModel(res.data)
+            termAndCondition = res.data.terms_condition
+
+            if (res.data.emailVerified == 0) {
+                showMsgDialogAndProceed(res, "", false)
+            } else if (res.data.mobileVerified == 0) {
+                showMsgDialogAndProceed(null, "Please verify your mobile", true)
+            } else if (res.data.emailVerified == 1 && res.data.mobileVerified == 1 && res.data.zip.isEmpty()) {
+                startActivity(Intent(this@VerifyOtpActivity, ProfileActivity::class.java).putExtra("terms_condition", termAndCondition))
+                Utils.slideEnter(this)
+                finish()
+            } else if (res.data.emailVerified == 1 && res.data.mobileVerified == 1 && res.data.zip.isNotEmpty()) {
+                startActivity(Intent(this@VerifyOtpActivity, CitySelectionActivity::class.java))
                 Utils.slideEnter(this)
                 finish()
             }
         } else {
-            showMsgDialogAndProceed(null, res.message, true)
-            startActivity(Intent(this, SignupActivity::class.java))
+            startActivity(Intent(this@VerifyOtpActivity, Log::class.java))
+            Utils.slideEnter(this)
+            finish()
         }
+    } else
+    {
+        showMsgDialogAndProceed(null, res.message, true)
+        startActivity(Intent(this, SignupActivity::class.java))
     }
+}
 
-    override fun onClick(v: View?) {
-        if (SystemClock.elapsedRealtime() - lastClickTime < 3000) return
-        lastClickTime = SystemClock.elapsedRealtime()
-        when (v) {
-            btnVerify -> {
-                if (pinView.text.toString().isNotEmpty() && pinView.text.toString().length == 4) {
-                    if (PubFun.isInternetConnection(this@VerifyOtpActivity)) {
-                        btnVerifyEnableDisable(false)
-                        verifyOtp()
-                    } else {
-                        showMsgDialogAndProceed(null, Config.msgToastForInternet, true)
-                    }
-                } else {
-                    showMsgDialogAndProceed(null, "Please enter OTP and then try again", true)
-                }
-            }
-
-            tvResendOtp -> {
+override fun onClick(v: View?) {
+    if (SystemClock.elapsedRealtime() - lastClickTime < 3000) return
+    lastClickTime = SystemClock.elapsedRealtime()
+    when (v) {
+        btnVerify -> {
+            if (pinView.text.toString().isNotEmpty() && pinView.text.toString().length == 4) {
                 if (PubFun.isInternetConnection(this@VerifyOtpActivity)) {
-                    resendOtpEnableDisable(false)
-                    resendOTP()
+                    btnVerifyEnableDisable(false)
+                    verifyOtp()
                 } else {
                     showMsgDialogAndProceed(null, Config.msgToastForInternet, true)
                 }
+            } else {
+                showMsgDialogAndProceed(null, "Please enter OTP and then try again", true)
+            }
+        }
+
+        tvResendOtp -> {
+            if (PubFun.isInternetConnection(this@VerifyOtpActivity)) {
+                resendOtpEnableDisable(false)
+                resendOTP()
+            } else {
+                showMsgDialogAndProceed(null, Config.msgToastForInternet, true)
             }
         }
     }
+}
 
-    private fun btnVerifyEnableDisable(isEnable: Boolean) {
-        btnVerify.isEnabled = isEnable
-        val buttonStyle = R.style.button_style
-        val buttonStyleDisabled = R.style.button_style_disabled
-        Paris.styleBuilder(btnVerify)
-            .add(if (isEnable) buttonStyle else buttonStyleDisabled)
-            .apply()
-    }
+private fun btnVerifyEnableDisable(isEnable: Boolean) {
+    btnVerify.isEnabled = isEnable
+    val buttonStyle = R.style.button_style
+    val buttonStyleDisabled = R.style.button_style_disabled
+    Paris.styleBuilder(btnVerify)
+        .add(if (isEnable) buttonStyle else buttonStyleDisabled)
+        .apply()
+}
 
-    private fun resendOtpEnableDisable(isEnable: Boolean) {
-        tvResendOtp.isEnabled = isEnable
-        tvResendOtp.setTextColor(
-            if (isEnable)
-                ContextCompat.getColor(
-                    this@VerifyOtpActivity,
-                    R.color.robins_egg_blue
-                ) else
-                ContextCompat.getColor(
-                    this@VerifyOtpActivity,
-                    R.color.slate_gray
-                )
+private fun resendOtpEnableDisable(isEnable: Boolean) {
+    tvResendOtp.isEnabled = isEnable
+    tvResendOtp.setTextColor(
+        if (isEnable)
+            ContextCompat.getColor(
+                this@VerifyOtpActivity,
+                R.color.robins_egg_blue
+            ) else
+            ContextCompat.getColor(
+                this@VerifyOtpActivity,
+                R.color.slate_gray
+            )
+    )
+}
+
+private fun verifyOtp() {
+    try {
+        registerViewModel.verifyOTP(
+            mobileNumber,
+            pinView.text.toString().trim(),
+            Config.countryCode
         )
+        /*otpTimeOutHandler()*/
+    } catch (e: Exception) {
+        e.stackTrace
     }
+}
 
-    private fun verifyOtp() {
-        try {
-            registerViewModel.verifyOTP(
-                mobileNumber,
-                pinView.text.toString().trim(),
-                Config.countryCode
-            )
-            /*otpTimeOutHandler()*/
-        } catch (e: Exception) {
-            e.stackTrace
-        }
+private fun resendOTP() {
+    try {
+        registerViewModel.resendOTP(
+            mobileNumber,
+            Config.countryCode
+        )
+        otpTimeOutHandler()
+    } catch (e: Exception) {
+        e.stackTrace
     }
+}
 
-    private fun resendOTP() {
-        try {
-            registerViewModel.resendOTP(
-                mobileNumber,
-                Config.countryCode
-            )
-            otpTimeOutHandler()
-        } catch (e: Exception) {
-            e.stackTrace
-        }
-    }
-
-    private fun otpTimeOutHandler() {
-        //region ResendOTP timer
-        handler.post(object : Runnable {
-            var i = Config.otpResendTimer
-            override fun run() {
-                if (i == 0) {
-                    tvOtpResendTitle.visibility = View.GONE
+private fun otpTimeOutHandler() {
+    //region ResendOTP timer
+    handler.post(object : Runnable {
+        var i = Config.otpResendTimer
+        override fun run() {
+            if (i == 0) {
+                tvOtpResendTitle.visibility = View.GONE
+                handler.removeCallbacksAndMessages(null)
+                resendOtpEnableDisable(true)
+            } else {
+                tvOtpResendTitle.visibility = View.VISIBLE
+                tvOtpResendTitle.text =
+                    getString(R.string.otp_can_be_resend_in, "$i seconds")
+                i--
+                if (Config.otpSmsTextReceiver.isNotEmpty()) {
+                    handler.removeCallbacks(this)
                     handler.removeCallbacksAndMessages(null)
-                    resendOtpEnableDisable(true)
-                } else {
-                    tvOtpResendTitle.visibility = View.VISIBLE
-                    tvOtpResendTitle.text =
-                        getString(R.string.otp_can_be_resend_in, "$i seconds")
-                    i--
-                    if (Config.otpSmsTextReceiver.isNotEmpty()) {
-                        handler.removeCallbacks(this)
-                        handler.removeCallbacksAndMessages(null)
-                        pinView.setText(Config.otpSmsTextReceiver)
-                        btnVerify.performClick()
-                    }
-                    handler.postDelayed(this, 1000)
+                    pinView.setText(Config.otpSmsTextReceiver)
+                    btnVerify.performClick()
                 }
+                handler.postDelayed(this, 1000)
             }
-        })
-        //endregion
-    }
-
-
-    private fun startSMSRetriever() {
-        try {
-            val client = SmsRetriever.getClient(this /* context */)
-            if (client != null) {
-                val task = client.startSmsRetriever()
-                if (task != null) {
-                    task.addOnSuccessListener { }
-                    task.addOnFailureListener { // Failed to start retriever, inspect Exception for more details
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
+    })
+    //endregion
+}
+
+
+private fun startSMSRetriever() {
+    try {
+        val client = SmsRetriever.getClient(this /* context */)
+        if (client != null) {
+            val task = client.startSmsRetriever()
+            if (task != null) {
+                task.addOnSuccessListener { }
+                task.addOnFailureListener { // Failed to start retriever, inspect Exception for more details
+                }
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
+}
 
 /*private fun startPhoneNumberVerification(phoneNumber: String) {
     PhoneAuthProvider.getInstance().verifyPhoneNumber(

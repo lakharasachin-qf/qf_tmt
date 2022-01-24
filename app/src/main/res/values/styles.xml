@@ -17,7 +17,14 @@
     <style name="MyPopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
         <item name="android:popupBackground">#111119</item>
     </style>
-
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+    <style name="MyAlertDialogStyle_extend" parent="MyAlertDialogStyle">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
     <style name="myPopupMenuTextAppearanceSmall">
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">16sp</item>

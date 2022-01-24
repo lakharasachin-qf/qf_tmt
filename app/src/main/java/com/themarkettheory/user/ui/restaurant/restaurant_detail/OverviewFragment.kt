@@ -19,7 +19,6 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -100,7 +99,7 @@ class OverviewFragment : Fragment(), View.OnClickListener {
     private val PERMISSION_CALLBACK_CONSTANT = 100
     var allGranted = false
 
-    /*Adapter*/
+    //Adapter
     private lateinit var trendingOfferListAdapter: TrendingOfferListAdapter
     private var isFavoritePosition = 0
 
@@ -199,7 +198,6 @@ class OverviewFragment : Fragment(), View.OnClickListener {
                     Config.serviceDetail = it.data!!
                     Config.overviewImage = it.data?.image!! as ArrayList<Image>
 
-                    Log.e("overview Response:", it.data.toString())
                     email = it.data?.email
                     phone = it.data?.mobile
 
@@ -798,8 +796,8 @@ class OverviewFragment : Fragment(), View.OnClickListener {
                         } else {
                             Config.isMyPointClickedFromHome = true
                         }
-                        /*Config.isMyPointClickedFromHome = true*/
-                        Config.isMyPointsActivityComingFromOverviewFragment = true
+                     /*Config.isMyPointClickedFromHome = true*/
+                                Config.isMyPointsActivityComingFromOverviewFragment = true
                         startActivity(
                             Intent(activity, MyPointsActivity::class.java)
                                 .putExtra("serviceId", serviceId)

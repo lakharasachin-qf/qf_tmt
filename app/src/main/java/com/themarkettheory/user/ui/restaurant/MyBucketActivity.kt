@@ -104,7 +104,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             // setting keyboard adjustment
             window
                 .setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE or
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN or
                             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
                 )
 
@@ -119,7 +119,12 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     override fun onResume() {
         super.onResume()
         try {
-           // init()
+
+            if (bucketDataList.size != 0) {
+                applyCouponChanges()
+                calculateFooterSection(bucketDataList)
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -225,7 +230,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         .selectConfigTableByField(Config.dbNewBookingDetailRes)!!,
                     NewBookingDetailsRes::class.java
                 )
-            Log.e("TableBBB0",gson.toJson(newBookingDetailsRes.data))
+            Log.e("TableBBB0", gson.toJson(newBookingDetailsRes.data))
             //Getting booking Id
             bookingId = newBookingDetailsRes.data!!.order_id!!.toString().trim()
 
@@ -553,180 +558,185 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     private fun populateCartDetails(res: GetCartNewRes) {
         try {
 
-            Log.e("Cart Data", gson.toJson(res.data))
-            //restaurant id
-            Config.vendorDetailServiceId = res.data!!.serviceDetails!!.id!!.toString()
-            //restaurant name
-            Config.vendorDetailServiceName = res.data!!.serviceDetails!!.title!!
-            //restaurant title
-            tvVendorTitle.text = res.data!!.serviceDetails!!.title!!
-            // retaurant address
-            tvAddress.text = res.data!!.serviceDetails!!.address!!
-            // cart size
-            val cartSize = res.data!!.list!!.size
-            tvMyCart.text = "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
-            //Service ID
-            serviceId = res.data!!.serviceDetails!!.id.toString().trim()
-            //Service Name
-            serviceName = res.data!!.serviceDetails!!.title!!.trim()
-
-            // setting up special instruction
-            edMyBucketSpecialInstaruction.setText(
-                res.data!!.booking!!.specialInstruction!!.toString().trim()
-            )
-            // setting up radio group selection
-            radioGroup?.apply {
-                check(
-                    getChildAt(
-                        if (res.data!!.booking!!.type!!.toString()
-                                .lowercase(Locale.getDefault()) == pickupNowType
-                        ) 1 else 0
-                    ).id
+            Log.e("Cart Data", gson.toJson(res.data!!.couponData))
+            if (res.data != null) {
+                //restaurant id
+                if (res.data!!.serviceDetails != null) {
+                    Config.vendorDetailServiceId = res.data!!.serviceDetails!!.id!!.toString()
+                    //restaurant name
+                    Config.vendorDetailServiceName = res.data!!.serviceDetails!!.title!!
+                    //restaurant title
+                    tvVendorTitle.text = res.data!!.serviceDetails!!.title!!
+                    // retaurant address
+                    tvAddress.text = res.data!!.serviceDetails!!.address!!
+                    // cart size
+                    val cartSize = res.data!!.list!!.size
+                    tvMyCart.text =
+                        "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
+                    //Service ID
+                    serviceId = res.data!!.serviceDetails!!.id.toString().trim()
+                    //Service Name
+                    serviceName = res.data!!.serviceDetails!!.title!!.trim()
+                }
+                // setting up special instruction
+                edMyBucketSpecialInstaruction.setText(
+                    res.data!!.booking!!.specialInstruction!!.toString().trim()
                 )
-            }
-            // setting time +30 if pickup type is pickup now
-            if (res.data!!.booking!!.type!!.toString()
-                    .lowercase(Locale.getDefault()) == pickupNowType
-            ) {
-                //add30MinutesToCurrentTime()
-                selectedIndex = 1
-                callApiForPickUpType("PICKUP_NOW", "")
-
-            } else {
-                // setting up booking time
-                if (res.data!!.booking!!.bookingTime!!.isNotEmpty()) {
-                    tvMyBucketPickUpTime.text = PubFun.parseDate(
-                        res.data!!.booking!!.bookingTime!!,
-                        Config.requestTimeFormat,
-                        Config.defaultTimeFormat
-                    )
-                    callApiForPickUpType(
-                        "SCHEDULE_PICKUP", PubFun.parseDate(
-                            tvMyBucketPickUpTime.text.toString(),
-                            Config.defaultTimeFormat,
-                            Config.requestTimeFormat
-                        ).toString()
-                    )
-                    // tvMyBucketPickUpTime.text.toString().trim()
-
-                } else {
-                    callApiForPickUpType(
-                        "SCHEDULE_PICKUP",
-                        ""
+                // setting up radio group selection
+                radioGroup?.apply {
+                    check(
+                        getChildAt(
+                            if (res.data!!.booking!!.type!!.toString()
+                                    .lowercase(Locale.getDefault()) == pickupNowType
+                            ) 1 else 0
+                        ).id
                     )
                 }
-                selectedIndex = 0
 
-
-            }
-
-
-            //recycler view
-            val listener = object : ListClickListenerCart {
-                override fun onClickListener(
-                    view: View,
-                    pos: Int,
-                    objects: Any,
-                    isItemAdded: Boolean
+                //tvCouponDiscount.text = res.data!!.couponData!!.discountAmount.toString()
+                // setting time +30 if pickup type is pickup now
+                if (res.data!!.booking!!.type!!.toString()
+                        .lowercase(Locale.getDefault()) == pickupNowType
                 ) {
-                    if (!isLoadedFirstTime) {
-                        val bucketData = objects as MyBucketCartRes
-                        bucketDataList[pos].qty = bucketData.qty
-                        bucketAdapter.notifyDataSetChanged()
-                        calculateFooterSection(bucketDataList)
+                    //add30MinutesToCurrentTime()
+                    selectedIndex = 1
+                    callApiForPickUpType("PICKUP_NOW", "")
 
-                        //calling api for adding and removing items
-                        if (bucketData.qty > 0) {
-                            vendorDetailViewModel.menu_add_cart(
-                                bucketData.serviceId.toString(),
-                                bucketData.menuID.toString(),
-                                "0",
-                                bucketData.qty.toString(),
-                                "0",
-                                0,
-                                if (isDiningInSelected) 1 else 0
-                            )
+                } else {
+                    // setting up booking time
+                    if (res.data!!.booking!!.bookingTime!!.isNotEmpty()) {
+                        tvMyBucketPickUpTime.text = PubFun.parseDate(
+                            res.data!!.booking!!.bookingTime!!,
+                            Config.requestTimeFormat,
+                            Config.defaultTimeFormat
+                        )
+                        callApiForPickUpType(
+                            "SCHEDULE_PICKUP", PubFun.parseDate(
+                                tvMyBucketPickUpTime.text.toString(),
+                                Config.defaultTimeFormat,
+                                Config.requestTimeFormat
+                            ).toString()
+                        )
+                        // tvMyBucketPickUpTime.text.toString().trim()
 
-                            //region Coupon Logic for Bug 1 Get 1 free
-                            val totalQty = Config.isCouponBuyQty + Config.isCouponGetQty
-                            if (Config.isCouponApplied && Config.isCouponDiscountType == couponBuyGet
-                                && Config.isCouponMenuId == bucketData.menuID
-                            ) {
-                                Config.isCouponBuyGetSelected = true
-                                if (bucketData.qty == totalQty) {
-                                    //Applied coupon discount
-                                    coupon@ for (i in bucketDataList.indices) {
-                                        if (Config.isCouponMenuId == bucketDataList[i].menuID) {
-                                            discountCouponTotal = bucketDataList[i].finalPrice
-                                            break@coupon
-                                        }
-                                    }
-                                } else if (bucketData.qty < totalQty) {
-                                    //remove coupon discount
-                                    discountCouponTotal = 0.0
-                                }
-                                calculateFooterSection(bucketDataList)
-                            }
-                            //endregion
-                        } else {
-                            vendorDetailViewModel.menu_add_cart(
-                                bucketData.serviceId.toString(),
-                                bucketData.menuID.toString(),
-                                "0",
-                                "0",
-                                "0",
-                                0,
-                                if (isDiningInSelected) 1 else 0
-                            )
-                            bucketAdapter.removeItem(pos)
-                            bucketDataList.removeAt(pos)
-                            // cart size
-                            val cartSize = bucketDataList.size
-                            tvMyCart.text =
-                                "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
-                            // calling onbackpress when cart size is 0
-                            if (cartSize < 1) {
-                                onBackPressed()
-                            }
+                    } else {
+                        callApiForPickUpType(
+                            "SCHEDULE_PICKUP",
+                            ""
+                        )
+                    }
+                    selectedIndex = 0
+                }
+                //recycler view
+                val listener = object : ListClickListenerCart {
+                    override fun onClickListener(
+                        view: View,
+                        pos: Int,
+                        objects: Any,
+                        isItemAdded: Boolean
+                    ) {
+                        if (!isLoadedFirstTime) {
+                            val bucketData = objects as MyBucketCartRes
+                            bucketDataList[pos].qty = bucketData.qty
+                            bucketAdapter.notifyDataSetChanged()
                             calculateFooterSection(bucketDataList)
 
-                            if (Config.isCouponApplied && Config.isCouponDiscountType == couponBuyGet
-                                && Config.isCouponMenuId == bucketData.menuID
-                            ) {
-                                ivCouponCross.performClick()
+                            //calling api for adding and removing items
+                            if (bucketData.qty > 0) {
+                                vendorDetailViewModel.menu_add_cart(
+                                    bucketData.serviceId.toString(),
+                                    bucketData.menuID.toString(),
+                                    "0",
+                                    bucketData.qty.toString(),
+                                    "0",
+                                    0,
+                                    if (isDiningInSelected) 1 else 0
+                                )
+
+                                //region Coupon Logic for Bug 1 Get 1 free
+                                val totalQty = Config.isCouponBuyQty + Config.isCouponGetQty
+                                if (Config.isCouponApplied && Config.isCouponDiscountType == couponBuyGet
+                                    && Config.isCouponMenuId == bucketData.menuID
+                                ) {
+                                    Config.isCouponBuyGetSelected = true
+                                    if (bucketData.qty == totalQty) {
+                                        //Applied coupon discount
+                                        coupon@ for (i in bucketDataList.indices) {
+                                            if (Config.isCouponMenuId == bucketDataList[i].menuID) {
+                                                discountCouponTotal = bucketDataList[i].finalPrice
+                                                break@coupon
+                                            }
+                                        }
+                                    } else if (bucketData.qty < totalQty) {
+                                        //remove coupon discount
+                                        discountCouponTotal = 0.0
+                                    }
+                                    calculateFooterSection(bucketDataList)
+                                }
+                                //endregion
+                            } else {
+                                vendorDetailViewModel.menu_add_cart(
+                                    bucketData.serviceId.toString(),
+                                    bucketData.menuID.toString(),
+                                    "0",
+                                    "0",
+                                    "0",
+                                    0,
+                                    if (isDiningInSelected) 1 else 0
+                                )
+                                bucketAdapter.removeItem(pos)
+                                bucketDataList.removeAt(pos)
+                                // cart size
+                                val cartSize = bucketDataList.size
+                                tvMyCart.text =
+                                    "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
+                                // calling onbackpress when cart size is 0
+                                if (cartSize < 1) {
+                                    onBackPressed()
+                                }
+                                calculateFooterSection(bucketDataList)
+
+                                if (Config.isCouponApplied && Config.isCouponDiscountType == couponBuyGet
+                                    && Config.isCouponMenuId == bucketData.menuID
+                                ) {
+                                    ivCouponCross.performClick()
+                                }
                             }
                         }
                     }
                 }
+                bucketAdapter = BucketAdapter(listener)
+                bucketDataList.clear()
+                for (i in res.data!!.list!!.indices) {
+                    val bucketCartRes = MyBucketCartRes(
+                        res.data!!.serviceDetails!!.id!!,
+                        res.data!!.serviceDetails!!.title!!,
+                        res.data!!.list!![i].menu!!.foodType!!,
+                        res.data!!.list!![i].menu!!.isSpicy!!,
+                        res.data!!.list!![i].menu!!.id!!,
+                        res.data!!.list!![i].menu!!.title!!,
+                        res.data!!.list!![i].menu!!.categoryName!!,
+                        res.data!!.list!![i].menu!!.finalPrice!!,
+                        res.data!!.list!![i].menu!!.actualPrice!!,
+                        res.data!!.list!![i].menu!!.point!!,
+                        res.data!!.list!![i].menu!!.preparingTime!!,
+                        res.data!!.list!![i].qty!!,
+                        res.data!!.list!![i].menu!!.tax!!.toDouble(),
+                        res.data!!.list!![i].menu!!.currency!!,
+                        res.data!!.serviceDetails!!.currencyStr!!,
+                        res.data!!.serviceDetails!!.offers!![i].menuId!!,
+                        res.data!!.serviceDetails!!.offers!![i].couponCode!!.trim(),
+                        res.data!!.serviceDetails!!.offers!![i].discountType!!,
+                        res.data!!.serviceDetails!!.offers!![i].discountAmount!!,
+                        res.data!!.serviceDetails!!.offers!![i].buyQty!!,
+                        res.data!!.serviceDetails!!.offers!![i].getQty!!,
+                    )
+                    bucketDataList.add(bucketCartRes)
+                }
             }
-            bucketAdapter = BucketAdapter(listener)
-            bucketDataList.clear()
-            for (i in res.data!!.list!!.indices) {
-                val bucketCartRes = MyBucketCartRes(
-                    res.data!!.serviceDetails!!.id!!,
-                    res.data!!.serviceDetails!!.title!!,
-                    res.data!!.list!![i].menu!!.foodType!!,
-                    res.data!!.list!![i].menu!!.isSpicy!!,
-                    res.data!!.list!![i].menu!!.id!!,
-                    res.data!!.list!![i].menu!!.title!!,
-                    res.data!!.list!![i].menu!!.categoryName!!,
-                    res.data!!.list!![i].menu!!.finalPrice!!,
-                    res.data!!.list!![i].menu!!.actualPrice!!,
-                    res.data!!.list!![i].menu!!.point!!,
-                    res.data!!.list!![i].menu!!.preparingTime!!,
-                    res.data!!.list!![i].qty!!,
-                    res.data!!.list!![i].menu!!.tax!!.toDouble(),
-                    res.data!!.list!![i].menu!!.currency!!,
-                    res.data!!.serviceDetails!!.currencyStr!!,
-                    res.data!!.serviceDetails!!.offers!![i].menuId!!,
-                    res.data!!.serviceDetails!!.offers!![i].couponCode!!.trim(),
-                    res.data!!.serviceDetails!!.offers!![i].discountType!!,
-                    res.data!!.serviceDetails!!.offers!![i].discountAmount!!,
-                    res.data!!.serviceDetails!!.offers!![i].buyQty!!,
-                    res.data!!.serviceDetails!!.offers!![i].getQty!!,
-                )
-                bucketDataList.add(bucketCartRes)
-            }
+
+
+
             bucketAdapter.setBucketData(bucketDataList)
             rvMyCart.apply {
                 layoutManager = LinearLayoutManager(this@MyBucketActivity)
@@ -814,12 +824,12 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
             //region Check for discounted coupon if any
             if (Config.isCouponApplied) {
+                Log.e("coupon discountsss", bucketDataList[0].offerDiscountAmount.toString())
                 coupon@ for (i in bucketDataList.indices) {
-
-//                    val discountAmt = bucketDataList[i].offerDiscountAmount
-//                    Log.e("coupon discount", "{$discountAmt}")
-                    if (bucketDataList[i].offerCouponCode.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(Locale.getDefault()))
-                    {
+                    if (bucketDataList[i].offerCouponCode.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(
+                            Locale.getDefault()
+                        )
+                    ) {
                         val discountAmt = bucketDataList[i].offerDiscountAmount
                         Log.e("coupon discount", "{$discountAmt}")
                         discountCouponTotal = when (bucketDataList[i].offerDiscountType) {
@@ -840,8 +850,10 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 )
 
             //Discount Coupon
-            tvCouponDiscount.text = "-${bucketDataList[0].currency}" +
-                    numberFormat.format(discountCouponTotal)
+
+
+//            tvCouponDiscount.text = "-${bucketDataList[0].currency}" +
+//                    numberFormat.format(discountCouponTotal)
 
             //Setting Tax Amount
             tvtax.text =

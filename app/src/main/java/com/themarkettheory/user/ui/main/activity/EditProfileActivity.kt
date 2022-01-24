@@ -22,6 +22,7 @@ import com.themarkettheory.user.R
 import com.themarkettheory.user.database.MyRoomDatabase
 import com.themarkettheory.user.database.dbtables.TableConfig
 import com.themarkettheory.user.helper.Config
+import com.themarkettheory.user.helper.Prefs
 import com.themarkettheory.user.helper.PubFun
 import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.model.CountryList
@@ -79,7 +80,9 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
 //            getProfileResponse()
             setProfileInfo()
-
+            myRoomDatabase.daoConfig().apply {
+                deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+            }
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -216,6 +219,63 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                     1 -> loginResponse(it)
                 }
             })
+
+            profileViewModel.responseAccountStatus.observe(this, Observer {
+                when (it.status) {
+                    0 -> Toast.makeText(this, it.message.toString(), Toast.LENGTH_LONG).show()
+                    1 -> checkAccountStatus(it)
+                }
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (myRoomDatabase.daoConfig()
+                .selectConfigTableByField(Config.dbVerifyOTPNavigatesFrom) == Config.editProfileActivityVerify
+        ) {
+            myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+            Log.e("Called", "OnResume")
+            profileViewModel.checkStatusForAccount()
+        }
+
+    }
+
+    private fun checkAccountStatus(res: NewLoginResponse) {
+        try {
+            myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbNewLoginRes)
+            myRoomDatabase.daoConfig()
+                .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(res)))
+            Log.e("checkAccountStatus", gson.toJson(res))
+
+            //    Toast.makeText(this, res.message.trim(), Toast.LENGTH_LONG).show()
+            if (res.data != null) {
+                prefs.setLoginModel(res.data)
+
+                if (res.data.mobileVerified == 0 || res.data.emailVerified == 0) {
+                    myRoomDatabase.daoConfig().apply {
+                        deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+                        insertConfigTable(
+                            TableConfig(
+                                Config.dbVerifyOTPNavigatesFrom,
+                                Config.editProfileActivity
+                            )
+                        )
+                    }
+                    startActivity(
+                        Intent(
+                            this@EditProfileActivity,
+                            VerifyOtpActivity::class.java
+                        ).putExtra("editProfile", "Yes")
+                    )
+                } else {
+                    Log.e("Perform", "checkAccountStaus")
+                    onBackPressed()
+                }
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -227,10 +287,8 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbNewLoginRes)
             myRoomDatabase.daoConfig()
                 .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(res)))
-            //Toast.makeText(this, res.message.trim(), Toast.LENGTH_LONG).show()
-            //   setProfileInfo()
-            showMsgDialogForUpdateProfile(res.message.trim())
-            //ivBack.performClick()
+
+            showMsgDialogAndProceed(res,"",false,100)
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -240,8 +298,14 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
     override fun onBackPressed() {
         try {
             if (PubFun.isInternetConnection(this@EditProfileActivity)) {
-                Config.bottomBarClickedName = Config.menuBottomBarClick
-                super.onBackPressed()
+                prefs = Prefs(this@EditProfileActivity)
+                Log.e("OnBacked", gson.toJson(prefs.getLoginModel()))
+                if (prefs.getLoginModel().mobileVerified == 0) {
+                    profileViewModel.checkStatusForAccount()
+                } else {
+                    Config.bottomBarClickedName = Config.menuBottomBarClick
+                    super.onBackPressed()
+                }
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
             }
@@ -324,35 +388,57 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun showMsgDialogForUpdateProfile(msg: String) {
+    private fun showMsgDialogAndProceed(
+        res: NewLoginResponse?,
+        msg: String,
+        isMsgShow: Boolean,
+        code: Int
+    ) {
         try {
             val myDialog = DialogToast(this@EditProfileActivity)
             myDialog.show()
             myDialog.holder?.let {
-                it.tvTitle.text = getString(R.string.edit_profile_update)
-                it.tvMessage.text = msg
+                it.tvTitle.text = "Edit Profile"
+                it.tvMessage.text = if (isMsgShow) msg else res!!.message
                 it.btnDialogCancel.visibility = View.GONE
-                it.btnDialogLogout.text = "OK"
-                it.btnDialogLogout.visibility = View.GONE
-                var i = Config.autoDialogDismissTimeInSecs
-                it.btnDialogLogout.post(object : Runnable {
-                    override fun run() {
-                        if (i == 0) {
-                            myDialog.dismiss()
-                            ivBack.performClick()
+                var i = Config.autoDialogDismissTimeInSec
+                it.btnDialogLogout.apply {
+                    visibility = View.GONE
+                    post(object : Runnable {
+                        override fun run() {
+                            if (i == 0) {
+                                myDialog.dismiss()
+                                if (!isMsgShow) {
+                                    if (res != null) {
+                                        if (code == 100) {
+                                            if (res.data != null) {
+                                                prefs.setLoginModel(res.data)
+                                                if (res.data.mobileVerified == 0) {
+                                                    Log.e("editAfter", gson.toJson(res.data))
+                                                    profileViewModel.checkStatusForAccount()
+                                                } else {
+                                                    ivBack.performClick()
+                                                }
+                                            }
+                                        } else if (code == 101) {
 
-                        } else {
-                            i--
-                            it.btnDialogLogout.postDelayed(this, 1000)
+                                        }
+                                    }
+                                }
+                            } else {
+                                i--
+                                postDelayed(this, 1000)
+                            }
                         }
-                    }
-                })
+                    })
+                }
+
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun showMsgDialogAndProceed(msg: String) {

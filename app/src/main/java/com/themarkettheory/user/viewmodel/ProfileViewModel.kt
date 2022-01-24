@@ -17,6 +17,7 @@ class ProfileViewModel(application: Application) : BaseViewModel(application) {
     val responseGetProfileNew = MutableLiveData<NewLoginResponse>()
     val responseCountries = MutableLiveData<CountryListResponse>()
     val responseUpdateProfile = MutableLiveData<NewLoginResponse>()
+    val responseAccountStatus = MutableLiveData<NewLoginResponse>()
     // val responseUpdateProfile = MutableLiveData<NewLoginResponse>()
 
     fun profile() {
@@ -27,6 +28,18 @@ class ProfileViewModel(application: Application) : BaseViewModel(application) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result ->
                 responseGetProfile.value = result
+                isLoading.value = false
+            }, { error -> isLoading.value = false })
+    }
+
+    fun checkStatusForAccount() {
+        isLoading.value = true
+        disposable = apiService
+            .accountStatus()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ result ->
+                responseAccountStatus.value = result
                 isLoading.value = false
             }, { error -> isLoading.value = false })
     }

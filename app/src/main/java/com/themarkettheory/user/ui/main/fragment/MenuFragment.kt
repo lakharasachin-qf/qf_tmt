@@ -24,6 +24,7 @@ import com.google.gson.GsonBuilder
 import com.makeramen.roundedimageview.RoundedImageView
 import com.themarkettheory.user.R
 import com.themarkettheory.user.database.MyRoomDatabase
+import com.themarkettheory.user.database.dbtables.TableConfig
 import com.themarkettheory.user.helper.Config
 import com.themarkettheory.user.helper.Constants
 import com.themarkettheory.user.helper.PubFun
@@ -159,6 +160,16 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
     @SuppressLint("SetTextI18n")
     private fun populateProfileData(loginRes: NewLoginResponse) {
         try {
+            myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbNewLoginRes)
+            myRoomDatabase.daoConfig()
+                .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(loginRes)))
+            if (loginRes.data != null) {
+                if (loginRes.data . mobileVerified == 0) {
+                    prefs.setLoginModel(loginRes.data)
+                    Log.e("editAfter",gson.toJson(loginRes.data))
+                     startActivity(Intent(activity, VerifyOtpActivity::class.java))
+                }
+            }
             userName = loginRes.data!!.name.trim()
             zip = loginRes.data!!.zip.toString()
             dob = loginRes.data!!.dob.toString()

@@ -24,7 +24,6 @@
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpager"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_210sdp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -33,12 +32,12 @@
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/indicator"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="@dimen/_16sdp"
-                android:visibility="gone"
                 app:ci_drawable="@drawable/indicator_selected"
                 app:ci_drawable_unselected="@drawable/indicator_unselected"
                 app:layout_constraintBottom_toBottomOf="@+id/viewpager"
@@ -46,7 +45,6 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView
-
                 android:id="@+id/ivBack"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
@@ -83,7 +81,6 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/llSeeAll"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova_semibold"
@@ -96,7 +93,6 @@
                 app:layout_constraintTop_toTopOf="@+id/btnLiveDeals" />
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:visibility="gone"
                 android:layout_width="@dimen/_17sdp"
                 android:layout_height="@dimen/_17sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
@@ -106,7 +102,6 @@
                 app:layout_constraintTop_toTopOf="@+id/llSeeAll" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:visibility="gone"
                 android:id="@+id/btnLiveDeals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -135,7 +130,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sp"
                 app:layout_constraintStart_toStartOf="@+id/btnLiveDeals"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/viewpager" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvTags"
@@ -558,6 +553,3 @@
     </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-

@@ -436,6 +436,9 @@ class SplashActivity : BaseActivity() {
     private fun init() {
         Config.myRoomDatabase = MyRoomDatabase.getDB(this@SplashActivity)!!
         val isDashboard = myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbIsDashboard)
+        Log.e("SPles",gson.toJson(prefs.getLoginModel()))
+        myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+
         Handler(Looper.getMainLooper()).postDelayed({
             if (prefs.getLoginModel().emailVerified == 0) {
                 startActivity(Intent(this, SigninActivity::class.java))

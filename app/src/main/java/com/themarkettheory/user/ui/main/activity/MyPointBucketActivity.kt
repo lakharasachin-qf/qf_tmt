@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.RadioGroup
@@ -550,6 +551,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                     res.data!!.serviceDetails!!.offers!![i].getQty!!
                 )
                 bucketDataList.add(bucketCartRes)
+
+                Log.e("bucket List",gson.toJson(bucketDataList))
             }
             bucketMyPointAdapter.setBucketData(bucketDataList)
             rvBucketPointMyCart.apply {

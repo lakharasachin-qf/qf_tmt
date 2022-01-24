@@ -3,6 +3,7 @@ package com.themarkettheory.user.ui.coupon
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -120,7 +121,6 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
 
             Config.isCouponRedeemButtonVisible = false
             if (Config.isMyCouponClickedFromHome) {
-//                super.onBackPressed()
                 Config.isMyCouponClickedFromHome = false
                 if (Config.isMyCouponClickedFromProfileMenu) {
                     Config.isMyCouponClickedFromProfileMenu = false
@@ -409,6 +409,7 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
                         1 -> {
                             tvCouponApplyResponse.text = it.message!!.trim()
                             Config.isCouponApplied = it.isValid!! == 1
+                            Log.e("CheckNowCoupon", Config.isCouponApplied.toString())
                             if(Config.isCouponOpeningFromBucket){
                                 onBackPressed()
                             }
