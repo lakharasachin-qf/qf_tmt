@@ -1,0 +1,336 @@
+<resources>
+    <string name="app_name">The Market Theory</string>
+    <string name="sign_in">Sign In</string>
+    <!--<string name="razorpay_sandbox_key" translatable="false">rzp_test_bcynZKYAWLD4r9</string>-->
+    <!--<string name="razorpay_sandbox_secret" translatable="false">myCL3gfHSdhot1Xt1rVoadHd</string>-->
+
+    <!--<string name="razorpay_live_secret" translatable="false">PRZaZHVUGncoFIZiOZqmeKwI</string>
+    <string name="razorpay_sandbox_key" translatable="false">rzp_test_M2FkmkrT6qthLV</string>-->
+
+    <!--<string name="razorpay_live_key" translatable="false">rzp_live_fgpIjUAcBmaTI5</string>--> <!--old live key-->
+
+    <string name="razorpay_live_key" translatable="false">rzp_live_jt5nT7EvpCH8qD</string> <!--Live Key-->
+<!--    <string name="razorpay_live_key" translatable="false">rzp_test_M2FkmkrT6qthLV</string> &lt;!&ndash;Test / Dev key&ndash;&gt;-->
+
+    <!--<string name="razorpay_sandbox_secret" translatable="false">inLqHKS95RxWOlj3buZwRtDn</string>
+    <string name="razorpay_live_secret" translatable="false">inLqHKS95RxWOlj3buZwRtDn</string>-->
+    <string name="with_your_social_network">with your social network</string>
+    <string name="facebook">Facebook</string>
+    <string name="instagram">Instagram</string>
+    <string name="or_connect_with">Or Connect with</string>
+    <string name="mobile_number_or_email_id">Mobile Number or Email ID</string>
+    <string name="please_enter_email_or_phone">Please enter mobile number or Email</string>
+    <string name="please_enter_phone">Please enter mobile number</string>
+    <string name="please_enter_email">Please enter Email</string>
+    <string name="password">Current Password</string>
+    <string name="please_enter_password">Please enter Password</string>
+    <string name="terms_and_conditions"><u>Terms and Conditions</u></string>
+    <string name="don_t_have_an_account_register"><font color="#77868F">Don’t have an account?</font> <font color="#21c8cd">Register</font></string>
+    <string name="recover_my_password">Recover my password</string>
+    <string name="already_have_an_account_sign_in"><font color="#77868F">Already have an account?</font> <font color="#21c8cd">Sign In</font></string>
+    <string name="email_id">Email Id *</string>
+    <string name="mobile_number">Mobile Number *</string>
+    <string name="next">NEXT</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="profile">Profile</string>
+    <string name="password_mandatory">Password *</string>
+    <string name="verify_mobile_for_otp">please enter verification OTP PIN sent to %s your mobile number</string>
+    <string name="enter_pin_here">Enter PIN Here</string>
+    <string name="verify">Verify OTP</string>
+    <string name="resend_otp"><u>Resend OTP</u></string>
+    <string name="request_otp"><u>Request OTP</u></string>
+    <string name="enter_full_name_and_date_of_birth_along_with_image_upload_or_take_picture">Enter full name and date of birth along with image upload or take picture</string>
+    <string name="full_name_mandatory">Full Name *</string>
+    <string name="dob">DOB</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="zip_code_for_city_and_state">ZIP Code for City and State *</string>
+    <string name="submit">Submit</string>
+    <string name="needs_to_enable_your_location_services_for_this">Needs to enable your location services for this</string>
+    <string name="search_city_or_locality">Search City or Locality</string>
+    <string name="or">OR</string>
+    <string name="use_my_current_location">Use my current location</string>
+    <string name="recent">Recent</string>
+    <string name="popular_cities">Popular Cities</string>
+    <string name="close">Close</string>
+    <string name="don_t_miss_out_on_the_nbest_deals">Don\'t miss out on the\nbest deals!</string>
+    <string name="get_notified_of_super_saver_deals_and_noffers_to_your_favourite_locations">Get notified of super saver deals and\noffers to your favourite locations.</string>
+    <string name="turn_notification_on">Turn notification on</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="recommended">Recommended</string>
+    <string name="see_all">See All</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="salon">Salon</string>
+    <string name="gym">Gym</string>
+    <string name="spa">Spa</string>
+    <string name="medical">Medical</string>
+    <string name="car_service">Car Service</string>
+    <string name="trending_offers">Trending Offers</string>
+    <string name="expires_in">Expires in :</string>
+    <string name="nearest">Nearest</string>
+    <string name="upcoming_events">Upcoming Events</string>
+    <string name="popular_locations">Popular Locations</string>
+    <string name="overview">Overview</string>
+    <string name="booking">Booking</string>
+    <string name="menu">Menu</string>
+    <string name="reviews">Reviews</string>
+    <string name="add_review">Add Review</string>
+    <string name="report">Report</string>
+    <string name="add">+ Add</string>
+    <string name="added">Added</string>
+    <string name="quick_bites">Quick Bites</string>
+    <string name="select_time">Select Time</string>
+    <string name="select_date">Select Date</string>
+    <string name="select_no_of_guests">Select No. of Guests</string>
+    <string name="child">Child</string>
+    <string name="adult">Adult</string>
+    <string name="special_request_if_any">Special Request (if any)</string>
+    <string name="special_occasion_if_any">Special Occasion(if any)</string>
+    <string name="select_special_occasion">Select Special Occasion</string>
+    <string name="enter_message_if_any_special_request">Enter message if any special request</string>
+    <string name="book_now">Book Table</string>
+    <string name="continue_to_order">Continue to Order</string>
+    <string name="write_review">Write Review</string>
+    <string name="live_deal">Live Deal</string>
+    <string name="see_all_photos_amp_video"><![CDATA[See All Photos & Video]]></string>
+    <string name="_86_points">POINTS</string>
+    <string name="restaurant_description">Restaurant Description</string>
+    <string name="see_more">SeeMore</string>
+    <string name="see_less">SeeLess</string>
+    <string name="collect_stamps_amp_get_product_free"><font color="#ffffff">Collect Stamps &amp; Get Product</font> <font color="#02c8ce">Free</font></string>
+    <string name="discounted_coupons">Discounted Coupons</string>
+    <string name="cross_promotion_partners">Cross Promotion Partners</string>
+    <string name="in_bucket">In Bucket</string>
+    <string name="my_bucket">My Bucket</string>
+    <string name="order_confirmation">Order Confirmation</string>
+    <string name="time">Time:</string>
+    <string name="apply_promo_code">Apply Promo Code</string>
+    <string name="order_points">Order Points</string>
+    <string name="confirm_your_order">Confirm your Order</string>
+    <string name="bill_detail">Bill Detail</string>
+    <string name="order_points_62"><font color="#77868f">Order Points :</font> <font color="#02C8CE">62</font></string>
+    <string name="subtotal">Subtotal</string>
+    <string name="cartsubtotal">Sub Total: </string>
+    <string name="tax">Tax: </string>
+    <string name="total">Total</string>
+    <string name="if_you_liked_share_it_with_your_n_friends_or_guest">If you liked, share it with your\n friends or guest</string>
+    <string name="whatsapp">Whatsapp</string>
+    <string name="email">Email ID*</string>
+    <string name="rate_your_experience_at_restaurant">Rate Your Experience</string>
+    <string name="customer_service">Customer Service</string>
+    <string name="food_quality">Food Quality</string>
+    <string name="restaurant_cleanliness">Restaurant Cleanliness</string>
+    <string name="recommend_to_friends">Recommend to Friends</string>
+    <string name="deals">Deals</string>
+    <string name="hours">Hours</string>
+    <string name="mins">Mins</string>
+    <string name="secs">Secs</string>
+    <string name="fix_meals">Fix Meals</string>
+    <string name="my_points">My Points</string>
+    <string name="available_points">Available Points</string>
+    <string name="redeem_your_points_for_exciting_deals">Redeem your points for exciting deals</string>
+    <string name="total_points">Total Points</string>
+    <string name="redeem_now">Redeem Now</string>
+    <string name="points">Points</string>
+    <string name="description">Description</string>
+    <string name="msg1">Established fact that a reader will be distracte dreceive\nSometimes by accident, sometimes on purpose (injected humour and the like)\nThere are many variations of passages\nValid until 31 Dec, 2019</string>
+    <string name="about_the_restaurant">About the Restaurant</string>
+    <string name="facilites_amp_features"><![CDATA[Facilites & Features]]></string>
+    <string name="valet_available">Valet Available</string>
+    <string name="parking">Parking</string>
+    <string name="take_away">Take Away</string>
+    <string name="card_accepted">Card Accepted</string>
+    <string name="amex_accepted">Amex Accepted</string>
+    <string name="screening">Screening</string>
+    <string name="tags">Tags</string>
+    <string name="social">Social</string>
+    <string name="msg2">08:00 AM to 09:00 AM Breakfast\n 12:00 PM to 03:00 PM Lunch\n 07:30 PM to 10:00 PM Dinner</string>
+    <string name="redeem_points">Redeem Points</string>
+    <string name="collect_stamps">Collect Stamps</string>
+    <string name="_50_off_first_purchase"><font color="#ffd230">50%</font> <font color="#ffffff">off first purchase</font></string>
+    <string name="coupon_code">Coupon Code</string>
+    <string name="regular">Regular</string>
+    <string name="buzzer">Buzzer</string>
+    <string name="cross_promotion">Cross Promotion</string>
+    <string name="popular">Popular</string>
+    <string name="search">Search</string>
+    <string name="alerts">Alerts</string>
+    <string name="alert">Alert</string>
+    <string name="coupon_codes">Coupon Codes</string>
+    <string name="buy_1_get_one_free"><font color="#ffffff">Buy</font> <font color="#ffd230">1</font> <font color="#ffffff">get one free</font></string>
+    <string name="use_your_activated_coupons_for_your_nearby"><font color="#ffffff">Use your</font> <font color="#02C8CE">activated coupons</font> <font color="#ffffff">for your nearby</font></string>
+    <string name="coupons">Coupons</string>
+    <string name="activate_now">Activate Now</string>
+    <string name="activated">Activated</string>
+    <string name="my_orders_appointment">My Orders / Appointment</string>
+    <string name="my_orders">My Orders</string>
+    <string name="my_booking">My Booking</string>
+    <string name="my_booking_appointment">My Bookings / Appointments</string>
+    <string name="refer_and_earn">Refer and Earn</string>
+    <string name="switch_to_business_profile">Switch to Business Profile</string>
+    <string name="rate_this_app">Rate this App</string>
+    <string name="support_help">Support / Help</string>
+    <string name="settings">Settings</string>
+    <string name="sign_out">Sign out</string>
+    <string name="notifications">Notifications</string>
+    <string name="notification">Notification</string>
+    <string name="points_history">Points History</string>
+    <string name="all">All</string>
+    <string name="earn">Earn</string>
+    <string name="earn_now">Earn Now</string>
+    <string name="spend">Spend</string>
+    <string name="popular_events">Popular Events</string>
+    <string name="events">Events</string>
+    <string name="event_description">Event Description</string>
+    <string name="participants">Participants</string>
+    <string name="select_your_category">Select your Category</string>
+    <string name="date">Date:</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="proceed_to_pay">Proceed to Pay</string>
+    <string name="select_option_to_pay">Select option to pay</string>
+    <string name="my_cards">My Cards</string>
+    <string name="saved_card">Saved Card</string>
+    <string name="pay_securely">Pay Securely</string>
+    <string name="new_card">New Card</string>
+    <string name="debit_credit_card">Debit/Credit Card</string>
+    <string name="expriry_year">Expriry Year</string>
+    <string name="expriry_month">Expriry Month</string>
+    <string name="other_payment_method">Other Payment Method</string>
+    <string name="seats">Seats</string>
+    <string name="status">Status</string>
+    <string name="venue">Venue</string>
+    <string name="ticket_code">Ticket Code</string>
+    <string name="ticket_details">Ticket Details</string>
+    <string name="copy">Copy</string>
+    <string name="messenger">Messenger</string>
+    <string name="more">More</string>
+    <string name="invite_friends">Invite Friends</string>
+    <string name="retail">Retail</string>
+    <string name="bakery">Bakery</string>
+    <string name="collect_stamp">Collect Stamp</string>
+    <string name="select_plan">Select Plan</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="order_detail">Order Detail</string>
+    <string name="special_request">Special Request</string>
+    <string name="cancel_booking">Cancel Booking</string>
+    <string name="edit_photo"><u>Edit Photo</u></string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="name">Name</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="details_optional">Details(Optional)</string>
+    <string name="for_business_profile">For Business Profile</string>
+    <string name="services">Services</string>
+    <string name="select_services_for">Select Services For</string>
+    <string name="men">Men</string>
+    <string name="women">Women</string>
+    <string name="available_services">Available services</string>
+    <string name="combo_pack">Combo Pack</string>
+    <string name="select_specialist">Select Specialist</string>
+    <string name="booking_information">Booking Information</string>
+    <string name="select_and_continue">Select and Continue</string>
+    <string name="checkout">Checkout</string>
+    <string name="date_amp_time"><![CDATA[Date & Time]]></string>
+    <string name="booking_details">Booking details</string>
+    <string name="specialist">Specialist</string>
+    <string name="packages">Packages</string>
+    <string name="amenities">Amenities</string>
+    <string name="product_details">Product Details</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="added_to_cart">Added to Cart</string>
+    <!--<string name="google_key">AIzaSyABGkxexMgUDwjNle_FsokJ_j6Aqvyu0tc</string>-->
+    <string name="google_key">AIzaSyBXGQYyh1UlT229SHt3JyehDkBlZ-CCN78</string>
+    <string name="google_place_api_key">AIzaSyB9l64Pb12pnkX7bqVwH57Q2DSsrRv_eo4</string>
+    <string name="googleAccountWebClientID">250742114157-kkt1dtnp0997cqcokq4fujmgnp1thvm5.apps.googleusercontent.com</string>
+    <string name="googleApplicationID">1:250742114157:android:20f78a555c7b2a6f4f3c64</string>
+    <string name="googleProjectID">the-market-theory-09072021</string>
+    <string name="you_can_cancle_your_plan_at_any_time_n_one_time_payment">You can cancel your plan at any time.\n One time payment</string>
+    <string name="total_cost">Total cost</string>
+    <string name="back_to_home_screen">Back to Home Screen</string>
+    <string name="full_name">Full Name</string>
+    <string name="facebook_app_id">726933398179877</string>
+    <string name="fb_login_protocol_scheme">fb726933398179877</string>
+    <string name="open">Open</string>
+    <string name="enter_promo_code">Enter Promo Code</string>
+    <string name="apply">Apply</string>
+    <string name="promo_code">Promo Code</string>
+    <string name="available_coupons">Available coupons</string>
+    <string name="available_promo_code">Available Promo code</string>
+    <string name="please_select_atleast_one_ticket">Please select at least one ticket</string>
+    <string name="google">Google</string>
+    <string name="are_you_sure">Are you sure you want to sign out?</string>
+    <string name="change_password">Change Password</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="selectdeliverylocation">Select Delivery Location</string>
+    <string name="YourLocation">Your Location</string>
+    <string name="ConfirmLocation">Confirm Location</string>
+    <string name="CompleteAddress">Complete Address</string>
+    <string name="Housenumber">House number</string>
+    <string name="Floor">Floor</string>
+    <string name="Tower_Block">Tower/Block</string>
+    <string name="locationforlater">Tag this location for later</string>
+    <string name="saveadddress">Save Address</string>
+    <string name="update_address">Update Address</string>
+    <string name="change">Change</string>
+    <string name="myAddress">My Address</string>
+    <string name="AddAddress">Add Address</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="home">home</string>
+    <string name="work">work</string>
+    <string name="office">Office</string>
+    <string name="other">other</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="special_instructions">Special Instructions</string>
+    <string name="sorry_no_items_are_available">Sorry! No Items are available</string>
+    <string name="special_instruction">Special Instruction</string>
+    <string name="my_events">My Events</string>
+    <string name="view_on_map">View on Map</string>
+    <string name="add_details_here">Add report here</string>
+    <string name="done">Done</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="new_password">New Password</string>
+    <string name="write_for_any_queries">Write for any queries</string>
+    <string name="schedule_now">Schedule Now</string>
+    <string name="select">Select</string>
+    <string name="schedule_pickup_time">Schedule Pickup Time</string>
+    <string name="pickup_time">Pickup Time</string>
+    <string name="recover_password">Recover Password</string>
+    <string name="my_coupons">My Coupons</string>
+    <string name="schedule_pickup">Schedule Pickup</string>
+    <string name="pickup_now">Pickup Now</string>
+    <string name="checkout_privacy_policy"><b><u>Checkout Privacy Policy</u></b></string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="dine_in_only"><u>Dine In Only</u></string>
+    <string name="explain_unusual_activity_or_service">Explain unusual activity or service</string>
+    <string name="add_more">+ Add More</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="otp_can_be_resend_in">Didn\'t receive the OTP?\nRequest for a new one in %s seconds</string>
+    <string name="city_selection">Want to see Offers Near you?</string>
+    <string name="live_deals_blink">LIVE DEALS</string>
+    <string name="update">Update</string>
+    <string name="connect_with">connect with</string>
+    <string name="restaurant_desc_all"><![CDATA[%s <font color=\'#02C8CE\'><b>See More</b></font>]]></string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="status_colon">Status:</string>
+    <string name="pre_order">Pre Order</string>
+    <string name="favorite">Favorite</string>
+    <string name="unusual_activity_please_report"><u>Unusual activity please report</u></string>
+    <string name="coupon_detail">Coupon Detail</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="invite_n_earn">Ask your friends to signup as a vendor<br />with your referral code and make an initial<br />point. Once done, each earn <font color='#02C8CE'>100</font> Points.</string>
+
+    <string name="points_text"><![CDATA[<font color=\'#02C8CE\'>%s</font><font color=\'#77868F\'> Points</font>]]></string>
+    <string name="points_PointText"><![CDATA[<font color=\'#02C8CE\'>Live</font><font color=\'#ffffff\'> Deals</font>]]></string>
+
+    <string name="coupon_max_offer_price"><![CDATA[<font color=\'#77868F\'>Max Offer value up to</font><font color=\'#EDD464\'> Rs.%s</font>]]></string>
+
+    <string name="order_redeem_point">Order Redeem Point</string>
+    <string name="live_deal_html"><font color="#02C8CE">Live</font> Deal</string>
+    <string name="live_deals">Live Deals</string>
+    <string name="coupon_discount">Coupon Discount</string>
+    <string name="enter_special_instructions">Enter Special Instructions</string>
+    <string name="call">Call</string>
+    <string name="dining_in">Dining in</string>
+</resources>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/inviteMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@color/transparent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:background="@drawable/ic_solid_rounded_r7"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvFeedbackRateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:gravity="center"
+                android:text="Rate Your Experience\nat Restaurant"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvCustomerService"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="Customer Service"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFeedbackRateText" />
+
+            <com.fuzzproductions.ratingbar.RatingBar
+                android:id="@+id/rbCustomerService"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:emptyDrawable="@drawable/empty_star"
+                app:filledDrawable="@drawable/fill_star"
+                app:isIndicator="false"
+                app:minAllowedStars="0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCustomerService"
+                app:numStars="5"
+                app:selectTheTappedRating="true"
+                app:starSize="@dimen/_30sdp"
+                app:starSpacing="@dimen/_20sdp" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRating1"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/rbCustomerService"
+                app:layout_constraintStart_toStartOf="@+id/rbCustomerService"
+                app:layout_constraintTop_toTopOf="@+id/rbCustomerService" />
+
+            <View
+                android:id="@+id/viewCustomerService"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:alpha="0.5"
+                android:background="@color/slate_gray"
+                app:layout_constraintTop_toBottomOf="@+id/rbCustomerService" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvRestaurantCleanliness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="Restaurant Cleanliness"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewCustomerService" />
+
+            <com.fuzzproductions.ratingbar.RatingBar
+                android:id="@+id/rbRestaurantCleanliness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:emptyDrawable="@drawable/empty_star"
+                app:filledDrawable="@drawable/fill_star"
+                app:isIndicator="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRestaurantCleanliness"
+                app:numStars="5"
+                app:selectTheTappedRating="true"
+                app:starSize="@dimen/_30sdp"
+                app:starSpacing="@dimen/_20sdp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRating2"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/rbRestaurantCleanliness"
+                app:layout_constraintStart_toStartOf="@+id/rbRestaurantCleanliness"
+                app:layout_constraintTop_toTopOf="@+id/rbRestaurantCleanliness" />
+
+            <View
+                android:id="@+id/viewRestaurantCleanliness"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:alpha="0.5"
+                android:background="@color/slate_gray"
+                app:layout_constraintTop_toBottomOf="@+id/rbRestaurantCleanliness" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvFoodQuality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="Food Quality"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewRestaurantCleanliness" />
+
+            <com.fuzzproductions.ratingbar.RatingBar
+                android:id="@+id/rbFoodQuality"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="wrap_content"
+                app:emptyDrawable="@drawable/empty_star"
+                app:filledDrawable="@drawable/fill_star"
+                app:isIndicator="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFoodQuality"
+                app:numStars="5"
+                app:selectTheTappedRating="true"
+                app:starSize="@dimen/_30sdp"
+                app:starSpacing="@dimen/_20sdp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRating3"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/rbFoodQuality"
+                app:layout_constraintStart_toStartOf="@+id/rbFoodQuality"
+                app:layout_constraintTop_toTopOf="@+id/rbFoodQuality" />
+
+            <View
+                android:id="@+id/viewFoodQuality"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:alpha="0.5"
+                android:background="@color/slate_gray"
+                app:layout_constraintTop_toBottomOf="@+id/rbFoodQuality" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvRecommendFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="Recommend to Friends"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewFoodQuality" />
+
+            <com.fuzzproductions.ratingbar.RatingBar
+                android:id="@+id/rbRecommendFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:emptyDrawable="@drawable/empty_star"
+                app:filledDrawable="@drawable/fill_star"
+                app:isIndicator="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRecommendFriend"
+                app:numStars="5"
+                app:selectTheTappedRating="true"
+                app:starSize="@dimen/_30sdp"
+                app:starSpacing="@dimen/_20sdp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRating4"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/rbRecommendFriend"
+                app:layout_constraintStart_toStartOf="@+id/rbRecommendFriend"
+                app:layout_constraintTop_toTopOf="@+id/rbRecommendFriend" />
+
+            <View
+                android:id="@+id/viewRecommendFriend"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:alpha="0.5"
+                android:background="@color/slate_gray"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@+id/rbRecommendFriend" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edAddFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_90sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:backgroundTint="@color/slate_gray"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:hint="Add Feedback"
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:overScrollMode="always"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:textColor="@color/slate_gray"
+                android:textColorHint="@color/myArsenic"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="@+id/viewFoodQuality"
+                app:layout_constraintStart_toStartOf="@+id/viewFoodQuality"
+                app:layout_constraintTop_toBottomOf="@+id/viewRecommendFriend" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btnSubmitReview"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_margin="@dimen/_20sdp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:gravity="center"
+            android:text="Submit Review"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="@dimen/_85sdp"
+            android:layout_height="@dimen/_85sdp"
+            android:adjustViewBounds="true"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_review"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/inviteMain" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

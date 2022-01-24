@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--Toolbar-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lylLiveDealBucketToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivLiveDealBucketBack"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="?attr/actionBarItemBackground"
+            android:padding="@dimen/_7sdp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvLiveDealBucketTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="@string/my_bucket"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvLiveDealBucket"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/rlLiveDealBucketFooter"
+        app:layout_constraintTop_toBottomOf="@+id/lylLiveDealBucketToolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketVendorTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Ghazale/Adams Restaurant (Wellesley)" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivLiveDealBucketLocation"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_location_icon"
+                app:layout_constraintStart_toStartOf="@+id/tvLiveDealBucketVendorTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvLiveDealBucketVendorAddress"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLiveDealBucketVendorAddress"
+                app:tint="@color/slate_gray" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketVendorAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:gravity="center_vertical"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivLiveDealBucketLocation"
+                app:layout_constraintTop_toBottomOf="@+id/tvLiveDealBucketVendorTitle"
+                tools:text="260 Strawberry Court Mount Laurel, Ahmedabad" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clMyBucketTable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/ivLiveDealBucketLocation"
+                app:layout_constraintTop_toBottomOf="@+id/ivLiveDealBucketLocation">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMyBucketTable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:maxLines="1"
+                    android:text="Table for 4 Person"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvBucketPointDateTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:maxLines="1"
+                    android:text="Date: "
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintStart_toStartOf="@id/tvMyBucketTable"
+                    app:layout_constraintTop_toBottomOf="@id/tvMyBucketTable" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvBucketPointDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:maxLines="1"
+                    android:text="04 December, 2019"
+                    android:textColor="@color/robins_egg_blue"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvBucketPointDateTitle"
+                    app:layout_constraintStart_toEndOf="@id/tvBucketPointDateTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvMyBucketTable"
+                    app:layout_constraintTop_toTopOf="@+id/tvBucketPointDateTitle" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvBucketPointTimeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:maxLines="1"
+                    android:text="@string/time"
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvBucketPointDateText"
+                    app:layout_constraintStart_toEndOf="@+id/tvBucketPointDateText"
+                    app:layout_constraintTop_toTopOf="@+id/tvBucketPointDateText" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvBucketPointOrderConfirmationTextValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:maxLines="1"
+                    android:text="09:30PM"
+                    android:textColor="@color/robins_egg_blue"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvBucketPointTimeText"
+                    app:layout_constraintStart_toEndOf="@+id/tvBucketPointTimeText"
+                    app:layout_constraintTop_toTopOf="@+id/tvBucketPointTimeText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketCartItemCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_17sp"
+                app:layout_constraintStart_toStartOf="@+id/clMyBucketTable"
+                app:layout_constraintTop_toBottomOf="@+id/clMyBucketTable"
+                tools:text="My Cart (1 Item)" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/llCoins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_points_bg"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLiveDealBucketCartItemCount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvLiveDealBucketCartItemCount">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="@dimen/_23sdp"
+                    android:layout_height="@dimen/_23sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:src="@drawable/ic_coin"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvBucketPointPoints"
+                    app:layout_constraintEnd_toStartOf="@+id/tvBucketPointPoints"
+                    app:layout_constraintTop_toTopOf="@+id/tvBucketPointPoints" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvBucketPointPoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:gravity="bottom"
+                    android:text="0"
+                    android:textColor="#ffd230"
+                    android:textSize="@dimen/_20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvBucketPointPointsLabel"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvBucketPointPointsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_22sdp"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:gravity="bottom"
+                    android:text="@string/_86_points"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvBucketPointPoints"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvBucketPointPoints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/viewLiveDealBucket"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:alpha="0.2"
+                android:background="@color/slate_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLiveDealBucketCartItemCount" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLiveDealBucket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/viewLiveDealBucket"
+                app:layout_constraintStart_toStartOf="@+id/viewLiveDealBucket"
+                app:layout_constraintTop_toBottomOf="@+id/viewLiveDealBucket"
+                tools:itemCount="2"
+                tools:listitem="@layout/row_my_cart_live_deal_new" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketAddMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="@string/add_more"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvLiveDealBucket" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivPromoCode"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:src="@drawable/ic_apply_promo_code"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvLiveDealBucketAddMore" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvCouponCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_toEndOf="@id/ivPromoCode"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/apply_promo_code"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_16sdp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/ivPromoCode"
+                app:layout_constraintStart_toEndOf="@id/ivPromoCode"
+                app:layout_constraintTop_toTopOf="@+id/ivPromoCode" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivAction"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:clickable="false"
+                android:rotation="270"
+                android:src="@drawable/ic_arrow"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/tvCouponCode"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvCouponCode"
+                app:tint="@color/slate_gray" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lylLiveDealBucketPickup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivPromoCode">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvLiveDealBucketPickupLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:maxLines="1"
+                    android:text="Pickup Type"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupLiveDealBucket"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/tvLiveDealBucketPickupLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLiveDealBucketPickupLabel">
+
+                    <RadioButton
+                        android:id="@+id/rbLiveDealBucketSchedulePickup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/robins_egg_blue"
+                        android:fontFamily="@font/proxima_nova_semibold"
+                        android:text="@string/schedule_pickup"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14sp" />
+
+                    <RadioButton
+                        android:id="@+id/rbLiveDealBucketPickupNow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:buttonTint="@color/robins_egg_blue"
+                        android:checked="true"
+                        android:fontFamily="@font/proxima_nova_semibold"
+                        android:text="@string/pickup_now"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14sp" />
+                </RadioGroup>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvLiveDealDiningIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/ic_radio_button_unchecked"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:focusable="true"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:gravity="center"
+                    android:text="@string/dining_in"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14sp"
+                    app:layout_constraintStart_toStartOf="@+id/radioGroupLiveDealBucket"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroupLiveDealBucket" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivLiveDealBucketClock"
+                    android:layout_width="@dimen/_17sdp"
+                    android:layout_height="@dimen/_17sdp"
+                    android:layout_marginStart="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:src="@drawable/ic_clock"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/tvLiveDealDiningIn"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLiveDealDiningIn" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvLiveDealBucketPickUpTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="@string/pickup_time"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivLiveDealBucketClock"
+                    app:layout_constraintStart_toEndOf="@+id/ivLiveDealBucketClock"
+                    app:layout_constraintTop_toTopOf="@+id/ivLiveDealBucketClock" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketInstructionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:text="Special Instructions:"
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lylLiveDealBucketPickup"
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edLiveDealBucketSpecialInstruction"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/bg_edittext_blue_border"
+                android:ellipsize="end"
+                android:focusable="true"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="start"
+                android:hint="Enter Special Instructions"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/slate_gray"
+                android:textColorHint="@color/slate_gray"
+                android:textSize="@dimen/_11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLiveDealBucketInstructionLabel"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketSubTotalLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="@string/cartsubtotal"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintStart_toStartOf="@+id/edLiveDealBucketSpecialInstruction"
+                app:layout_constraintTop_toBottomOf="@+id/edLiveDealBucketSpecialInstruction" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketSubTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLiveDealBucketSubTotalLabel"
+                app:layout_constraintEnd_toEndOf="@+id/edLiveDealBucketSpecialInstruction"
+                app:layout_constraintTop_toTopOf="@+id/tvLiveDealBucketSubTotalLabel"
+                tools:text="0" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketTaxLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="@string/tax"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintStart_toStartOf="@+id/tvLiveDealBucketSubTotalLabel"
+                app:layout_constraintTop_toBottomOf="@+id/tvLiveDealBucketSubTotalLabel" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketTax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLiveDealBucketTaxLabel"
+                app:layout_constraintEnd_toEndOf="@+id/tvLiveDealBucketSubTotal"
+                app:layout_constraintTop_toTopOf="@+id/tvLiveDealBucketTaxLabel"
+                tools:text="0" />
+
+            <View
+                android:id="@+id/viewTotal"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:alpha="0.2"
+                android:background="@color/white"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLiveDealBucketTax" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketTotalLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="Total: "
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintStart_toStartOf="@+id/viewTotal"
+                app:layout_constraintTop_toBottomOf="@+id/viewTotal"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealBucketTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLiveDealBucketTotalLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvLiveDealBucketTotalLabel"
+                tools:text="0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rlLiveDealBucketFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btnLiveDealBucketConfirmYourOrder"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_margin="@dimen/_20sdp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:gravity="center"
+            android:text="@string/confirm_your_order"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

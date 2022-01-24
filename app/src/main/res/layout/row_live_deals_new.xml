@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/bg_button_black_pearl">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/ivRowLiveDealDishImage"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="@dimen/_75sdp"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_camera"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="@dimen/_5sdp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvRowLiveDealsDishName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintStart_toEndOf="@+id/ivRowLiveDealDishImage"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Small Meals" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivRowLiveDealsVegNonVeg"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_veg_icon"
+                app:layout_constraintBottom_toBottomOf="@id/tvRowLiveDealsDishName"
+                app:layout_constraintStart_toEndOf="@id/tvRowLiveDealsDishName"
+                app:layout_constraintTop_toTopOf="@+id/tvRowLiveDealsDishName" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivRowLiveDealsListSpicy"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_spicy"
+                app:layout_constraintBottom_toBottomOf="@+id/ivRowLiveDealsVegNonVeg"
+                app:layout_constraintStart_toEndOf="@+id/ivRowLiveDealsVegNonVeg"
+                app:layout_constraintTop_toTopOf="@+id/ivRowLiveDealsVegNonVeg" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvRowLiveDealsDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:maxLines="1"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tvRowLiveDealsDishName"
+                app:layout_constraintTop_toBottomOf="@+id/tvRowLiveDealsDishName"
+                tools:text="2 vegitable, salad, acharii, and choice of 5 tawa roits or 3 paratha or 3 tandoori roti" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvRowLiveDealsFinalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintStart_toStartOf="@+id/tvRowLiveDealsDescription"
+                app:layout_constraintTop_toBottomOf="@+id/tvRowLiveDealsDescription"
+                tools:text="₹50" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLiveDealListAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/bg_button_grey_border"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:gravity="center"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:text="+ Add"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/myMountainMeadow"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvRowLiveDealsFinalPrice" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

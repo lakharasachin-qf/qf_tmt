@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.fragment.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1e202b"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp">
+
+                <ImageView
+                    android:id="@+id/ivLocation"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_location_icon" />
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/coCart"
+                    android:layout_toEndOf="@id/ivLocation"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_bold"
+                    android:maxLines="2"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    tools:text="Ahmedabad" />
+
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:id="@+id/coCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:layout_toStartOf="@id/coNotification">
+
+                    <ImageView
+                        android:id="@+id/ivCart"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:paddingTop="5dp"
+                        android:src="@drawable/ic_shopping_cart_icon" />
+
+                    <TextView
+                        android:id="@+id/tvCartCount"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/ic_circle_unselected"
+                        android:backgroundTint="#e1210d"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="9sp"
+                        android:visibility="gone"
+                        app:layout_anchor="@id/ivCart"
+                        app:layout_anchorGravity="end" />
+
+                </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:id="@+id/coNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true">
+
+                    <ImageView
+                        android:id="@+id/ivNotification"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:paddingTop="5dp"
+                        android:src="@drawable/ic_notification_icon" />
+
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/ic_circle_unselected"
+                        android:backgroundTint="#e1210d"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="9sp"
+                        android:visibility="gone"
+                        app:layout_anchor="@id/ivNotification"
+                        app:layout_anchorGravity="end" />
+
+                </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llSearch"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/ic_solid_rounded_r7"
+                android:backgroundTint="#2b2d38"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:transitionName="@string/search">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_search" />
+
+                <TextView
+                    android:id="@+id/llSearches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:text="Restaurants name, cuisine, or a dish..."
+                    android:textColor="#77868f"
+                    android:textSize="15sp"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                android:orientation="vertical">
+
+                <!--<include layout="@layout/shimmer_home"/>-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHomeCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/row_home_category"
+                    tools:orientation="horizontal" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:id="@+id/llAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:id="@+id/rlAll"
+                                android:layout_width="80dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/ic_menu_selected_bg">
+
+                                <ImageView
+                                    android:id="@+id/ivAll"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/ic_menu_unselected"
+                                    app:tint="@color/white" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tvAll"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/lato_regular"
+                                android:text="All"
+                                android:textAllCaps="true"
+                                android:textColor="@color/robins_egg_blue"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llRestaurant"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:id="@+id/rlRestaurant"
+                                android:layout_width="80dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/ic_menu_bg">
+
+                                <ImageView
+                                    android:id="@+id/ivRestaurant"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/ic_restaurant_icon" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tvRestaurant"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/lato_regular"
+                                android:letterSpacing="-0.09"
+                                android:text="Restaurant"
+                                android:textAllCaps="true"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llSalon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:id="@+id/rlSalon"
+                                android:layout_width="80dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/ic_menu_bg">
+
+                                <ImageView
+                                    android:id="@+id/ivSalon"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/ic_salon_icon" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tvSalon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/lato_regular"
+                                android:text="@string/salon"
+                                android:textAllCaps="true"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llSpa"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:id="@+id/rlSpa"
+                                android:layout_width="80dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/ic_menu_bg">
+
+                                <ImageView
+                                    android:id="@+id/ivSpa"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/ic_spa_icon" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tvSpa"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/lato_regular"
+                                android:text="@string/spa"
+                                android:textAllCaps="true"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llRetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:id="@+id/rlRetail"
+                                android:layout_width="80dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/ic_menu_bg">
+
+                                <ImageView
+                                    android:id="@+id/ivRetail"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/ic_retail_icon" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tvRetail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/lato_regular"
+                                android:text="@string/retail"
+                                android:textAllCaps="true"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llGym"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:id="@+id/rlGym"
+                                android:layout_width="80dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/ic_menu_bg">
+
+                                <ImageView
+                                    android:id="@+id/ivGym"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/ic_gym_icon" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tvGym"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/lato_regular"
+                                android:text="@string/gym"
+                                android:textAllCaps="true"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llBakery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:id="@+id/rlBakery"
+                                android:layout_width="80dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/ic_menu_bg">
+
+                                <ImageView
+                                    android:id="@+id/ivBakery"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/ic_bakery_icon" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tvBakery"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/lato_regular"
+                                android:text="@string/bakery"
+                                android:textAllCaps="true"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <FrameLayout
+                        android:id="@+id/frameLayoutHome"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4dp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:id="@+id/frameLayoutMap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivMap"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_map"
+        android:visibility="gone" />
+</FrameLayout>

@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/mybucket_toolbar"
+        layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/rlMyBucketFooter"
+        app:layout_constraintTop_toBottomOf="@+id/mybucket_toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvVendorTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Ghazale/Adams Restaurant (Wellesley)" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/mybucketivLocation"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_location_icon"
+                app:layout_constraintStart_toStartOf="@+id/tvVendorTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvAddress"
+                app:layout_constraintBottom_toBottomOf="@+id/tvAddress"
+                app:tint="@color/slate_gray" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:gravity="center_vertical"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/mybucketivLocation"
+                app:layout_constraintTop_toBottomOf="@+id/tvVendorTitle"
+                tools:text="260 Strawberry Court Mount Laurel, Ahmedabad" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clMyBucketTable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="@+id/mybucketivLocation"
+                app:layout_constraintTop_toBottomOf="@+id/mybucketivLocation">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMyBucketTable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Table for 4 Person" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMyBucketDateTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:maxLines="1"
+                    android:text="Date: "
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintStart_toStartOf="@id/tvMyBucketTable"
+                    app:layout_constraintTop_toBottomOf="@id/tvMyBucketTable"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMyBucketDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:maxLines="1"
+                    android:textColor="@color/robins_egg_blue"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMyBucketDateTitle"
+                    app:layout_constraintStart_toEndOf="@id/tvMyBucketDateTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvMyBucketTable"
+                    app:layout_constraintTop_toTopOf="@+id/tvMyBucketDateTitle"
+                    tools:text="04 December, 2019" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMyBucketTimeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:maxLines="1"
+                    android:text="@string/time"
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMyBucketDateText"
+                    app:layout_constraintStart_toEndOf="@+id/tvMyBucketDateText"
+                    app:layout_constraintTop_toTopOf="@+id/tvMyBucketDateText" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvOrderConfirmationTextValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:maxLines="1"
+                    android:textColor="@color/robins_egg_blue"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMyBucketTimeText"
+                    app:layout_constraintStart_toEndOf="@+id/tvMyBucketTimeText"
+                    app:layout_constraintTop_toTopOf="@+id/tvMyBucketTimeText"
+                    tools:text="09:30PM" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMyCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_17sp"
+                app:layout_constraintStart_toStartOf="@+id/clMyBucketTable"
+                app:layout_constraintTop_toBottomOf="@+id/clMyBucketTable"
+                tools:text="My Cart (1 Items)" />
+
+            <View
+                android:id="@+id/viewMyBucketMyCartView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:alpha="0.2"
+                android:background="@color/slate_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMyCart" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMyCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="@+id/viewMyBucketMyCartView"
+                app:layout_constraintStart_toStartOf="@+id/viewMyBucketMyCartView"
+                app:layout_constraintTop_toBottomOf="@+id/viewMyBucketMyCartView"
+                tools:itemCount="2"
+                tools:listitem="@layout/row_my_cart_new" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvAddMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="@string/add_more"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvMyCart" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clBucketPromoCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAddMore">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivPromoCode"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_apply_promo_code"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvCouponCode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_toEndOf="@id/ivPromoCode"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:maxLines="1"
+                    android:text="@string/apply_promo_code"
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivPromoCode"
+                    app:layout_constraintEnd_toStartOf="@+id/ivCouponCross"
+                    app:layout_constraintStart_toEndOf="@id/ivPromoCode"
+                    app:layout_constraintTop_toTopOf="@+id/ivPromoCode" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivAction"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:rotation="270"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvCouponCode"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvCouponCode"
+                    app:tint="@color/slate_gray" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivCouponCross"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:src="@drawable/ic_cross"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivAction"
+                    app:layout_constraintEnd_toStartOf="@+id/ivAction"
+                    app:layout_constraintTop_toTopOf="@+id/ivAction" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintPickUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clBucketPromoCode">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMyBucketPickTypeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:maxLines="1"
+                    android:text="Pickup Type"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/tvMyBucketPickTypeText"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMyBucketPickTypeText">
+
+                    <RadioButton
+                        android:id="@+id/rbSchedulePickup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/robins_egg_blue"
+                        android:fontFamily="@font/proxima_nova_semibold"
+                        android:text="@string/schedule_pickup"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14sp" />
+
+                    <RadioButton
+                        android:id="@+id/rbPickupNow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:buttonTint="@color/robins_egg_blue"
+                        android:checked="true"
+                        android:fontFamily="@font/proxima_nova_semibold"
+                        android:text="@string/pickup_now"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14sp" />
+                </RadioGroup>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvDiningIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/ic_radio_button_unchecked"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:focusable="true"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:gravity="center"
+                    android:text="@string/dining_in"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14sp"
+                    app:layout_constraintStart_toStartOf="@+id/radioGroup"
+                    app:layout_constraintTop_toBottomOf="@+id/ivMyBucketClock" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivMyBucketClock"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginStart="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:src="@drawable/ic_clock"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/radioGroup"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMyBucketPickUpTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="@string/pickup_time"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivMyBucketClock"
+                    app:layout_constraintStart_toEndOf="@+id/ivMyBucketClock"
+                    app:layout_constraintTop_toTopOf="@+id/ivMyBucketClock" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMyBucketInstructionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:text="Special Instructions:"
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintPickUp"
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edMyBucketSpecialInstaruction"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/bg_edittext_blue_border"
+                android:ellipsize="end"
+                android:focusable="true"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="start"
+                android:hint="@string/enter_special_instructions"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/slate_gray"
+                android:textColorHint="@color/slate_gray"
+                android:textSize="@dimen/_11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMyBucketInstructionText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMyBucketSubtotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="@string/cartsubtotal"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintStart_toStartOf="@+id/edMyBucketSpecialInstaruction"
+                app:layout_constraintTop_toBottomOf="@+id/edMyBucketSpecialInstaruction" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvSubtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMyBucketSubtotalTextView"
+                app:layout_constraintEnd_toEndOf="@+id/edMyBucketSpecialInstaruction"
+                app:layout_constraintTop_toTopOf="@+id/tvMyBucketSubtotalTextView"
+                tools:text="₹234" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMyBucketCouponDiscountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="@string/coupon_discount"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintStart_toStartOf="@+id/tvMyBucketSubtotalTextView"
+                app:layout_constraintTop_toBottomOf="@+id/tvMyBucketSubtotalTextView" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvCouponDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:maxLines="1"
+                android:textColor="@color/myRobinsEggBlue"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMyBucketCouponDiscountText"
+                app:layout_constraintEnd_toEndOf="@+id/tvSubtotal"
+                app:layout_constraintTop_toTopOf="@+id/tvMyBucketCouponDiscountText"
+                tools:text="-₹211.05" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMyBucketTaxText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="@string/tax"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintStart_toStartOf="@+id/tvMyBucketCouponDiscountText"
+                app:layout_constraintTop_toBottomOf="@+id/tvMyBucketCouponDiscountText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvtax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMyBucketTaxText"
+                app:layout_constraintEnd_toEndOf="@+id/tvSubtotal"
+                app:layout_constraintTop_toTopOf="@+id/tvMyBucketTaxText"
+                tools:text="₹23" />
+
+            <View
+                android:id="@+id/viewTotal"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:alpha="0.2"
+                android:background="@color/white"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvtax" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMyBucketTotalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="Total: "
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintStart_toStartOf="@+id/viewTotal"
+                app:layout_constraintTop_toBottomOf="@+id/viewTotal"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMyBucketTotalAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMyBucketTotalText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvMyBucketTotalText"
+                tools:text="₹2300" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMyBucketOrderPoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="@string/order_points"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintStart_toStartOf="@+id/tvMyBucketTotalText"
+                app:layout_constraintTop_toBottomOf="@+id/tvMyBucketTotalText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMyBucketTotalOrderPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMyBucketOrderPoint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvMyBucketOrderPoint"
+                tools:text="7815" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Orders once placed can not be cancelled and are non-refundable"
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintStart_toStartOf="@+id/tvMyBucketOrderPoint"
+                app:layout_constraintTop_toBottomOf="@+id/tvMyBucketOrderPoint" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rlMyBucketFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:paddingTop="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nestedScroll">
+
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btnMyBucketCartConfirmYourOrder"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_margin="@dimen/_20sdp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:gravity="center"
+            android:text="@string/confirm_your_order"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/settingToolBar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/_15sdp"
+        android:background="@drawable/bg_my_setting_constraint_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingToolBar">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvChangePasswordText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:maxLines="1"
+            android:text="@string/change_password"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivChangePasswordArrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:rotation="270"
+            android:src="@drawable/ic_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/tvChangePasswordText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvChangePasswordText"
+            app:tint="@color/slate_gray" />
+
+        <View
+            android:id="@+id/viewChangePassword"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:alpha="0.2"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/ivChangePasswordArrow" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvdeleteAccountText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:maxLines="1"
+            android:text="@string/delete_account"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sp"
+            app:layout_constraintStart_toStartOf="@+id/tvChangePasswordText"
+            app:layout_constraintTop_toBottomOf="@+id/viewChangePassword" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivDeleteAccountArrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end|center_vertical"
+            android:rotation="270"
+            android:src="@drawable/ic_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/tvdeleteAccountText"
+            app:layout_constraintEnd_toEndOf="@id/ivChangePasswordArrow"
+            app:layout_constraintTop_toTopOf="@id/tvdeleteAccountText"
+            app:tint="@color/slate_gray" />
+
+        <View
+            android:id="@+id/viewDeleteAccount"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:alpha="0.2"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/ivDeleteAccountArrow" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvNotificationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Notification"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sp"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewDeleteAccount" />
+
+        <Switch
+            android:id="@+id/swSwitchNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvNotificationText"
+            app:layout_constraintBottom_toBottomOf="@id/tvNotificationText" />
+
+        <View
+            android:id="@+id/viewNotification"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:alpha="0.2"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/swSwitchNotification" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

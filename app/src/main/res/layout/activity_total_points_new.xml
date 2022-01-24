@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/tlbToolbar"
+        layout="@layout/toolbar_restaurant" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lylPointSearch"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_42sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="@drawable/ic_solid_rounded_r7"
+        android:backgroundTint="#2b2d38"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tlbToolbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPointSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Search "
+            android:imeOptions="actionDone"
+            android:inputType="textCapWords|none"
+            android:maxLines="1"
+            android:paddingStart="@dimen/_40sdp"
+            android:textColor="#77868f"
+            android:textColorHint="#77868f"
+            android:textSize="@dimen/_15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/etPointSearch"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTotalPointsCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lylPointSearch"
+        tools:itemCount="3"
+        tools:listitem="@layout/row_home_category"
+        tools:orientation="horizontal" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTotalPointsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvTotalPointsCategory">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTotalPointAvialableText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:maxLines="1"
+            android:text="@string/available_points"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:maxLines="1"
+            android:text="@string/redeem_your_points_for_exciting_deals"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_12sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvTotalPointsText"
+            app:layout_constraintStart_toStartOf="@+id/tvTotalPointAvialableText"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalPointAvialableText" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTotalPointsNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/robins_egg_blue"
+            android:textSize="@dimen/_24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivTotalPointsCoin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivTotalPointsCoin"
+            tools:text="123" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivTotalPointsCoin"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:src="@drawable/ic_coin"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTotalPointAvialableText"
+            app:layout_constraintEnd_toStartOf="@+id/tvTotalPointsNew"
+            app:layout_constraintTop_toTopOf="@+id/tvTotalPointAvialableText" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTotalPointsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:ellipsize="end"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@string/total_points"
+            android:textAllCaps="true"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_13sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvTotalPointsNew"
+            app:layout_constraintTop_toBottomOf="@+id/ivTotalPointsCoin" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTotalPoints"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clTotalPointsHeader"
+        tools:itemCount="3"
+        tools:listitem="@layout/row_total_points_new" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

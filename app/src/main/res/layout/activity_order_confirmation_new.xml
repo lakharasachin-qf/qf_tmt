@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvOrderConfirmation"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/myBlackRock"
+        android:fontFamily="@font/proxima_nova_bold"
+        android:gravity="center"
+        android:text="Order Detail"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--Cross Mark-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivOrderConfirmationCross"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:adjustViewBounds="true"
+        android:fitsSystemWindows="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_cancel_new"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmation" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvOrderConfirmation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/clOrderInvite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOrderConfirmation">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_10sdp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivOrderConfirmationRightTick"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:src="@drawable/ic_confirmation_right"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:gravity="center"
+                android:text="Your Order has been Placed Successfully"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivOrderConfirmationRightTick" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationOrderNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:gravity="center"
+                android:text="Order #1234"
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrderConfirmationText" />
+
+            <View
+                android:id="@+id/viewOrderConfirmationView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:alpha="0.3"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/tvOrderConfirmationOrderNo" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Pickup Now"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/viewOrderConfirmationView"
+                app:layout_constraintTop_toBottomOf="@+id/viewOrderConfirmationView" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Date: "
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintStart_toStartOf="@+id/viewOrderConfirmationView"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrderConfirmationType" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="10/06/1990 "
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmationDateText"
+                app:layout_constraintStart_toEndOf="@+id/tvOrderConfirmationDateText"
+                app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmationDateText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Time: "
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmationDate"
+                app:layout_constraintStart_toEndOf="@+id/tvOrderConfirmationDate"
+                app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmationDate" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text=""
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmationTimeText"
+                app:layout_constraintStart_toEndOf="@+id/tvOrderConfirmationTimeText"
+                app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmationTimeText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationBillDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Bill Details"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintStart_toStartOf="@+id/tvOrderConfirmationDateText"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrderConfirmationDateText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationOrderPoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="20"
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmationBillDetail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmationBillDetail" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationOrderPointText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Order Points: "
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmationOrderPoint"
+                app:layout_constraintEnd_toEndOf="@+id/viewOrderConfirmationView"
+                app:layout_constraintEnd_toStartOf="@+id/tvOrderConfirmationOrderPoint"
+                app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmationOrderPoint" />
+
+            <View
+                android:id="@+id/viewOrderConfirmationBillSection"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:alpha="0.3"
+                android:background="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvOrderConfirmationOrderPointText" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvOrderConfirmationOrderList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewOrderConfirmationBillSection" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationSubTotalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Sub Total: "
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintStart_toStartOf="@id/viewOrderConfirmationBillSection"
+                app:layout_constraintTop_toBottomOf="@+id/rvOrderConfirmationOrderList" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationSubTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="123"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmationSubTotalText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmationSubTotalText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationTaxTotalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Tax:"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintStart_toStartOf="@id/viewOrderConfirmationBillSection"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrderConfirmationSubTotal" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationTaxTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="12"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmationTaxTotalText"
+                app:layout_constraintEnd_toEndOf="@+id/tvOrderConfirmationSubTotal"
+                app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmationTaxTotalText" />
+
+            <View
+                android:id="@+id/viewOrderConfirmationTotalSection"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:alpha="0.3"
+                android:background="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvOrderConfirmationTaxTotal" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationTotalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Total: "
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewOrderConfirmationTotalSection" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="123"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmationTotalText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmationTotalText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clOrderInvite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvConfirmationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Waiting for vendor to confirm order"
+            android:textColor="@color/robins_egg_blue"
+            android:textSize="@dimen/_16sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnOrderInvite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/pbOrderConfirmation"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:max="120"
+            android:orientation="horizontal"
+            android:progress="0"
+            android:progressDrawable="@drawable/progress_bar_states"
+            app:layout_constraintBottom_toTopOf="@+id/btnOrderInvite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvConfirmationText" />
+
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btnOrderInvite"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_40sdp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:gravity="center"
+            android:text="Invite Friends/Guest"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pbOrderConfirmation" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dummy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Invite Friends/Guest"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shareIcon"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:adjustViewBounds="true"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_share"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dummy"
+            app:layout_constraintTop_toBottomOf="@+id/pbOrderConfirmation" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

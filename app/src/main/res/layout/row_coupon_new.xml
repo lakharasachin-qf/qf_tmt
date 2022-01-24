@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/clRowCouponList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:background="@drawable/ic_solid_rounded_r7"
+        android:backgroundTint="@color/ebony_clay">
+
+        <!--Coupon Image-->
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivCouponList"
+            android:layout_width="@dimen/_115sdp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_camera"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCouponListMaxOfferPrice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvCouponListTitle"
+            app:riv_corner_radius_bottom_left="@dimen/_7sdp"
+            app:riv_corner_radius_bottom_right="0dp"
+            app:riv_corner_radius_top_left="@dimen/_7sdp"
+            app:riv_corner_radius_top_right="0dp" />
+
+        <!--Coupon Title-->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvCouponListTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:maxLines="2"
+            android:textColor="@color/myWhite"
+            android:textSize="@dimen/_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivCouponList"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Buy 1 get 1" />
+
+        <!--Coupon Description-->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvCouponListDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:maxLines="2"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_12sp"
+            app:layout_constraintEnd_toStartOf="@+id/ivCouponListRight"
+            app:layout_constraintStart_toStartOf="@+id/tvCouponListTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvCouponListTitle"
+            tools:text="Buy any food dish for the first time and receive flat 50% discount" />
+
+        <!--Coupon Dotted dashed line-->
+        <View
+            android:id="@+id/viewCouponListDashLine"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/ic_dashed_line"
+            app:layout_constraintEnd_toEndOf="@+id/tvCouponListDescription"
+            app:layout_constraintStart_toStartOf="@+id/tvCouponListTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvCouponListDescription" />
+
+        <!--Coupon Expires Label-->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvCouponListExpiresLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:text="@string/expires_in"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_9sp"
+            app:layout_constraintStart_toStartOf="@+id/tvCouponListTitle"
+            app:layout_constraintTop_toBottomOf="@id/viewCouponListDashLine" />
+
+        <!--Coupon Expires Duration-->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvCouponListExpireDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:textColor="@color/robins_egg_blue"
+            android:textSize="@dimen/_9sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCouponListExpiresLabel"
+            app:layout_constraintStart_toEndOf="@id/tvCouponListExpiresLabel"
+            app:layout_constraintTop_toTopOf="@+id/tvCouponListExpiresLabel"
+            tools:text="24h 32m" />
+
+        <!--Coupon Max Offer Value-->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvCouponListMaxOfferPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/_5sdp"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_9sp"
+            app:layout_constraintEnd_toStartOf="@+id/ivCouponListFavorite"
+            app:layout_constraintStart_toStartOf="@+id/tvCouponListExpiresLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvCouponListExpiresLabel"
+            tools:text="@string/coupon_max_offer_price" />
+
+        <!--Coupon Favorite-->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCouponListFavorite"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:adjustViewBounds="true"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_favorite_unselected"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCouponListExpiresLabel"
+            app:layout_constraintEnd_toEndOf="@+id/viewCouponListDashLine"
+            app:layout_constraintTop_toTopOf="@+id/tvCouponListExpiresLabel" />
+
+        <!--<Space
+            android:id="@+id/viewCouponListBottomSpace"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCouponListMaxOfferPrice" />-->
+
+        <!--Coupon Left Half Circle-->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCouponListLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_half_left_circle_coupon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--Coupon Right Half Circle-->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCouponListRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_half_right_circle_coupon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

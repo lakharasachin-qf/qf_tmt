@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.themarkettheory.user">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <permission
+        android:name="com.themarkettheory.user.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.themarkettheory.user.permission.MAPS_RECEIVE" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_app_icon_new"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_app_icon_new_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
+    
+
+        <activity android:name=".ui.main.activity.WebviewActivity" />
+        <activity
+            android:name=".ui.main.activity.FullScreenActivity"
+            android:configChanges="keyboardHidden"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.main.activity.RecoverPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.ChangePasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.AddReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.MapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.salon.SalonOrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.SeeAllPhotosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.TicketDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.MyEventsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.MyAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.AddAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.OtherSettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.MyTableBookingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.PromoCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.EventsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.OffersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.PopularEventsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.AttireDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.gym.PackageDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.salon.SalonOrderConfirmationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.salon.SalonBookingInformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.salon.SalonDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.BusinessProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.MyTableBookingDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.OrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.MyOrdersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.SwitchToBusinessProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.NearestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.RecommendedActivity"
+            android:screenOrientation="portrait">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+
+        </activity>
+        <activity
+            android:name=".ui.main.activity.InviteAndEarnActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.TicketDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.PaymentMethodActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.SelectCategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.EventDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.main.activity.PointsHistoryActivity" />
+        <activity
+            android:name=".ui.main.activity.TotalPointsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.NotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.main.activity.SearchActivity" />
+        <activity
+            android:name=".ui.coupon.CouponActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.coupon.CouponDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.CollectStampsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.restaurant.RestaurantDescriptionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.PointDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.MyPointsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.MyPointsDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.restaurant.LiveDealsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.restaurant.MyBucketLiveDealActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.restaurant.OrderConfirmationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.restaurant.MyBucketActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.restaurant.VendorDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.main.activity.CitySelectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.VerifyOtpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.SignupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.main.activity.BaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.SigninActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.main.activity.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.main.activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.MyPointBucketActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.FeedbackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.SupportHelpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.restaurant.restaurant_list.RestaurantListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_key" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <service
+            android:name=".firebase.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".helper.SmsOtpReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED" />
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED_ACTION" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_app_icon" />
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="@string/razorpay_live_key" />
+    </application>
+
+</manifest>

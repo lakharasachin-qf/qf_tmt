@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    tools:context=".ui.main.activity.CitySelectionActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/myBlackRock">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvTitleCitySelection"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="@string/city_selection"
+                android:textAllCaps="true"
+                android:textSize="@dimen/_30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:textColor="@color/white" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvEnableLocationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="@string/needs_to_enable_your_location_services_for_this"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleCitySelection"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleCitySelection" />
+
+            <RelativeLayout
+                android:id="@+id/rlSearch"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/ic_solid_rounded_r3_5"
+                android:backgroundTint="@color/charade"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="@+id/tvTitleCitySelection"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleCitySelection"
+                app:layout_constraintTop_toBottomOf="@+id/tvEnableLocationTitle">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivSearch"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:src="@drawable/ic_search" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/edPlace"
+                    style="@style/edittext_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@id/ivSearch"
+                    android:background="@android:color/transparent"
+                    android:enabled="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_city_or_locality"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:textColor="@color/white"
+                    android:textColorHint="#77868f"
+                    android:textSize="@dimen/_15sp" />
+            </RelativeLayout>
+
+            <!--Or Connect with-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrCitySelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/or"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleCitySelection"
+                app:layout_constraintTop_toBottomOf="@+id/rlSearch" />
+
+            <View
+                android:id="@+id/viewLeftLine"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@color/slate_gray"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrCitySelection"
+                app:layout_constraintEnd_toStartOf="@+id/tvOrCitySelection"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleCitySelection"
+                app:layout_constraintTop_toTopOf="@+id/tvOrCitySelection" />
+
+            <View
+                android:id="@+id/viewRightLine"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@color/slate_gray"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrCitySelection"
+                app:layout_constraintEnd_toEndOf="@+id/tvTitleCitySelection"
+                app:layout_constraintStart_toEndOf="@+id/tvOrCitySelection"
+                app:layout_constraintTop_toTopOf="@+id/tvOrCitySelection" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cvBottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_80sdp"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrCitySelection">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvUseMyCurrentLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_50sdp"
+                    android:fontFamily="@font/proxima_nova_semibold"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:text="@string/use_my_current_location"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/horLine1CitySelection"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:alpha="0.2"
+                    android:background="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUseMyCurrentLocation" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvRecentTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:text="@string/recent"
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/horLine1CitySelection" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRecent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRecentTitle"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/row_locality" />
+
+                <View
+                    android:id="@+id/horLine2CitySelection"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:alpha="0.2"
+                    android:background="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rvRecent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvPopularCitiesTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:text="@string/popular_cities"
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/horLine2CitySelection" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPopularCities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPopularCitiesTitle"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/row_locality" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivLocationCitySelection"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:src="@drawable/ic_location"
+                app:layout_constraintBottom_toTopOf="@id/cvBottom"
+                app:layout_constraintEnd_toEndOf="@+id/tvTitleCitySelection"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleCitySelection"
+                app:layout_constraintTop_toBottomOf="@id/tvOrCitySelection"
+                app:layout_constraintTop_toTopOf="@id/cvBottom" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

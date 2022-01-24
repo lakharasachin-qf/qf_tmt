@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "250742114157",
+    "project_id": "the-market-theory-09072021",
+    "storage_bucket": "the-market-theory-09072021.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250742114157:android:259fcfdab9e00e5d4f3c64",
+        "android_client_info": {
+          "package_name": "com.themarkettheory.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250742114157-2su8eqvv8ivbsp3o5tj0je4gktlobsup.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.themarkettheory.user",
+            "certificate_hash": "9879af9dd45583af542b0923bfac5b4804302f13"
+          }
+        },
+        {
+          "client_id": "250742114157-kkt1dtnp0997cqcokq4fujmgnp1thvm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXGQYyh1UlT229SHt3JyehDkBlZ-CCN78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "108630001972880892533",
+              "client_type": 3
+            },
+            {
+              "client_id": "250742114157-uu8fkp9ce1gho4ututtgrleru3gu11m9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.themarkettheory.user"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

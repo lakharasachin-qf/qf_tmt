@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#1e202b</color>
+    <color name="colorAccent">#77868F</color>
+    <color name="black">#111119</color>
+    <color name="white">#ffffff</color>
+    <color name="purple_heart">#7238B4</color>
+    <color name="azure">#3B5998</color>
+    <color name="java">#22C7CD</color>
+    <color name="slate_gray">#77868F</color>
+    <color name="robins_egg_blue">#02C8CE</color>
+    <color name="charade">#2B2D38</color>
+    <color name="mirage">#1C1D29</color>
+    <color name="ebony_clay">#222332</color>
+    <color name="mtrl_textinput_disabled_color" tools:override="true">#77868F</color>
+    <color name="web_orange">#FFA500</color>
+    <color name="gull_gray">#94A3B4</color>
+    <color name="malachite">#1CBD54</color>
+    <color name="cinder">#0D0D19</color>
+    <color name="cinder50">#500D0D19</color>
+    <color name="sunglow">#FFD230</color>
+    <color name="ebony">#080812</color>
+    <color name="mirage2">#1C1E2E</color>
+    <color name="bali_hai">#8A98AE</color>
+    <color name="cinnabar">#EF4040</color>
+    <!--<color name="shimmer">#ededed</color>-->
+    <color name="shimmer">#2b2d38</color>
+    <color name="change">#FF4837</color>
+
+    <!--Show Toast-->
+    <color name="colorStatusInfo">#3498db</color>
+    <color name="colorStatusWarning">#f39c12</color>
+    <color name="colorStatusSuccess">#27ae60</color>
+    <color name="colorStatusError">#F54E45</color>
+
+
+    <color name="text_selected">@color/white</color>
+    <color name="text_focused">@color/white</color>
+    <color name="text_default">@color/white</color>
+    <color name="text_hint_default">@color/slate_gray</color>
+    <color name="line_selected">@color/slate_gray</color>
+    <color name="line_focused">@color/white</color>
+    <color name="line_default">@color/slate_gray</color>
+
+    <color name="mySummerSky">#00AFEA</color>
+    <color name="myTurquoise">#00EED1</color>
+    <color name="myWhite">#FFFFFF</color>
+    <color name="myBlack">#000000</color>
+    <color name="myMountainMeadow">#1CBD54</color>
+    <color name="myEucalyptus">#7AA38D</color>
+    <color name="myBlackRock">#252735</color>
+    <color name="myBlackPearl">#1E202B</color>
+    <color name="myLightSeaGreen">#23ABB3</color>
+    <color name="mySalem">#178651</color>
+    <color name="myCinnabar">#EB5445</color>
+    <color name="myBondiBlue">#0AA6AA</color>
+    <color name="myArsenic">#434B53</color>
+    <color name="myGreen">#008C2B</color>
+    <color name="mySunsetOrange">#FE5059</color>
+    <color name="myPumpkin">#FF730C</color>
+    <color name="myRobinsEggBlue">#02C8CE</color>
+    <color name="myValhalla">#1D1C2A</color>
+    <color name="myOrange">#FFA500</color>
+    <color name="myGoldenSand">#EDD464</color>
+    <color name="myMalachite">#04D368</color>
+    <color name="mySeaGreen">#29855F</color>
+</resources>

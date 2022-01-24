@@ -1,0 +1,155 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'kotlin-kapt' // add kapt plugin support
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 5
+        versionName '1.0'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId 'com.themarkettheory.user'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    packagingOptions {
+        exclude 'META-INF/library_release.kotlin_module'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    archivesBaseName = "TMT Customer"
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "3g"
+    }
+    lintOptions {
+        checkReleaseBuilds false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation 'bg.devlabs.fullscreenvideoview:library:1.1.6'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.33-beta"
+    kapt "com.google.dagger:hilt-android-compiler:2.33-beta"
+
+    //RxJava2
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation "io.reactivex.rxjava2:rxkotlin:2.1.0"
+
+    //for Update
+    implementation 'com.google.android.play:core:1.10.3'
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3' //logs HTTP
+
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.chaos.view:pinview:1.4.3'
+    implementation 'com.nispok:snackbar:2.11.0'
+    implementation 'com.sdsmdg.harjot:materialshadows:1.2.5'
+    implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
+    implementation 'com.github.crosswall:Android-Coverflow:release-v1.0.5'
+    implementation 'me.relex:circleindicator:2.1.4'
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+
+    implementation 'com.github.AhmMhd:SeeMoreTextView-Android:1.0.0'
+    implementation 'noman.weekcalendar:weekcalendar:1.0.6'
+    implementation 'com.andrognito.flashbar:flashbar:1.0.3'
+    implementation 'com.github.mybringback22:HorizontalCalendarView-Android-:0.1.0'
+    implementation 'devs.mulham.horizontalcalendar:horizontalcalendar:1.3.4'
+
+    implementation 'com.andreabaccega:android-form-edittext:1.3.5'
+    implementation 'br.com.simplepass:loading-button-android:2.2.0'
+
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+//    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    implementation 'com.github.CanHub:Android-Image-Cropper:3.1.0'
+
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+    implementation 'com.google.firebase:firebase-core:20.0.1'
+//    implementation 'com.google.firebase:firebase-auth:20.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.6'
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.0.1'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation platform('com.google.firebase:firebase-bom:29.0.2')
+
+    implementation 'com.facebook.android:facebook-android-sdk:12.2.0'
+    implementation 'com.danikula:videocache:2.7.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.14.2'
+
+    implementation 'com.razorpay:checkout:1.6.15'
+//    implementation "com.razorpay:razorpay-java:1.3.8"
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.fuzz-productions:RatingBar:1.0.6'
+
+    //region Room Database
+    implementation 'androidx.room:room-runtime:2.3.0'
+    kapt 'androidx.room:room-compiler:2.3.0'
+    implementation 'androidx.room:room-ktx:2.3.0'
+    //endregion
+
+    //region Paris for applying styles programmatically
+    implementation 'com.airbnb.android:paris:1.7.3'
+    kapt 'com.airbnb.android:paris-processor:1.7.3'
+    //endregion
+
+    //google Auth
+    implementation 'com.google.android.gms:play-services-auth:20.0.0'
+
+    //region androidTag
+    implementation 'co.lujun:androidtagview:1.1.7'
+    //endregion
+
+    //new calender region
+    implementation 'com.michalsvec:single-row-calednar:1.0.0'
+    //end
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
+}
+apply plugin: 'com.google.gms.google-services'

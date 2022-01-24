@@ -1,0 +1,32 @@
+package com.themarkettheory.user.newmodels.mytablebookings
+
+data class Menu(
+    var id: Int?,
+    var title: String?,
+    var ingredients: String?,
+    var unit: String?,
+    var final_price: Double?,
+    var point: Int?,
+    var is_spicy: Int?,
+    var is_recommonded: Int?,
+    var image: String?,
+    var created_at: String?,
+    var updated_at: String?,
+    var tax: Int?,
+    var extra_topping: Int?,
+    var user_customizable: Int?,
+    var size_data: String?,
+    var custom_data: String?,
+    var currency: String?,
+    var redeem_points: Int?,
+    var is_deleted: Int?,
+    var preparing_time: String?,
+    var service_id: Int?,
+    var activated_coupon: List<Any>?,
+    var dish_qty: String?,
+    var food_type: Int?,
+    var category_id: Int?,
+    var is_enable: Int?,
+    var category_name: String?,
+    var actual_price: Int?
+)

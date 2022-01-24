@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivRowOrderDetailsListVegNonVeg"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:adjustViewBounds="true"
+            android:fitsSystemWindows="true"
+            android:scaleType="fitStart"
+            android:src="@drawable/ic_veg_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivRowOrderDetailsListSpicy"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:adjustViewBounds="true"
+            android:fitsSystemWindows="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_spicy"
+            app:layout_constraintBottom_toBottomOf="@+id/ivRowOrderDetailsListVegNonVeg"
+            app:layout_constraintStart_toEndOf="@+id/ivRowOrderDetailsListVegNonVeg"
+            app:layout_constraintTop_toTopOf="@+id/ivRowOrderDetailsListVegNonVeg" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowOrderDetailsListItemName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:maxLines="2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvRowOrderDetailsListTime"
+            app:layout_constraintStart_toStartOf="@+id/ivRowOrderDetailsListVegNonVeg"
+            app:layout_constraintTop_toBottomOf="@id/ivRowOrderDetailsListVegNonVeg"
+            tools:text="Dal Makhani (300 grams)" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowOrderDetailsListCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_12sp"
+            app:layout_constraintStart_toStartOf="@id/tvRowOrderDetailsListItemName"
+            app:layout_constraintTop_toBottomOf="@+id/tvRowOrderDetailsListItemName"
+            tools:text="Dal" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowOrderDetailsListFinalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="#02C8CE"
+            android:textSize="@dimen/_14sp"
+            app:layout_constraintStart_toStartOf="@id/tvRowOrderDetailsListCategory"
+            app:layout_constraintTop_toBottomOf="@+id/tvRowOrderDetailsListCategory"
+            tools:text="₹20" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowOrderDetailsListActualPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvRowOrderDetailsListFinalPrice"
+            app:layout_constraintStart_toEndOf="@+id/tvRowOrderDetailsListFinalPrice"
+            app:layout_constraintTop_toBottomOf="@+id/tvRowOrderDetailsListFinalPrice"
+            app:layout_constraintTop_toTopOf="@+id/tvRowOrderDetailsListFinalPrice"
+            tools:text="₹200.00" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/viewRowOrderDetailsListDivider"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="|"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvRowOrderDetailsListActualPrice"
+            app:layout_constraintStart_toEndOf="@id/tvRowOrderDetailsListActualPrice"
+            app:layout_constraintTop_toTopOf="@+id/tvRowOrderDetailsListActualPrice"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowOrderDetailsListPointLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:gravity="center"
+            android:text="Redeem Points: "
+            android:textAlignment="center"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/viewRowOrderDetailsListDivider"
+            app:layout_constraintStart_toEndOf="@+id/viewRowOrderDetailsListDivider"
+            app:layout_constraintTop_toTopOf="@+id/viewRowOrderDetailsListDivider"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowOrderDetailsListPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:gravity="center"
+            android:text="20"
+            android:textAlignment="center"
+            android:textColor="#02C8CE"
+            android:textSize="@dimen/_14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvRowOrderDetailsListPointLabel"
+            app:layout_constraintStart_toEndOf="@+id/tvRowOrderDetailsListPointLabel"
+            app:layout_constraintTop_toTopOf="@+id/tvRowOrderDetailsListPointLabel" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowOrderDetailsListTime"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:gravity="center"
+            android:text="15 mins"
+            android:textAlignment="center"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivRowOrderDetailsListVegNonVeg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivRowOrderDetailsListVegNonVeg" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clRowOrderDetailsListItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:background="@drawable/ic_solid_rounded_r3_5"
+            android:backgroundTint="@color/ebony_clay"
+            app:layout_constraintBottom_toBottomOf="@+id/tvRowOrderDetailsListFinalPrice"
+            app:layout_constraintEnd_toEndOf="@+id/tvRowOrderDetailsListTime"
+            app:layout_constraintTop_toTopOf="@+id/tvRowOrderDetailsListFinalPrice">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvRowOrderDetailsListCount"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_25sp"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:gravity="center"
+                android:maxLength="3"
+                android:maxLines="1"
+                android:textAllCaps="true"
+                android:textColor="@color/malachite"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/viewRowOrderDetailsListTotal"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:alpha="0.2"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/clRowOrderDetailsListItems" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
