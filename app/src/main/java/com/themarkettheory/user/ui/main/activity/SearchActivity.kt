@@ -38,7 +38,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
     //General
     private var handlerSearch = Handler(Looper.getMainLooper())
     private lateinit var runnableSearch: Runnable
-    private val delay = 2000L //2 seconds
+    private val delay = 500L //2 seconds
     private var lastEditText = 0L
     private var mySearchText = ""
 
@@ -156,9 +156,9 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
             //region Runnable Search
             runnableSearch = Runnable {
-                if (System.currentTimeMillis() > (lastEditText + delay - 500)) {
+              //  if (System.currentTimeMillis() > (lastEditText + delay - 500)) {
                     callAllSearchAPI()
-                }
+               // }
             }
             //endregion
 
@@ -226,7 +226,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
                                 myDialog.dismiss()
                             } else {
                                 i--
-                                postDelayed(this, 1000)
+                                postDelayed(this, 0)
                             }
                         }
                     })
