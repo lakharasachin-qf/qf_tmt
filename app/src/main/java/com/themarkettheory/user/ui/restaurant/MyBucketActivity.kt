@@ -28,6 +28,7 @@ import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.interfaces.ListClickListenerCart
 import com.themarkettheory.user.newmodels.booking.bookingdetails.NewBookingDetailsRes
 import com.themarkettheory.user.newmodels.bucketcart.GetCartNewRes
+import com.themarkettheory.user.newmodels.bucketcart.ServiceDetails
 import com.themarkettheory.user.ui.coupon.CouponActivity
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.main.activity.BaseActivity
@@ -554,11 +555,13 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
         }
     }
 
+    lateinit var serviceDetails: ServiceDetails
+
     @SuppressLint("SetTextI18n")
     private fun populateCartDetails(res: GetCartNewRes) {
         try {
-
-            Log.e("Cart Data", gson.toJson(res.data!!.couponData))
+            Log.e("populateCartDetails", "populateCartDetails");
+            Log.e("Cart Data", gson.toJson(res))
             if (res.data != null) {
                 //restaurant id
                 if (res.data!!.serviceDetails != null) {
@@ -707,6 +710,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 }
                 bucketAdapter = BucketAdapter(listener)
                 bucketDataList.clear()
+                serviceDetails = res.data!!.serviceDetails!!
                 for (i in res.data!!.list!!.indices) {
                     val bucketCartRes = MyBucketCartRes(
                         res.data!!.serviceDetails!!.id!!,
@@ -731,6 +735,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         res.data!!.serviceDetails!!.offers!![i].buyQty!!,
                         res.data!!.serviceDetails!!.offers!![i].getQty!!,
                     )
+                    Log.e("NEwCreated", gson.toJson(bucketCartRes))
                     bucketDataList.add(bucketCartRes)
                 }
             }
@@ -746,9 +751,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
             if (SystemClock.elapsedRealtime() - lastClickTime < 10000) return
             lastClickTime = SystemClock.elapsedRealtime()
-            if (Config.isCouponApplied && Config.isCouponDiscountType == couponBuyGet
-                && !Config.isCouponBuyGetSelected
-            ) {
+            if (Config.isCouponApplied && Config.isCouponDiscountType == couponBuyGet && !Config.isCouponBuyGetSelected) {
                 val dialogCoupon = DialogToast(this@MyBucketActivity)
                 dialogCoupon.show()
                 dialogCoupon.holder!!.let {
@@ -820,12 +823,17 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 totalPoints += bucketDataList[i].qty * bucketDataList[i].point
             }
 
-            totalTax += (subTotal * bucketDataList[0].tax) / 100
+            totalTax += (subTotal * bucketDataList[0].tax   ) / 100
 
-            //region Check for discounted coupon if any
-            if (Config.isCouponApplied) {
+
+            /* if (Config.isCouponApplied) {
                 Log.e("coupon discountsss", bucketDataList[0].offerDiscountAmount.toString())
                 coupon@ for (i in bucketDataList.indices) {
+
+//                    val discountAmt = bucketDataList[i].offerDiscountAmount
+//                    Log.e("coupon discount", "{$discountAmt}")
+                    if (bucketDataList[i].offerCouponCode.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(Locale.getDefault()))
+                    {
                     if (bucketDataList[i].offerCouponCode.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(
                             Locale.getDefault()
                         )
@@ -841,6 +849,28 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     }
                 }
             }
+           */
+
+            //region Check for discounted coupon if any
+            if (Config.isCouponApplied) {
+                for (obj in serviceDetails.offers!!) {
+                    //      Log.e("coupon-list", bucketDataList[i].offerCouponCode.toString())
+                    if (obj.couponCode != null) {
+                        if (obj.couponCode!!.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(Locale.getDefault())) {
+                            val discountAmt = obj.discountAmount
+                            Log.e("coupon discount", "{$discountAmt}")
+                            if (discountAmt != null) {
+                                discountCouponTotal = when (obj.discountType) {
+                                    couponPercentage -> (subTotal * discountAmt) / 100
+                                    couponFlat -> discountAmt.toDouble()
+                                    else -> if (Config.isCouponBuyGetSelected) discountCouponTotal else 0.0
+                                }
+                            }
+                            break
+                        }
+                    }
+                }
+            }
             //endregion
 
             //Setting Sub Total Amount
@@ -850,10 +880,8 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 )
 
             //Discount Coupon
-
-
-//            tvCouponDiscount.text = "-${bucketDataList[0].currency}" +
-//                    numberFormat.format(discountCouponTotal)
+            tvCouponDiscount.text = "-${bucketDataList[0].currency}" +
+                    numberFormat.format(discountCouponTotal)
 
             //Setting Tax Amount
             tvtax.text =
