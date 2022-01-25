@@ -125,7 +125,7 @@ class InviteAndEarnActivity : BaseActivity(), View.OnClickListener {
                     email = 0
                     ivInviteAndEarnFacebook.setImageDrawable(resources.getDrawable(R.drawable.ic_facebook_background))
                     ivInviteAndEarnWhatsapp.setImageDrawable(resources.getDrawable(R.drawable.ic_whatsapp_blank))
-                    ivInviteAndEarnMessenger.setImageDrawable(resources.getDrawable(R.drawable.ic_messagenger_blank))
+                    ivInviteAndEarnMessenger.setImageDrawable(resources.getDrawable(R.drawable.text_msg))
                     ivInviteAndEarnMore.setImageDrawable(resources.getDrawable(R.drawable.ic_email_blank))
                 }
 
@@ -135,7 +135,7 @@ class InviteAndEarnActivity : BaseActivity(), View.OnClickListener {
                     message = 0
                     email = 0
                     ivInviteAndEarnWhatsapp.setImageDrawable(resources.getDrawable(R.drawable.ic_whatsapp_filled_background))
-                    ivInviteAndEarnMessenger.setImageDrawable(resources.getDrawable(R.drawable.ic_messagenger_blank))
+                    ivInviteAndEarnMessenger.setImageDrawable(resources.getDrawable(R.drawable.text_msg))
                     ivInviteAndEarnFacebook.setImageDrawable(resources.getDrawable(R.drawable.ic_facebook_blank))
                     ivInviteAndEarnMore.setImageDrawable(resources.getDrawable(R.drawable.ic_email_blank))
 
@@ -160,7 +160,7 @@ class InviteAndEarnActivity : BaseActivity(), View.OnClickListener {
                     message = 0
                     email = 1
                     ivInviteAndEarnMore.setImageDrawable(resources.getDrawable(R.drawable.ic_email_filled_background))
-                    ivInviteAndEarnMessenger.setImageDrawable(resources.getDrawable(R.drawable.ic_messagenger_blank))
+                    ivInviteAndEarnMessenger.setImageDrawable(resources.getDrawable(R.drawable.text_msg))
                     ivInviteAndEarnWhatsapp.setImageDrawable(resources.getDrawable(R.drawable.ic_whatsapp_blank))
                     ivInviteAndEarnFacebook.setImageDrawable(resources.getDrawable(R.drawable.ic_facebook_blank))
                 }

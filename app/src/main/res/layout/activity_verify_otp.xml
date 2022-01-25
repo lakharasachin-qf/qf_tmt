@@ -4,135 +4,150 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/_20sdp"
-    android:layout_marginTop="@dimen/_50sdp"
-    android:layout_marginEnd="@dimen/_20sdp"
+
     android:background="@color/black"
     tools:context=".ui.main.activity.VerifyOtpActivity">
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvOTPTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/proxima_nova_semibold"
-        android:text="@string/enter_otp"
-        android:textAllCaps="true"
-        android:textSize="@dimen/_30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:textColor="@color/white" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvOTPMobileCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:fontFamily="@font/proxima_nova_regular"
-        android:text="@string/verify_mobile_for_otp"
-        android:textColor="@color/slate_gray"
-        android:textSize="@dimen/_14sp"
-        app:layout_constraintStart_toStartOf="@+id/tvOTPTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvOTPTitle" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivLock"
-        android:layout_width="@dimen/_195sdp"
-        android:layout_height="@dimen/_142sdp"
-        android:layout_marginTop="@dimen/_50sdp"
-        android:adjustViewBounds="true"
-        android:fitsSystemWindows="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_otp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOTPMobileCode" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvOTPEnterPinHere"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_45sdp"
-        android:fontFamily="@font/proxima_nova_regular"
-        android:text="@string/enter_pin_here"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLock" />
-
-    <com.chaos.view.PinView
-        android:id="@+id/pinView"
-        style="@style/PinWidget.PinView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:cursorVisible="true"
-        android:hint="----"
-        android:inputType="number|none"
-        android:padding="@dimen/_5sdp"
-        android:textColor="@color/text_colors"
-        android:textColorHint="@color/slate_gray"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:cursorColor="@color/line_colors"
-        app:cursorWidth="2dp"
-        app:hideLineWhenFilled="false"
-        app:itemCount="4"
-        app:itemHeight="@dimen/_45sdp"
-        app:itemSpacing="@dimen/_20sdp"
-        app:itemWidth="@dimen/_45sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOTPEnterPinHere"
-        app:lineColor="@color/line_colors"
-        app:lineWidth="2dp"
-        app:viewType="rectangle"
-        tools:ignore="HardcodedText" />
-
-    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-        android:id="@+id/btnVerify"
-        style="@style/button_style"
+    <ScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_50sdp"
-        android:text="@string/verify"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pinView" />
+        android:layout_height="match_parent">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvOtpResendTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:fontFamily="@font/proxima_nova_regular"
-        android:gravity="center"
-        android:text="@string/otp_can_be_resend_in"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnVerify" />
+        <LinearLayout
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvResendOtp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:fontFamily="@font/proxima_nova_semibold"
-        android:text="@string/resend_otp"
-        android:textColor="@color/robins_egg_blue"
-        android:textSize="@dimen/_15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOtpResendTitle" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOTPTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="@string/enter_otp"
+                android:textAllCaps="true"
+                android:textSize="@dimen/_30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:textColor="@color/white" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOTPMobileCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="@string/verify_mobile_for_otp"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintStart_toStartOf="@+id/tvOTPTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvOTPTitle" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivLock"
+                android:layout_width="@dimen/_195sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="@dimen/_142sdp"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_otp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOTPMobileCode" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOTPEnterPinHere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_45sdp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="@string/enter_pin_here"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivLock" />
+
+            <com.chaos.view.PinView
+                android:id="@+id/pinView"
+                style="@style/PinWidget.PinView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:cursorVisible="true"
+                android:hint="----"
+                android:inputType="number|none"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/text_colors"
+                android:textColorHint="@color/slate_gray"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cursorColor="@color/line_colors"
+                app:cursorWidth="2dp"
+                app:hideLineWhenFilled="false"
+                app:itemCount="4"
+                app:itemHeight="@dimen/_45sdp"
+                app:itemSpacing="@dimen/_20sdp"
+                app:itemWidth="@dimen/_45sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOTPEnterPinHere"
+                app:lineColor="@color/line_colors"
+                app:lineWidth="2dp"
+                app:viewType="rectangle"
+                tools:ignore="HardcodedText" />
+
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btnVerify"
+                style="@style/button_style"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:text="@string/verify"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pinView" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOtpResendTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:gravity="center"
+                android:text="@string/otp_can_be_resend_in"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnVerify" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvResendOtp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="@string/resend_otp"
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOtpResendTitle" />
+        </LinearLayout>
+    </ScrollView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

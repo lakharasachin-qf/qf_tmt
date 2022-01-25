@@ -404,8 +404,9 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
                     share.type = "text/plain"
                     share.putExtra(
                         Intent.EXTRA_TEXT,
-                        "Find this service on The Market Theory | " + serviceDetail?.title + "\n" + serviceDetail?.address
+                         serviceDetail?.title + "\n" + serviceDetail?.address +" \n"+"https://themarkettheory.com"
                     )
+                    //"Find this service on The Market Theory | " +
                     startActivity(Intent.createChooser(share, "Share"))
                 }
             }

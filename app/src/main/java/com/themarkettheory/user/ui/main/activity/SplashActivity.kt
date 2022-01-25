@@ -437,29 +437,37 @@ class SplashActivity : BaseActivity() {
         Config.myRoomDatabase = MyRoomDatabase.getDB(this@SplashActivity)!!
         val isDashboard = myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbIsDashboard)
         Log.e("SPles",gson.toJson(prefs.getLoginModel()))
-        myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (prefs.getLoginModel().emailVerified == 0) {
-                startActivity(Intent(this, SigninActivity::class.java))
-            } else if (prefs.getLoginModel().emailVerified == 1 &&
-                prefs.getLoginModel().mobileVerified == 0
-            ) {
-                startActivity(Intent(this, VerifyOtpActivity::class.java))
-            } else if (prefs.getLoginModel().emailVerified == 1 &&
-                prefs.getLoginModel().mobileVerified == 1 &&
-                prefs.getLoginModel().zip.isEmpty()
-            ) {
-                startActivity(Intent(this, ProfileActivity::class.java))
-            } else if (prefs.getLoginModel().emailVerified == 1 &&
-                prefs.getLoginModel().mobileVerified == 1 &&
-                prefs.getLoginModel().zip.isNotEmpty() && isDashboard == "false"
-            ) {
-                startActivity(Intent(this, CitySelectionActivity::class.java))
-            } else {
-                startActivity(Intent(this, CitySelectionActivity::class.java))
-            }
-            finish()
-        }, 1000)
+        val selectNavigates = myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+        Log.e("SPles", selectNavigates.toString())
+
+        if(selectNavigates != Config.editProfileActivity) {
+            myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (prefs.getLoginModel().emailVerified == 0) {
+                    startActivity(Intent(this, SigninActivity::class.java))
+                } else if (prefs.getLoginModel().emailVerified == 1 &&
+                    prefs.getLoginModel().mobileVerified == 0
+                ) {
+                    startActivity(Intent(this, VerifyOtpActivity::class.java))
+                } else if (prefs.getLoginModel().emailVerified == 1 &&
+                    prefs.getLoginModel().mobileVerified == 1 &&
+                    prefs.getLoginModel().zip.isEmpty()
+                ) {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                } else if (prefs.getLoginModel().emailVerified == 1 &&
+                    prefs.getLoginModel().mobileVerified == 1 &&
+                    prefs.getLoginModel().zip.isNotEmpty() && isDashboard == "false"
+                ) {
+                    startActivity(Intent(this, CitySelectionActivity::class.java))
+                } else {
+                    startActivity(Intent(this, CitySelectionActivity::class.java))
+                }
+                finish()
+            }, 1000)
+        }else{
+            startActivity(Intent(this, CitySelectionActivity::class.java))
+        }
+
     }
 }

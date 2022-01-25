@@ -48,7 +48,6 @@ import com.themarkettheory.user.ui.main.adapter.LocalityListAdapter
 import com.themarkettheory.user.viewmodel.AddressViewModel
 import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.activity_city_selection.*
-import kotlinx.android.synthetic.main.activity_city_selection.rvRecent
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.row_my_cart.*
 import java.util.*
@@ -304,9 +303,48 @@ class CitySelectionActivity : BaseActivity(), View.OnClickListener {
                         }
                         //endregion
                     }
+                    //verify check
+                    if (prefs.getLoginModel().mobileVerified == 0) {
+                        editProfile("Please verify your account by phone")
+                    }
+
                 }
             }
         })
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun editProfile(msg: String) {
+        try {
+            val myDialog = DialogToast(this@CitySelectionActivity)
+            myDialog.show()
+            myDialog.holder?.let {
+                it.tvTitle.text = getString(R.string.edit_profile)
+                it.tvMessage.text = msg
+                it.btnDialogCancel.visibility = View.GONE
+                it.btnDialogLogout.text = "OK"
+                it.btnDialogLogout.visibility = View.GONE
+                var i = Config.autoDialogDismissTimeInSec
+                it.btnDialogLogout.post(object : Runnable {
+                    override fun run() {
+                        if (i == 0) {
+                            myDialog.dismiss()
+                            startActivity(
+                                Intent(
+                                    this@CitySelectionActivity,
+                                    EditProfileActivity::class.java
+                                ).putExtra("citySelection", "Yes")
+                            )
+                        } else {
+                            i--
+                            it.btnDialogLogout.postDelayed(this, 1000)
+                        }
+                    }
+                })
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun showMsgDialogAndProceed(msg: String) {

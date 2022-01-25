@@ -3,7 +3,6 @@ package com.themarkettheory.user.ui.main.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
 import android.util.Log
 import android.util.Patterns
 import android.view.View
@@ -80,10 +79,39 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
 //            getProfileResponse()
             setProfileInfo()
-            myRoomDatabase.daoConfig().apply {
-                deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+            if (!intent.hasExtra("citySelection")) {
+
+                myRoomDatabase.daoConfig().apply {
+                    deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+                }
             }
 
+            if (intent.hasExtra("citySelection")) {
+                profileViewModel.profileNew()
+                profileViewModel.responseGetProfileNew.observe(this, {
+                    try {
+                        when (it.status) {
+                            0 -> showMsgDialogAndProceed(it.message!!.trim())
+                            1 -> refreshDataLogin(it)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                })
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun refreshDataLogin(res: NewLoginResponse) {
+        try {
+            Log.e("LOGIN RES", gson.toJson(res))
+            myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbNewLoginRes)
+            myRoomDatabase.daoConfig()
+                .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(res)))
+            setProfileInfo()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -120,24 +148,18 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             edEditProfileEmail.setText(loginRes.data!!.email.trim())
             edEditProfileMobileNo.setText(loginRes.data!!.mobile.trim())
 
-
             if (strUser != null)
                 edEditProfileFullName.setText(strUser)
 
+            if(loginRes.data!!.name.isNotEmpty())
+                edEditProfileFullName.setText(loginRes.data!!.name)
+
             edEditProfileZipEdit.setText(pincode)
-            //edEditProfileZipEdit.setText(loginRes.data!!.zip.trim())
 
-//            if (loginRes.data!!.dob != null) {
-//                edEditProfileDob.setText(
-//                    PubFun.parseDate(
-//                        loginRes.data!!.dob.trim(),
-//                        Config.requestDateFormat,
-//                        Config.defaultDateFormat
-//                    )
-//                )
-//            }
+            if(loginRes.data!!.zip.isNotEmpty())
+                edEditProfileZipEdit.setText(loginRes.data!!.zip)
 
-            if (loginRes.data!!.dob != null) {
+            if (loginRes.data!!.dob.isNotEmpty()) {
                 edEditProfileDob.setText(
                     PubFun.parseDate(
                         loginRes.data!!.dob.trim(),
@@ -182,12 +204,13 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                     }
                 })
             }
+
             //endregion
             // setting gender
             gender = loginRes.data!!.gender.toString()
 
 
-            if (gender==null)
+            if (gender == null)
                 llFemalEdit.background =
                     ContextCompat.getDrawable(this, R.drawable.ic_gender_disable_bg)
             else
@@ -198,7 +221,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             if (loginRes.data!!.gender.equals(1))
                 llMaleEdit.background =
                     ContextCompat.getDrawable(this, R.drawable.ic_gender_enable_bg)
-            else if(loginRes.data!!.gender.equals(2))
+            else if (loginRes.data!!.gender.equals(2))
                 llFemalEdit.background =
                     ContextCompat.getDrawable(this, R.drawable.ic_gender_enable_bg)
 
@@ -236,7 +259,6 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         if (myRoomDatabase.daoConfig()
                 .selectConfigTableByField(Config.dbVerifyOTPNavigatesFrom) == Config.editProfileActivityVerify
         ) {
-            myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
             Log.e("Called", "OnResume")
             profileViewModel.checkStatusForAccount()
         }
@@ -249,32 +271,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             myRoomDatabase.daoConfig()
                 .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(res)))
             Log.e("checkAccountStatus", gson.toJson(res))
-
-            //    Toast.makeText(this, res.message.trim(), Toast.LENGTH_LONG).show()
-            if (res.data != null) {
-                prefs.setLoginModel(res.data)
-
-                if (res.data.mobileVerified == 0 || res.data.emailVerified == 0) {
-                    myRoomDatabase.daoConfig().apply {
-                        deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
-                        insertConfigTable(
-                            TableConfig(
-                                Config.dbVerifyOTPNavigatesFrom,
-                                Config.editProfileActivity
-                            )
-                        )
-                    }
-                    startActivity(
-                        Intent(
-                            this@EditProfileActivity,
-                            VerifyOtpActivity::class.java
-                        ).putExtra("editProfile", "Yes")
-                    )
-                } else {
-                    Log.e("Perform", "checkAccountStaus")
-                    onBackPressed()
-                }
-            }
+            showMsgDialogAndProceed(res, "", false, 101)
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -288,7 +285,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             myRoomDatabase.daoConfig()
                 .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(res)))
 
-            showMsgDialogAndProceed(res,"",false,100)
+            showMsgDialogAndProceed(res, "", false, 100)
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -415,13 +412,51 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                                                 prefs.setLoginModel(res.data)
                                                 if (res.data.mobileVerified == 0) {
                                                     Log.e("editAfter", gson.toJson(res.data))
-                                                    profileViewModel.checkStatusForAccount()
+                                                    //profileViewModel.checkStatusForAccount()
+                                                    myRoomDatabase.daoConfig().apply {
+                                                        deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+                                                        insertConfigTable(
+                                                            TableConfig(
+                                                                Config.dbVerifyOTPNavigatesFrom,
+                                                                Config.editProfileActivity
+                                                            )
+                                                        )
+                                                    }
+                                                    startActivity(
+                                                        Intent(
+                                                            this@EditProfileActivity,
+                                                            VerifyOtpActivity::class.java
+                                                        ).putExtra("editProfile", "Yes")
+                                                    )
                                                 } else {
                                                     ivBack.performClick()
                                                 }
                                             }
                                         } else if (code == 101) {
+                                            if (res.data != null) {
+                                                prefs.setLoginModel(res.data)
 
+                                                if (res.data.mobileVerified == 0 || res.data.emailVerified == 0) {
+                                                    myRoomDatabase.daoConfig().apply {
+                                                        deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+                                                        insertConfigTable(
+                                                            TableConfig(
+                                                                Config.dbVerifyOTPNavigatesFrom,
+                                                                Config.editProfileActivity
+                                                            )
+                                                        )
+                                                    }
+                                                    startActivity(
+                                                        Intent(
+                                                            this@EditProfileActivity,
+                                                            VerifyOtpActivity::class.java
+                                                        ).putExtra("editProfile", "Yes")
+                                                    )
+                                                } else {
+                                                    Log.e("Perform", "checkAccountStaus")
+                                                    onBackPressed()
+                                                }
+                                            }
                                         }
                                     }
                                 }
