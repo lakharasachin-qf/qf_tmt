@@ -123,7 +123,7 @@ class RestaurantMenuFragment : Fragment(), View.OnClickListener {
     private fun callMenuApi() {
         try {
             if (PubFun.isInternetConnection(requireActivity())) {
-                vendorDetailViewModel.menus(Config.vendorDetailServiceId)
+                vendorDetailViewModel.menusNew(Config.vendorDetailServiceId, bookingId)
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
             }

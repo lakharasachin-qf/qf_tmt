@@ -287,6 +287,13 @@ interface ApiService {
     ): Observable<NewMenuListRes>
 
     @FormUrlEncoded
+    @POST("menu_list")
+    fun menusNew(
+        @Field("id") id: String?,
+        @Field("booking_id") booking_id: String?
+    ): Observable<NewMenuListRes>
+
+    @FormUrlEncoded
     @POST("menus")
     fun retail_menus(
         @Field("id") id: String?

@@ -207,6 +207,7 @@ class VendorDetailViewModel(application: Application) : BaseViewModel(applicatio
             }, { error -> isLoading.value = false })
     }
 
+
     fun review(id: String?) {
         isLoading.value = true
         disposable = apiService
@@ -224,6 +225,17 @@ class VendorDetailViewModel(application: Application) : BaseViewModel(applicatio
         isLoading.value = true
         disposable = apiService
             .menus(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ result ->
+                responseGetMenus.value = result
+                isLoading.value = false
+            }, { error -> isLoading.value = false })
+    }
+    fun menusNew(id: String?,booking_id: String?) {
+        isLoading.value = true
+        disposable = apiService
+            .menusNew(id,booking_id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result ->
