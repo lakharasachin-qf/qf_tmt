@@ -67,8 +67,8 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
     private val strRecommendedByTMTValue = "1"
     private val strRatingHighToLowValue = "2"
     private val strMostFavoriteValue = "3"
-    private val strNearByValue = "4"
-    private val strAscendingValue = "5"
+    private val strAscendingValue = "4"
+    private val strNearByValue = "5"
 
     //Restaurant Type
     private val strRecommendedType = "1"
