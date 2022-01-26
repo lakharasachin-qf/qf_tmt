@@ -141,7 +141,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                     Log.e("MyTableBookingActivity notification_type:", notification_type.toString())
                     Log.e("ON Activity message:", message.toString())
                     if (message != null) {
-                        if (intent.getStringExtra("notification_type").equals("8")) {
+                        if (intent.getStringExtra("notification_type")!! == "8") {
                             // BOOKING_ACCEPT
                             tvMyTableBookingDetailStatus.text = "Approved"
                             tvMyTableBookingDetailStatus.setTextColor(
@@ -153,7 +153,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                             btnMyTableBookingDetailPreOrder.visibility = View.VISIBLE
 
                         }
-                        if (intent.getStringExtra("notification_type").equals("4")) {
+                        if (intent.getStringExtra("notification_type")!! == "4") {
                             //  BOOKING_REJECT
                             tvMyTableBookingDetailStatus.text = "Declined"
                             tvMyTableBookingDetailStatus.setTextColor(

@@ -233,7 +233,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 )
             Log.e("TableBBB0", gson.toJson(newBookingDetailsRes.data))
             //Getting booking Id
-            bookingId = newBookingDetailsRes.data!!.order_id!!.toString().trim()
+            bookingId = newBookingDetailsRes.data!!.id!!.toString().trim()
 
             //doing table section hidden
             clMyBucketTable.visibility =
@@ -524,7 +524,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         subTotal.toString(),
                         totalAmt.toString(),
                         "",
-                        "payment_id",  //paymentData.paymentId.toString(),
+                        "payment_id",//paymentData.paymentId.toString()
                         totalPoints.toString(),
                         edMyBucketSpecialInstaruction.text.toString().trim(),
                         currentTimess,
@@ -739,7 +739,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     bucketDataList.add(bucketCartRes)
                 }
 
-                if(res.data!!.couponData.couponCode!!.isNotEmpty()) {
+                if (res.data!!.couponData.couponCode!!.isNotEmpty()) {
                     Config.isCouponRedeem = false
                     Config.getSelectedCouponCode = res.data!!.couponData.couponCode!!.trim()
                     Config.isCouponDiscountType = res.data!!.couponData.discountType!!
@@ -834,7 +834,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 totalPoints += bucketDataList[i].qty * bucketDataList[i].point
             }
 
-            totalTax += (subTotal * bucketDataList[0].tax   ) / 100
+            totalTax += (subTotal * bucketDataList[0].tax) / 100
 
 
             /* if (Config.isCouponApplied) {
@@ -866,7 +866,10 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 for (obj in serviceDetails.offers!!) {
                     //Log.e("coupon-list", bucketDataList[i].offerCouponCode.toString())
                     if (obj.couponCode != null) {
-                        if (obj.couponCode!!.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(Locale.getDefault())) {
+                        if (obj.couponCode!!.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(
+                                Locale.getDefault()
+                            )
+                        ) {
                             val discountAmt = obj.discountAmount
                             Log.e("coupon discount", "{$discountAmt}")
                             if (discountAmt != null) {

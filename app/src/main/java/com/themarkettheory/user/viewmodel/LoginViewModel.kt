@@ -24,7 +24,7 @@ class LoginViewModel(application: Application) : BaseViewModel(application) {
         device_type: String,
         device_token: String
     ) {
-        Log.e("login data",email)
+        Log.e("email",email)
         Log.e("password",password)
         Log.e("login_via",login_via)
         Log.e("device_type",device_type)

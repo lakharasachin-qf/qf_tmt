@@ -110,11 +110,11 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                 return@addOnCompleteListener
             }
 
-            var token = task.result.trim().toString();
-            Log.e("getInstanceId failed", "getInstanceId  "+task.result.trim()  )
+            var token = task.result.trim().toString()
+            Log.e("getInstanceId failed", "getInstanceId  "+task.result.trim())
             prefs.setToken(this, task.result.trim())
 
-            prefs.setToken(this, "test_android")
+         //   prefs.setToken(this, "test_android")
 
         }
 
@@ -154,7 +154,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
 
         myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbSocialLogin)
         myRoomDatabase.daoConfig().deleteConfigTableByField(Config.email)
-        mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
         if (mGoogleSignInClient != null) {
             myRoomDatabase.daoConfig().deleteConfigTableByField(Config.email)
         }
@@ -650,8 +650,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                 if (PubFun.isInternetConnection(this@SigninActivity)) {
                     Config.isLoginWithSocialButton = false
                     Config.isLoginWithSocialName = Constants.loginViaNormal
-                    myRoomDatabase.daoConfig()
-                        .deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+                    myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
                     myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbSocialLogin)
                     myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPEmail)
                     Firebase.auth.signOut()

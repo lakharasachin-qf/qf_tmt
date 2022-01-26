@@ -2,9 +2,11 @@ package com.themarkettheory.user.ui.coupon
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -63,6 +65,13 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
             ivCouponLocationBottomBar.setOnClickListener(this)
             lylCouponEventBottomBar.setOnClickListener(this)
             lylCouponMenuBottomBar.setOnClickListener(this)
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+                etCouponApply.clearFocus()
+            }
+            this.getWindow()
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+
+            PubFun.hideKeyboard(this@CouponActivity)
 
             lylCouponBottomBar.visibility =
                 if (Config.isMyCouponClickedFromHome) View.GONE else View.VISIBLE
@@ -84,6 +93,9 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+
+        //etCouponApply.clearFocus()
+        //PubFun.hideKeyboard(this@CouponActivity)
         try {
             Config.isEventMoveToback = false
             if (Config.isCouponRedeem) {
@@ -410,7 +422,7 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
                             tvCouponApplyResponse.text = it.message!!.trim()
                             Config.isCouponApplied = it.isValid!! == 1
                             Log.e("CheckNowCoupon", Config.isCouponApplied.toString())
-                            if(Config.isCouponOpeningFromBucket){
+                            if (Config.isCouponOpeningFromBucket) {
                                 onBackPressed()
                             }
                         }
