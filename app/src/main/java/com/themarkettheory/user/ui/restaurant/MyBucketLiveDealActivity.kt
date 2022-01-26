@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -402,101 +403,105 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     @SuppressLint("SetTextI18n")
     private fun populateLiveDealBucket(res: GetCartNewRes) {
         try {
+            Log.e("API-DATa", gson.toJson(res))
             /*Razorpay Currency String*/
-            razorPayCurrentStr = res.data!!.serviceDetails!!.currencyStr!!.trim()
+            if (res.data != null) {
 
-            /*Vendor Title*/
-            tvLiveDealBucketVendorTitle.text = res.data!!.serviceDetails!!.title!!.trim()
+                razorPayCurrentStr = res.data!!.serviceDetails!!.currencyStr!!.trim()
 
-            /*Vendor Address*/
-            tvLiveDealBucketVendorAddress.text = res.data!!.serviceDetails!!.address!!.trim()
+                /*Vendor Title*/
+                tvLiveDealBucketVendorTitle.text = res.data!!.serviceDetails!!.title!!.trim()
 
-            /*My Cart Count*/
-            tvLiveDealBucketCartItemCount.text =
-                "My Cart (${res.data!!.list!!.size} ${if (res.data!!.list!!.size == 1) "Item" else "Items"})"
+                /*Vendor Address*/
+                tvLiveDealBucketVendorAddress.text = res.data!!.serviceDetails!!.address!!.trim()
 
-            //region RecyclerView and Adapter
-            val listener = object : ListClickListenerCart {
-                override fun onClickListener(
-                    view: View,
-                    pos: Int,
-                    objects: Any,
-                    isItemAdded: Boolean
-                ) {
-                    try {
-                        cartListRowData = objects as CartList
-                        cartListRowPosition = pos
+                /*My Cart Count*/
+                tvLiveDealBucketCartItemCount.text =
+                    "My Cart (${res.data!!.list!!.size} ${if (res.data!!.list!!.size == 1) "Item" else "Items"})"
 
-                        if (cartListRowData.qty!! > 0) {
-                            callAddMenuCart(cartListRowData.qty.toString().trim())
-                        } else {
-                            callAddMenuCart("0")
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-            liveDealBucketNewAdapter =
-                LiveDealBucketNewAdapter(this@MyBucketLiveDealActivity, listener)
-            rvLiveDealBucket.apply {
-                layoutManager = LinearLayoutManager(this@MyBucketLiveDealActivity)
-                adapter = liveDealBucketNewAdapter
-            }
-            cartArrayList = res.data!!.list!! as ArrayList<CartList>
-            liveDealBucketNewAdapter.addLiveDealCart(cartArrayList)
-            calculateFooterSection()
-            //endregion
+                //region RecyclerView and Adapter
+                val listener = object : ListClickListenerCart {
+                    override fun onClickListener(
+                        view: View,
+                        pos: Int,
+                        objects: Any,
+                        isItemAdded: Boolean
+                    ) {
+                        try {
+                            cartListRowData = objects as CartList
+                            cartListRowPosition = pos
 
-            //region Radio Group Selection
-            with(radioGroupLiveDealBucket) {
-                this.setOnCheckedChangeListener { group, checkedId ->
-                    when (checkedId) {
-                        R.id.rbLiveDealBucketSchedulePickup -> {
-                            ivLiveDealBucketClock.visibility = View.VISIBLE
-                            tvLiveDealBucketPickUpTime.visibility = View.VISIBLE
-                        }
-                        else -> {
-                            ivLiveDealBucketClock.visibility = View.GONE
-                            tvLiveDealBucketPickUpTime.visibility = View.GONE
-                            callApiForPickUpType(pickUpNow, "")
+                            if (cartListRowData.qty!! > 0) {
+                                callAddMenuCart(cartListRowData.qty.toString().trim())
+                            } else {
+                                callAddMenuCart("0")
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
                     }
                 }
-            }
+                liveDealBucketNewAdapter =
+                    LiveDealBucketNewAdapter(this@MyBucketLiveDealActivity, listener)
+                rvLiveDealBucket.apply {
+                    layoutManager = LinearLayoutManager(this@MyBucketLiveDealActivity)
+                    adapter = liveDealBucketNewAdapter
+                }
+                cartArrayList = res.data!!.list!! as ArrayList<CartList>
+                liveDealBucketNewAdapter.addLiveDealCart(cartArrayList)
+                calculateFooterSection()
+                //endregion
 
-            radioGroupLiveDealBucket.apply {
-                check(
-                    getChildAt(
-                        if (res.data!!.booking!!.type!!.lowercase(Locale.getDefault()) == pickupNowType
-                            || res.data!!.booking!!.type!!.isEmpty()
-                        )
-                            1 else 0
-                    ).id
-                )
-            }
-            //endregion
+                //region Radio Group Selection
+                with(radioGroupLiveDealBucket) {
+                    this.setOnCheckedChangeListener { group, checkedId ->
+                        when (checkedId) {
+                            R.id.rbLiveDealBucketSchedulePickup -> {
+                                ivLiveDealBucketClock.visibility = View.VISIBLE
+                                tvLiveDealBucketPickUpTime.visibility = View.VISIBLE
+                            }
+                            else -> {
+                                ivLiveDealBucketClock.visibility = View.GONE
+                                tvLiveDealBucketPickUpTime.visibility = View.GONE
+                                callApiForPickUpType(pickUpNow, "")
+                            }
+                        }
+                    }
+                }
 
-            /*Adding 30 min+ if radio type selection is pickup now */
-            if (res.data!!.booking!!.type!!.lowercase(Locale.getDefault()) == pickupNowType) {
-                add30MinutesToCurrentTime()
-            } else {
-                tvLiveDealBucketPickUpTime.text =
-                    PubFun.parseDate(
-                        res.data!!.booking!!.bookingTime!!.trim(),
-                        Config.requestTimeFormat,
-                        Config.defaultTimeFormat
+                radioGroupLiveDealBucket.apply {
+                    check(
+                        getChildAt(
+                            if (res.data!!.booking!!.type!!.lowercase(Locale.getDefault()) == pickupNowType
+                                || res.data!!.booking!!.type!!.isEmpty()
+                            )
+                                1 else 0
+                        ).id
                     )
-                callApiForPickUpType(
-                    schedulePickUp,
-                    tvLiveDealBucketPickUpTime.text.toString().trim()
+                }
+                //endregion
+
+                /*Adding 30 min+ if radio type selection is pickup now */
+                if (res.data!!.booking!!.type!!.lowercase(Locale.getDefault()) == pickupNowType) {
+                    add30MinutesToCurrentTime()
+                } else {
+                    tvLiveDealBucketPickUpTime.text =
+                        PubFun.parseDate(
+                            res.data!!.booking!!.bookingTime!!.trim(),
+                            Config.requestTimeFormat,
+                            Config.defaultTimeFormat
+                        )
+                    callApiForPickUpType(
+                        schedulePickUp,
+                        tvLiveDealBucketPickUpTime.text.toString().trim()
+                    )
+                }
+
+                /*Special Instruction*/
+                edLiveDealBucketSpecialInstruction.setText(
+                    res.data!!.booking!!.specialInstruction!!.trim()
                 )
             }
-
-            /*Special Instruction*/
-            edLiveDealBucketSpecialInstruction.setText(
-                res.data!!.booking!!.specialInstruction!!.trim()
-            )
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -514,8 +519,10 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                 subTotal += cartArrayList[i].qty!!.toDouble() * cartArrayList[i].menu!!.finalPrice!!
 
                 /*Total Tax*/
-                totalTax += (subTotal * cartArrayList[i].menu!!.tax!!.toDouble())
+              //  totalTax += (subTotal * cartArrayList[i].menu!!.tax!!.toDouble())
             }
+            totalTax += (subTotal * cartArrayList[0].menu!!.tax!!.toDouble()) / 100
+
 
             /*Sub Total*/
             tvLiveDealBucketSubTotal.text = cartArrayList[0].menu!!.currency!!.trim() +

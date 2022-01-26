@@ -190,7 +190,8 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     private fun callServiceDetail() {
         try {
             if (PubFun.isInternetConnection(this@MyBucketActivity)) {
-                if (!Config.isPreOrder) { //if pre order is false then only call this API
+                if (!Config.isPreOrder) {
+                    //if pre order is false then only call this API
                     vendorDetailViewModel.service_details(Config.vendorDetailServiceId)
                 } else {
                     tvDiningIn.visibility = View.GONE
@@ -380,12 +381,15 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
         btnMyBucketCartConfirmYourOrder.setOnClickListener(this)
 
         val runnableEditText = Runnable {
-            if (System.currentTimeMillis() > ((lastEditText + delay) - 500)) {
-                callApiForSpecialInstruction(
-                    "0",
-                    edMyBucketSpecialInstaruction.text.toString().trim()
-                )
-            }
+            //if (Config.isMenuFragmentComingFrom != Config.isMenuFragmentComingFromBookingTable) {
+
+                if (System.currentTimeMillis() > ((lastEditText + delay) - 500)) {
+                    callApiForSpecialInstruction(
+                        "0",
+                        edMyBucketSpecialInstaruction.text.toString().trim()
+                    )
+                }
+            //}
         }
         edMyBucketSpecialInstaruction.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -475,6 +479,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     private fun callApiForSpecialInstruction(bookingID: String, specialInstructionMsg: String) {
         try {
             if (PubFun.isInternetConnection(this)) {
+                Log.e("Speical","Request")
                 cartViewModel.special_request(bookingID, specialInstructionMsg, "0", 0)
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
@@ -581,54 +586,60 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     //Service Name
                     serviceName = res.data!!.serviceDetails!!.title!!.trim()
                 }
-                // setting up special instruction
-                edMyBucketSpecialInstaruction.setText(
-                    res.data!!.booking!!.specialInstruction!!.toString().trim()
-                )
-                // setting up radio group selection
-                radioGroup?.apply {
-                    check(
-                        getChildAt(
-                            if (res.data!!.booking!!.type!!.toString()
-                                    .lowercase(Locale.getDefault()) == pickupNowType
-                            ) 1 else 0
-                        ).id
-                    )
-                }
+
 
                 //tvCouponDiscount.text = res.data!!.couponData!!.discountAmount.toString()
                 // setting time +30 if pickup type is pickup now
-                if (res.data!!.booking!!.type!!.toString()
-                        .lowercase(Locale.getDefault()) == pickupNowType
-                ) {
-                    //add30MinutesToCurrentTime()
-                    selectedIndex = 1
-                    callApiForPickUpType("PICKUP_NOW", "")
+                if (Config.isMenuFragmentComingFrom != Config.isMenuFragmentComingFromBookingTable) {
+                    // setting up special instruction
+                    edMyBucketSpecialInstaruction.setText(
+                        res.data!!.booking!!.specialInstruction!!.toString().trim()
+                    )
 
-                } else {
-                    // setting up booking time
-                    if (res.data!!.booking!!.bookingTime!!.isNotEmpty()) {
-                        tvMyBucketPickUpTime.text = PubFun.parseDate(
-                            res.data!!.booking!!.bookingTime!!,
-                            Config.requestTimeFormat,
-                            Config.defaultTimeFormat
-                        )
-                        callApiForPickUpType(
-                            "SCHEDULE_PICKUP", PubFun.parseDate(
-                                tvMyBucketPickUpTime.text.toString(),
-                                Config.defaultTimeFormat,
-                                Config.requestTimeFormat
-                            ).toString()
-                        )
-                        // tvMyBucketPickUpTime.text.toString().trim()
-
-                    } else {
-                        callApiForPickUpType(
-                            "SCHEDULE_PICKUP",
-                            ""
+                    // setting up radio group selection
+                    radioGroup?.apply {
+                        check(
+                            getChildAt(
+                                if (res.data!!.booking!!.type!!.toString()
+                                        .lowercase(Locale.getDefault()) == pickupNowType
+                                ) 1 else 0
+                            ).id
                         )
                     }
-                    selectedIndex = 0
+
+            Log.e("30+","yes")
+                    if (res.data!!.booking!!.type!!.toString()
+                            .lowercase(Locale.getDefault()) == pickupNowType
+                    ) {
+                        //add30MinutesToCurrentTime()
+                        selectedIndex = 1
+                        callApiForPickUpType("PICKUP_NOW", "")
+
+                    } else {
+                        // setting up booking time
+                        if (res.data!!.booking!!.bookingTime!!.isNotEmpty()) {
+                            tvMyBucketPickUpTime.text = PubFun.parseDate(
+                                res.data!!.booking!!.bookingTime!!,
+                                Config.requestTimeFormat,
+                                Config.defaultTimeFormat
+                            )
+                            callApiForPickUpType(
+                                "SCHEDULE_PICKUP", PubFun.parseDate(
+                                    tvMyBucketPickUpTime.text.toString(),
+                                    Config.defaultTimeFormat,
+                                    Config.requestTimeFormat
+                                ).toString()
+                            )
+                            // tvMyBucketPickUpTime.text.toString().trim()
+
+                        } else {
+                            callApiForPickUpType(
+                                "SCHEDULE_PICKUP",
+                                ""
+                            )
+                        }
+                        selectedIndex = 0
+                    }
                 }
                 //recycler view
                 val listener = object : ListClickListenerCart {
@@ -837,30 +848,6 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             totalTax += (subTotal * bucketDataList[0].tax) / 100
 
 
-            /* if (Config.isCouponApplied) {
-                Log.e("coupon discountsss", bucketDataList[0].offerDiscountAmount.toString())
-                coupon@ for (i in bucketDataList.indices) {
-
-//                    val discountAmt = bucketDataList[i].offerDiscountAmount
-//                    Log.e("coupon discount", "{$discountAmt}")
-                    if (bucketDataList[i].offerCouponCode.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(Locale.getDefault()))
-                    {
-                    if (bucketDataList[i].offerCouponCode.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(
-                            Locale.getDefault()
-                        )
-                    ) {
-                        val discountAmt = bucketDataList[i].offerDiscountAmount
-                        Log.e("coupon discount", "{$discountAmt}")
-                        discountCouponTotal = when (bucketDataList[i].offerDiscountType) {
-                            couponPercentage -> (subTotal * discountAmt) / 100
-                            couponFlat -> discountAmt.toDouble()
-                            else -> if (Config.isCouponBuyGetSelected) discountCouponTotal else 0.0
-                        }
-                        break@coupon
-                    }
-                }
-            }
-           */
             //region Check for discounted coupon if any
             if (Config.isCouponApplied) {
                 for (obj in serviceDetails.offers!!) {
