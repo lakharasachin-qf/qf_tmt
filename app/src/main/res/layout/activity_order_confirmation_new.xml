@@ -30,7 +30,7 @@
         android:fitsSystemWindows="true"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_cancel_new"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmation" />

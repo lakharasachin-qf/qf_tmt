@@ -356,13 +356,13 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                             if (i == 0) {
                                 myDialog.dismiss()
                                 if (isOrderAccepted) {
-                                    ivOrderConfirmationCross.visibility = View.VISIBLE
+                                   // ivOrderConfirmationCross.visibility = View.VISIBLE
                                     btnOrderInvite.visibility = View.VISIBLE
                                     shareIcon.visibility = View.VISIBLE
                                     tvConfirmationText.visibility = View.GONE
                                     pbOrderConfirmation.visibility = View.GONE
                                 } else {
-                                    ivOrderConfirmationCross.visibility = View.VISIBLE
+                                   // ivOrderConfirmationCross.visibility = View.VISIBLE
                                     tvConfirmationText.visibility = View.GONE
                                     pbOrderConfirmation.visibility = View.GONE
                                 }

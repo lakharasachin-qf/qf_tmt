@@ -261,6 +261,18 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
         // requesting api for cart detail
         callGetCart(bookingId.toInt())
 
+//        //Loader
+        cartViewModel.isLoading.observe(this, {
+            try {
+                if (it!!) {
+                    Utils.showProgress(this@MyBucketActivity)
+                } else {
+                    Utils.hideProgress(this@MyBucketActivity)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        })
         //api response for cart details
         cartViewModel.responseGetCartNew.observe(this, {
             when (it.status!!) {
@@ -326,7 +338,14 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         tvMyBucketPickUpTime.visibility = View.VISIBLE
                         tvMyBucketPickUpTime.text = "Select Schedule Time"
                         selectedIndex = 0
-                        callApiForPickUpType("SCHEDULE_PICKUP", "")
+//                        if (tvMyBucketPickUpTime.text.toString() != "Select Schedule Time")
+//                            callApiForPickUpType(
+//                                "SCHEDULE_PICKUP", PubFun.parseDate(
+//                                    tvMyBucketPickUpTime.text.toString(),
+//                                    Config.defaultTimeFormat,
+//                                    Config.requestTimeFormat
+//                                ).toString()
+//                            )
 
                     }
                     R.id.rbPickupNow -> {
@@ -383,12 +402,12 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
         val runnableEditText = Runnable {
             //if (Config.isMenuFragmentComingFrom != Config.isMenuFragmentComingFromBookingTable) {
 
-                if (System.currentTimeMillis() > ((lastEditText + delay) - 500)) {
-                    callApiForSpecialInstruction(
-                        "0",
-                        edMyBucketSpecialInstaruction.text.toString().trim()
-                    )
-                }
+            if (System.currentTimeMillis() > ((lastEditText + delay) - 500)) {
+                callApiForSpecialInstruction(
+                    "0",
+                    edMyBucketSpecialInstaruction.text.toString().trim()
+                )
+            }
             //}
         }
         edMyBucketSpecialInstaruction.addTextChangedListener(object : TextWatcher {
@@ -479,7 +498,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     private fun callApiForSpecialInstruction(bookingID: String, specialInstructionMsg: String) {
         try {
             if (PubFun.isInternetConnection(this)) {
-                Log.e("Speical","Request")
+                Log.e("Speical", "Request")
                 cartViewModel.special_request(bookingID, specialInstructionMsg, "0", 0)
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
@@ -529,7 +548,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         subTotal.toString(),
                         totalAmt.toString(),
                         "",
-                        "payment_id",//paymentData.paymentId.toString()
+                        paymentData.paymentId.toString(), //"payment_id",
                         totalPoints.toString(),
                         edMyBucketSpecialInstaruction.text.toString().trim(),
                         currentTimess,
@@ -568,6 +587,8 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             Log.e("populateCartDetails", "populateCartDetails");
             Log.e("Cart Data", gson.toJson(res))
             if (res.data != null) {
+
+
                 //restaurant id
                 if (res.data!!.serviceDetails != null) {
                     Config.vendorDetailServiceId = res.data!!.serviceDetails!!.id!!.toString()
@@ -607,7 +628,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         )
                     }
 
-            Log.e("30+","yes")
+                    Log.e("30+", "yes")
                     if (res.data!!.booking!!.type!!.toString()
                             .lowercase(Locale.getDefault()) == pickupNowType
                     ) {
@@ -633,10 +654,10 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                             // tvMyBucketPickUpTime.text.toString().trim()
 
                         } else {
-                            callApiForPickUpType(
-                                "SCHEDULE_PICKUP",
-                                ""
-                            )
+//                            callApiForPickUpType(
+//                                "SCHEDULE_PICKUP",
+//                                ""
+//                            )
                         }
                         selectedIndex = 0
                     }

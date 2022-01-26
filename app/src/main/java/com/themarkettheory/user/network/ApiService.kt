@@ -49,8 +49,10 @@ import retrofit2.Call
 interface ApiService {
 
     companion object {
-        // var BASE_URL = "https://dev.themarkettheory.com/api/"
-        var BASE_URL = "https://themarkettheory.com/api/v1/"
+        // var BASE_URL = "https://dev.themarkettheory.com/api/" //Development
+        //var BASE_URL = "https://themarkettheory.com/api/v1/" //Live
+
+        var BASE_URL = "https://themarkettheory.com/api/user/v1/" //new Test Url
 
         fun create(token: String?): ApiService {
             val client = OkHttpClient.Builder()
@@ -61,9 +63,9 @@ interface ApiService {
                         Log.e("Authorization", "Bearer $token")
                         val builder = chain.request().newBuilder()
                         if (token != null) {
-                            if(token.isNotEmpty())
+                            if (token.isNotEmpty())
                                 builder.addHeader("Authorization", "Bearer $token")
-                                //builder.addHeader("Content-type","application/json")
+                            //builder.addHeader("Content-type","application/json")
                         }
                         val newRequest = builder.build()
                         return chain.proceed(newRequest)

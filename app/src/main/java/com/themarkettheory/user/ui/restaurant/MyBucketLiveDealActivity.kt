@@ -483,18 +483,23 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
 
                 /*Adding 30 min+ if radio type selection is pickup now */
                 if (res.data!!.booking!!.type!!.lowercase(Locale.getDefault()) == pickupNowType) {
-                    add30MinutesToCurrentTime()
+                    // add30MinutesToCurrentTime()
+                    callApiForPickUpType("PICKUP_NOW", "")
                 } else {
-                    tvLiveDealBucketPickUpTime.text =
-                        PubFun.parseDate(
-                            res.data!!.booking!!.bookingTime!!.trim(),
-                            Config.requestTimeFormat,
-                            Config.defaultTimeFormat
+                    if (res.data!!.booking!!.bookingTime!!.isNotEmpty()) {
+                        tvLiveDealBucketPickUpTime.text =
+                            PubFun.parseDate(
+                                res.data!!.booking!!.bookingTime!!.trim(),
+                                Config.requestTimeFormat,
+                                Config.defaultTimeFormat
+                            )
+                        callApiForPickUpType(
+                            schedulePickUp,
+                            tvLiveDealBucketPickUpTime.text.toString().trim()
                         )
-                    callApiForPickUpType(
-                        schedulePickUp,
-                        tvLiveDealBucketPickUpTime.text.toString().trim()
-                    )
+                    } else {
+
+                    }
                 }
 
                 /*Special Instruction*/
@@ -519,7 +524,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                 subTotal += cartArrayList[i].qty!!.toDouble() * cartArrayList[i].menu!!.finalPrice!!
 
                 /*Total Tax*/
-              //  totalTax += (subTotal * cartArrayList[i].menu!!.tax!!.toDouble())
+                //  totalTax += (subTotal * cartArrayList[i].menu!!.tax!!.toDouble())
             }
             totalTax += (subTotal * cartArrayList[0].menu!!.tax!!.toDouble()) / 100
 

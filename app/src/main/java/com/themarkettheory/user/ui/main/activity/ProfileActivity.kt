@@ -277,17 +277,17 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         val dialogView = layoutInflater.inflate(R.layout.dialog_term_condition, null)
         builder.setView(dialogView)
         val alertDialog = builder.create()
-      //  alertDialog.setContentView(R.layout.dialog_term_condition)
+        //  alertDialog.setContentView(R.layout.dialog_term_condition)
 
-         val webView = dialogView.findViewById(R.id.webview) as WebView
+        val webView = dialogView.findViewById(R.id.webview) as WebView
         val close = dialogView.findViewById(R.id.close) as ImageView
         close.setOnClickListener {
             alertDialog.dismiss()
         }
-       // webView.settings.loadWithOverviewMode = true
-       // webView.settings.setSupportZoom(true)
+        // webView.settings.loadWithOverviewMode = true
+        // webView.settings.setSupportZoom(true)
         webView.settings.javaScriptEnabled = true
-        Log.e("Terms And",intent.getStringExtra("terms_condition").toString())
+        Log.e("Terms And", intent.getStringExtra("terms_condition").toString())
         webView.loadUrl(prefs.getLoginModel().terms_condition)
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 

@@ -1,19 +1,12 @@
 <resources>
     <string name="app_name">The Market Theory</string>
     <string name="sign_in">Sign In</string>
-    <!--<string name="razorpay_sandbox_key" translatable="false">rzp_test_bcynZKYAWLD4r9</string>-->
-    <!--<string name="razorpay_sandbox_secret" translatable="false">myCL3gfHSdhot1Xt1rVoadHd</string>-->
 
-    <!--<string name="razorpay_live_secret" translatable="false">PRZaZHVUGncoFIZiOZqmeKwI</string>
-    <string name="razorpay_sandbox_key" translatable="false">rzp_test_M2FkmkrT6qthLV</string>-->
 
-    <!--<string name="razorpay_live_key" translatable="false">rzp_live_fgpIjUAcBmaTI5</string>--> <!--old live key-->
+    <string name="razorpay_live_key" translatable="false">rzp_live_jt5nT7EvpCH8qD</string>  <!--Live Key-->
+      <!--<string name="razorpay_live_key" translatable="false">rzp_test_M2FkmkrT6qthLV</string>-->  <!--Test / Dev key-->
 
-   <!-- <string name="razorpay_live_key" translatable="false">rzp_live_jt5nT7EvpCH8qD</string> --><!--Live Key-->
-     <string name="razorpay_live_key" translatable="false">rzp_test_M2FkmkrT6qthLV</string> <!--Test / Dev key-->
 
-    <!--<string name="razorpay_sandbox_secret" translatable="false">inLqHKS95RxWOlj3buZwRtDn</string>
-    <string name="razorpay_live_secret" translatable="false">inLqHKS95RxWOlj3buZwRtDn</string>-->
     <string name="with_your_social_network">with your social network</string>
     <string name="facebook">Facebook</string>
     <string name="instagram">Instagram</string>
