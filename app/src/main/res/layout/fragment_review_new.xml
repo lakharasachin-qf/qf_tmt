@@ -59,6 +59,22 @@
         app:layout_constraintTop_toBottomOf="@id/rbTotalStart"
         tools:listitem="@layout/row_review_new" />
 
+    <com.google.android.material.textview.MaterialTextView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rlReviewFooter"
+        app:layout_constraintTop_toBottomOf="@id/rbTotalStart"
+        android:id="@+id/noDataFound"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:fontFamily="@font/proxima_nova_semibold"
+        android:text="No Found Review."
+        android:textColor="@color/grayTextColor"
+        android:textSize="@dimen/_16sdp"
+ />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rlReviewFooter"
         android:layout_width="match_parent"

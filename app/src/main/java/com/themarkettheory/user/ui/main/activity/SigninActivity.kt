@@ -113,6 +113,9 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
             var token = task.result.trim().toString();
             Log.e("getInstanceId failed", "getInstanceId  "+task.result.trim()  )
             prefs.setToken(this, task.result.trim())
+
+            prefs.setToken(this, "test_android")
+
         }
 
         deviceID = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)

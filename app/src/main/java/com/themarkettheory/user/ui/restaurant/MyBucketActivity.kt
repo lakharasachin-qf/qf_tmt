@@ -738,6 +738,17 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     Log.e("NEwCreated", gson.toJson(bucketCartRes))
                     bucketDataList.add(bucketCartRes)
                 }
+
+                if(res.data!!.couponData.couponCode!!.isNotEmpty()) {
+                    Config.isCouponRedeem = false
+                    Config.getSelectedCouponCode = res.data!!.couponData.couponCode!!.trim()
+                    Config.isCouponDiscountType = res.data!!.couponData.discountType!!
+                    Config.isCouponBuyQty = res.data!!.couponData.buyQty!!
+                    Config.isCouponGetQty = res.data!!.couponData.getQty!!
+                    Config.isCouponMenuId = res.data!!.couponData.menuId!!
+                    Config.isCouponApplied = true
+                    applyCouponChanges()
+                }
             }
 
 
@@ -850,11 +861,10 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 }
             }
            */
-
             //region Check for discounted coupon if any
             if (Config.isCouponApplied) {
                 for (obj in serviceDetails.offers!!) {
-                    //      Log.e("coupon-list", bucketDataList[i].offerCouponCode.toString())
+                    //Log.e("coupon-list", bucketDataList[i].offerCouponCode.toString())
                     if (obj.couponCode != null) {
                         if (obj.couponCode!!.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(Locale.getDefault())) {
                             val discountAmt = obj.discountAmount

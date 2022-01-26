@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -366,7 +365,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                 Log.e("category", "1")
                 Log.e("serviceId", serviceId)
                 Log.e("vendorTitle", serviceName)
-                Log.e("selectPosition","2")
+                Log.e("selectPosition", "2")
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
             }
@@ -394,22 +393,35 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
 
 
                 if (res.data!!.occasion_name!!.toString().trim().isNotEmpty()) {
+                    occationTitle.visibility = View.VISIBLE
                     occationData.visibility = View.VISIBLE
                     view1.visibility = View.VISIBLE
                     eventName = res.data!!.occasion_name!!.toString().trim()
                     occationData.text = eventName
+                } else {
+                    occationData.visibility = View.GONE
+                    occationTitle.visibility = View.GONE
+                    view1.visibility = View.GONE
                 }
+
                 if (res.data!!.special_request!!.toString().trim().isNotEmpty()) {
                     eventMessage = res.data!!.special_request!!.toString().trim()
                     eventRequestMessage.text = eventMessage
+                    requestMessage.visibility = View.VISIBLE
+                    eventRequestMessage.visibility = View.VISIBLE
+                    view.visibility = View.VISIBLE
+                } else {
+                    requestMessage.visibility = View.GONE
+                    eventRequestMessage.visibility = View.GONE
+                    view.visibility = View.GONE
                 }
 
-                if (res.data!!.occasion_name!!.toString().trim()
-                        .isEmpty() && res.data!!.special_request!!.toString().trim().isEmpty()
-                ) {
-//                    view.visibility = View.GONE
-//                    view1.visibility = View.GONE
-                }
+//                if (res.data!!.occasion_name!!.toString().trim()
+//                        .isEmpty() && res.data!!.special_request!!.toString().trim().isEmpty()
+//                ) {
+////                    view.visibility = View.GONE
+////                    view1.visibility = View.GONE
+//                }
 
                 //Service ID
                 serviceId = res.data!!.service_id!!.toString().trim()

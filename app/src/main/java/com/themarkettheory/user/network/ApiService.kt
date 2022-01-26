@@ -58,10 +58,14 @@ interface ApiService {
                 .readTimeout(100, TimeUnit.SECONDS)
                 .addInterceptor(object : Interceptor {
                     override fun intercept(chain: Interceptor.Chain): Response {
-                        Log.e("Token", token.toString())
-                        val newRequest = chain.request().newBuilder()
-                            .addHeader("Authorization", "Bearer $token")
-                            .build()
+                        Log.e("Authorization", "Bearer $token")
+                        val builder = chain.request().newBuilder()
+                        if (token != null) {
+                            if(token.isNotEmpty())
+                                builder.addHeader("Authorization", "Bearer $token")
+                                //builder.addHeader("Content-type","application/json")
+                        }
+                        val newRequest = builder.build()
                         return chain.proceed(newRequest)
                     }
 
@@ -70,7 +74,7 @@ interface ApiService {
             val okHttpBuilder = OkHttpClient.Builder()
             okHttpBuilder.addInterceptor(HttpLoggingInterceptor().apply {
                 level =
-                    if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+                    if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.HEADERS else HttpLoggingInterceptor.Level.NONE
             })
 
             val gson = GsonBuilder()

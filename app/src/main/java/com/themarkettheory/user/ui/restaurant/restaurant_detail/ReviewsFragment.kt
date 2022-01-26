@@ -111,7 +111,7 @@ class ReviewsFragment : Fragment(), View.OnClickListener {
 
             Log.e("Review Data", gson.toJson(res.data))
 
-            if (res.data!!.size > 0) {
+            if (res.data!!.isNotEmpty()) {
                 //setting total no of rating
                 tvReviewTotalText.setText(" ${res.data!!.size} Reviews")
                 totalRating = 0.0
@@ -133,11 +133,17 @@ class ReviewsFragment : Fragment(), View.OnClickListener {
                 if (res.data!!.isNotEmpty()) {
                     myReviewList = res.data!! as ArrayList<ReviewData>
                     reviewListAdapter.addTotalPointList(myReviewList)
+                    noDataFound.visibility = View.GONE
+                    rvReviews.visibility = View.VISIBLE
                 } else {
                     rvReviews.visibility = View.GONE
+                    noDataFound.visibility = View.VISIBLE
+
                 }
             } else {
-                clMainReviewLauout.visibility = View.GONE
+                noDataFound.visibility = View.VISIBLE
+
+                rvReviews.visibility = View.GONE
             }
         } catch (e: Exception) {
             e.printStackTrace()
