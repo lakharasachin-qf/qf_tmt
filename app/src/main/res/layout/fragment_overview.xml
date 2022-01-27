@@ -16,6 +16,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:visibility="gone"
             android:id="@+id/llOverview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

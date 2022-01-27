@@ -62,10 +62,10 @@ class LiveDealBucketNewAdapter(
             /*Dish Ingredients*/
 
             holder.rowMyCartLiveDealNewBinding.tvCartLiveDealListCategory.apply {
-                text = cartRowData.menu!!.categoryName!!.trim()
+                text = cartRowData.menu!!.ingredients!!.trim()
                 visibility =
-                    if (cartRowData.menu!!.categoryName!!.trim().isEmpty() ||
-                        cartRowData.menu!!.categoryName!!.trim() == "0"
+                    if (cartRowData.menu!!.ingredients!!.trim().isEmpty() ||
+                        cartRowData.menu!!.ingredients!!.trim() == "0"
                     ) View.GONE else View.VISIBLE
             }
 

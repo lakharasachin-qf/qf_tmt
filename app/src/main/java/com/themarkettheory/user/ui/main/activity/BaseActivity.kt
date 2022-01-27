@@ -1,13 +1,17 @@
 package com.themarkettheory.user.ui.main.activity
 
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
-import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import com.themarkettheory.user.database.MyRoomDatabase
 import com.themarkettheory.user.helper.Prefs
@@ -25,6 +29,7 @@ open class BaseActivity : AppCompatActivity() {
     lateinit var myRoomDatabase: MyRoomDatabase
 
     lateinit var prefs: Prefs
+    private lateinit var mMessageReceiver: BroadcastReceiver
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
@@ -38,6 +43,28 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         /*adjustFontScale(resources.configuration)*/
         prefs = Prefs(this)
+
+        mMessageReceiver = object : BroadcastReceiver() {
+            @SuppressLint("LongLogTag")
+            override fun onReceive(context: Context?, intent: Intent) {
+
+                val message = intent.getStringExtra("message")
+                val notification_type = intent.getStringExtra("notification_type")
+                Log.e("ON Activity notification_type:", notification_type.toString())
+                Log.e("ON Activity message:", message.toString())
+                if (message != null) {
+                    if (intent.getStringExtra("notification_type")
+                            .equals("10")
+                    ) { // feedback form
+                        prefs.setFeedback(true)
+                        startActivity(Intent(this@BaseActivity, FeedbackActivity::class.java))
+                    }
+
+                }
+            }
+        }
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(mMessageReceiver, IntentFilter("requests_count"))
     }
 
     fun setStatusBarColor(color: Int) {

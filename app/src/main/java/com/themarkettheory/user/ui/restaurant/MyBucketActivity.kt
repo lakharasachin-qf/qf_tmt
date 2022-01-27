@@ -112,6 +112,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             tvCouponCode = findViewById(R.id.tvCouponCode)
             tvDiningIn = findViewById(R.id.tvDiningIn)
             init()
+            Log.e("Config.",Config.getSelectedCouponCode)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -281,6 +282,13 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             }
         })
 
+        cartViewModel.responseRemovePromocode.observe(this, {
+            when (it.status!!) {
+                0 -> showMsgDialogAndProceed(it.message!!)
+                1 -> it.message?.let { it1 -> showMsgDialogAndProceed(it1) }
+            }
+        })
+
         // api response for order confirmation
         cartViewModel.responseConfirmOrder.observe(this, {
             when (it.status!!) {
@@ -391,7 +399,6 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
         }
 
-
         // setting onclick listener to confirm your order button
         btnMyBucketCartConfirmYourOrder.setOnClickListener(this)
 
@@ -427,7 +434,8 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     }
 
     private fun applyCouponChanges() {
-        try {/*Apply Coupon*/
+        try {
+            /*Apply Coupon*/
 
             ivCouponCross.visibility = if (Config.isCouponApplied) View.VISIBLE else View.GONE
             tvMyBucketCouponDiscountText.visibility =
@@ -724,6 +732,17 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                                     "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
                                 // calling onbackpress when cart size is 0
                                 if (cartSize < 1) {
+                                    Config.isCouponApplied = false
+                                    Config.isCouponRedeem = false
+                                    Config.getSelectedCouponCode = ""
+                                    Config.isCouponDiscountType = 0
+                                    Config.isCouponBuyQty = 0
+                                    Config.isCouponGetQty = 0
+                                    Config.isCouponMenuId = 0
+                                    Config.isCouponBuyGetSelected = false
+                                    discountCouponTotal = 0.0
+                                    applyCouponChanges()
+                                    calculateFooterSection(bucketDataList)
                                     onBackPressed()
                                 }
                                 calculateFooterSection(bucketDataList)
@@ -990,6 +1009,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     }
                 }
                 ivCouponCross -> {
+                    cartViewModel.removePromoCode(serviceId.toInt(),bookingId,Config.getSelectedCouponCode)
                     Config.isCouponApplied = false
                     Config.isCouponRedeem = false
                     Config.getSelectedCouponCode = ""

@@ -262,4 +262,7 @@ class VendorDetailViewModel(application: Application) : BaseViewModel(applicatio
             })
     }
 
+
+
+
 }

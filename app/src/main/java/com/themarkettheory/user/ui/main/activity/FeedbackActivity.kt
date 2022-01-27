@@ -145,4 +145,9 @@ class FeedbackActivity : BaseActivity(), View.OnClickListener {
             e.printStackTrace()
         }
     }
+
+    override fun onBackPressed() {
+
+        super.onBackPressed()
+    }
 }

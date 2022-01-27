@@ -9,6 +9,7 @@ import com.themarkettheory.user.model.PickupResponse
 import com.themarkettheory.user.newmodels.NewGeneralRes
 import com.themarkettheory.user.newmodels.bucketcart.GetCartNewRes
 import com.themarkettheory.user.newmodels.bucketcart.confirm_order.NewConfirmOrderRes
+import com.themarkettheory.user.newmodels.coupons.RemovePromoCodeRes
 import com.themarkettheory.user.newmodels.orderconfirmation.GetNewOrderConfirmRes
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -31,6 +32,7 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
     val responseGetCartNew = MutableLiveData<GetCartNewRes>()
     val responseOrderDetail = MutableLiveData<GetNewOrderConfirmRes>()
     val responseCancelOrder = MutableLiveData<NewGeneralRes>()
+    val responseRemovePromocode = MutableLiveData<RemovePromoCodeRes>()
 
     fun add_cart(menu_id: String?, qty: String?, service_id: String?) {
 //        isLoading.value = true
@@ -270,5 +272,23 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
         }
     }
     //["is_live_deal": false, "is_dine_in": false, "type": "SCHEDULE_PICKUP", "is_redeem": false]
+
+
+
+    fun removePromoCode(
+        id: Int,
+        booking_id: String,
+        code: String,
+    ) {
+        isLoading.value = true
+        disposable = apiService
+            .removePromoCode(id, booking_id, code)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ result ->
+                responseRemovePromocode.value = result
+                isLoading.value = false
+            }, { error -> isLoading.value = false })
+    }
 
 }

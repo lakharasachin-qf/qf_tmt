@@ -35,6 +35,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
@@ -55,6 +56,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     private val schedulePickUp = "SCHEDULE_PICKUP"
     private var subTotal = 0.0
     private var totalTax = 0.0
+    private var totalPoints = 0
     private var totalAmt = 0.0
     private val numberFormat: NumberFormat = DecimalFormat("#0.00")
     private var razorPayCurrentStr = ""
@@ -64,6 +66,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     private val delay: Long = 3000
     private var lastEditText: Long = 0
     private val handlerEditText = Handler(Looper.getMainLooper())
+    var selectedIndex: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -200,6 +203,24 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                     menuObject.put("is_redeem", "0")
                     menuArray.put(menuObject)
                 }
+
+                val currentTimess: String = SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Date())
+                if (selectedIndex == 1) {
+                    cartViewModel.confirmOrder(
+                        Config.vendorDetailServiceId,
+                        menuArray,
+                        subTotal.toString(),
+                        totalAmt.toString(),
+                        "0",
+                        paymentData.paymentId.toString(),
+                        "0",
+                        edLiveDealBucketSpecialInstruction.text.toString().trim(),
+                        currentTimess,
+                        totalTax.toString(),
+                        "0"
+                    )
+                    return
+                }
                 cartViewModel.confirmOrder(
                     Config.vendorDetailServiceId,
                     menuArray,
@@ -229,14 +250,26 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                     onBackPressed()
                 }
                 tvLiveDealBucketPickUpTime -> openRangeTimePickerDialog()
-                btnLiveDealBucketConfirmYourOrder -> callCheckRestaurantTimeApi(
-                    Config.vendorDetailServiceId.toInt(),
-                    PubFun.parseDate(
-                        tvLiveDealBucketPickUpTime.text.toString().trim(),
-                        Config.defaultTimeFormat,
-                        Config.requestTimeFormat
-                    )!!
-                )
+                btnLiveDealBucketConfirmYourOrder -> {
+                    val currentTimess: String = SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Date())
+
+                    if (selectedIndex == 1) {
+                        callCheckRestaurantTimeApi(
+                            Config.vendorDetailServiceId.toInt(),
+                            currentTimess
+                        )
+                        return
+                    }
+
+                    callCheckRestaurantTimeApi(
+                        Config.vendorDetailServiceId.toInt(),
+                        PubFun.parseDate(
+                            tvLiveDealBucketPickUpTime.text.toString().trim(),
+                            Config.defaultTimeFormat,
+                            Config.requestTimeFormat
+                        )!!
+                    )
+                }
                 tvLiveDealDiningIn -> {
                     tvLiveDealDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
                         if (isLiveDealDiningInSelected) R.drawable.ic_radio_button_unchecked
@@ -460,13 +493,19 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                                 ivLiveDealBucketClock.visibility = View.VISIBLE
                                 tvLiveDealBucketPickUpTime.visibility = View.VISIBLE
                                 tvLiveDealBucketPickUpTime.text = "Select Schedule Time"
+                                selectedIndex = 0
 
                                 if (tvLiveDealBucketPickUpTime.text.toString() != "Select Schedule Time")
                                     callApiForPickUpType("SCHEDULE_PICKUP", "")
                                 else
-                                    callApiForPickUpType("SCHEDULE_PICKUP",tvLiveDealBucketPickUpTime.text.toString().trim())
+                                    callApiForPickUpType(
+                                        "SCHEDULE_PICKUP",
+                                        tvLiveDealBucketPickUpTime.text.toString().trim()
+                                    )
                             }
                             else -> {
+                                selectedIndex = 1
+
                                 ivLiveDealBucketClock.visibility = View.GONE
                                 tvLiveDealBucketPickUpTime.visibility = View.GONE
                                 callApiForPickUpType(pickUpNow, "")
@@ -524,6 +563,8 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
             subTotal = 0.0
             totalTax = 0.0
             totalAmt = 0.0
+            totalPoints = 0
+
 
             for (i in cartArrayList.indices) {
                 /*Sub Total*/
@@ -531,6 +572,8 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
 
                 /*Total Tax*/
                 //  totalTax += (subTotal * cartArrayList[i].menu!!.tax!!.toDouble())
+                totalPoints += cartArrayList[i].qty!! * cartArrayList[i].menu!!.point!!
+
             }
             totalTax += (subTotal * cartArrayList[0].menu!!.tax!!.toDouble()) / 100
 
@@ -542,6 +585,8 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
             /*Total Tax*/
             tvLiveDealBucketTax.text = cartArrayList[0].menu!!.currency!!.trim() +
                     if (totalTax == 0.0) "0.00" else numberFormat.format(totalTax)
+
+            tvLiveBucketTotalOrderPoints.text = totalPoints.toString()
 
             /*Total Amount*/
             totalAmt = subTotal + totalTax
@@ -570,6 +615,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     private fun openRangeTimePickerDialog() {
         try {
             val mCurrentTime = Calendar.getInstance()
+            mCurrentTime.add(Calendar.MINUTE, 30)
             val hour = mCurrentTime[Calendar.HOUR_OF_DAY]
             val minute = mCurrentTime[Calendar.MINUTE]
             val mTimePicker = RangeTimePickerDialog(

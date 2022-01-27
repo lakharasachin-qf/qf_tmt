@@ -13,6 +13,7 @@ import com.themarkettheory.user.newmodels.bucketcart.GetCartNewRes
 import com.themarkettheory.user.newmodels.bucketcart.confirm_order.NewConfirmOrderRes
 import com.themarkettheory.user.newmodels.changepassword.ChangePasswordRes
 import com.themarkettheory.user.newmodels.coupons.NewOfferListRes
+import com.themarkettheory.user.newmodels.coupons.RemovePromoCodeRes
 import com.themarkettheory.user.newmodels.coupons.apply.CheckPromoCodeRes
 import com.themarkettheory.user.newmodels.getcategories.NewGetCategoriesRes
 import com.themarkettheory.user.newmodels.getrecentpopularlocation.NewGetRecentPopularLocation
@@ -838,5 +839,23 @@ interface ApiService {
         @Field("time") time: String?
     ): Observable<NewGeneralRes>
 
+//
+//    @FormUrlEncoded
+//    @POST("check_restaurant_time")
+//    fun checkRestaurantTime(
+//        @Field("id") id: Int?,
+//        @Field("time") time: String?
+//    ): Observable<NewGeneralRes>
+
     // check_restaurant_time , pickup
+
+
+    @FormUrlEncoded
+    @POST("remove_promocode")
+    fun removePromoCode(
+        @Field("id") id: Int?,
+        @Field("booking_id") booking_id: String,
+        @Field("promocode") code: String,
+
+        ): Observable<RemovePromoCodeRes>
 }

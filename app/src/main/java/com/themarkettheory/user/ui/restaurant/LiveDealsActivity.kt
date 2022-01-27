@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -169,10 +170,12 @@ class LiveDealsActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun populateLiveDeals(res: NewLiveDealRes) {
+        Log.e("populateLive",gson.toJson(res))
         try {
             if (res.data!!.list.isNullOrEmpty()) {
                 clLiveDeal.visibility = View.GONE
             } else {
+
                 /*Live Deal Page Visibility*/
                 clLiveDeal.visibility = View.VISIBLE
 

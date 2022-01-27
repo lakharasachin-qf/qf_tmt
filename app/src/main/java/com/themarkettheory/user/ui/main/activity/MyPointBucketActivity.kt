@@ -75,6 +75,7 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
     var formatHours = SimpleDateFormat(Config.defaultTimeFormat, Locale.getDefault())
 
     var radioGroupMyPoints: RadioGroup? = null
+    var selectedIndex: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -165,7 +166,33 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                 newBookingDetailsRes.data!!.booking_time!!.trim()
         }
         //endregion
+        // setting up the text on picktime text
+        radioGroupMyPoints = findViewById(R.id.radioGroupMyPoints)
 
+        with(radioGroupMyPoints) {
+            this?.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.rbBucketPointSchedulePickup -> {
+                        ivBucketPointClock.visibility = View.VISIBLE
+                        tvBucketPointPickUpTime.visibility = View.VISIBLE
+                        tvBucketPointPickUpTime.text = "Select Schedule Time"
+                        selectedIndex = 0
+
+                        if (tvBucketPointPickUpTime.text.toString() != "Select Schedule Time")
+                            callApiForPickUpType("SCHEDULE_PICKUP", "")
+                        else
+                            callApiForPickUpType("SCHEDULE_PICKUP", "")
+                    }
+                    R.id.rbBucketPointPickupNow -> {
+                        selectedIndex = 1
+
+                        ivBucketPointClock.visibility = View.GONE
+                        tvBucketPointPickUpTime.visibility = View.GONE
+                        callApiForPickUpType("PICKUP_NOW", "")
+                    }
+                }
+            })
+        }
         // requesting api for cart detail
         callGetCart(bookingId.toInt())
 
@@ -240,24 +267,6 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
         tvBucketPointPickUpTime.setOnClickListener(this)
         tvMyPointsDiningIn.setOnClickListener(this)
 
-        // setting up the text on picktime text
-        radioGroupMyPoints = findViewById(R.id.radioGroupMyPoints)
-
-        with(radioGroupMyPoints) {
-            this?.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                when (checkedId) {
-                    R.id.rbBucketPointSchedulePickup -> {
-                        ivBucketPointClock.visibility = View.VISIBLE
-                        tvBucketPointPickUpTime.visibility = View.VISIBLE
-                    }
-                    else -> {
-                        ivBucketPointClock.visibility = View.GONE
-                        tvBucketPointPickUpTime.visibility = View.GONE
-                        callApiForPickUpType("PICKUP_NOW", "")
-                    }
-                }
-            })
-        }
 
         // setting onclick listener to confirm your order button
         btnBucketPointCartConfirmYourOrder.setOnClickListener(this)
@@ -380,6 +389,24 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                     menuArray.put(menuObject)
                 }
                 if (PubFun.isInternetConnection(this)) {
+                    val currentTimess: String =
+                        SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Date())
+                    if (selectedIndex == 1) {
+                        cartViewModel.confirmOrder(
+                            bucketDataList[0].serviceId.toString(),
+                            menuArray,
+                            subTotal.toString(),
+                            totalAmt.toString(),
+                            "",
+                            "",
+                            totalPoints.toString(),
+                            edBucketPointSpecialInstaruction.text.toString().trim(),
+                            currentTimess,
+                            totalTax.toString(),
+                            bookingId
+                        )
+                        return
+                    }
                     cartViewModel.confirmOrder(
                         bucketDataList[0].serviceId.toString(),
                         menuArray,
@@ -408,161 +435,179 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
 
     @SuppressLint("SetTextI18n")
     private fun populateCartDetails(res: GetCartNewRes) {
+        Log.e("PopulateCart", gson.toJson(res))
         try {
-            //setting up the total points
-            tvBucketPointPoints.text = res.data!!.serviceDetails!!.points!!.toString().trim()
-            cartTotal = res.data!!.serviceDetails!!.points!!
+            if (res.data != null) {
+                //setting up the total points
+                tvBucketPointPoints.text = res.data!!.serviceDetails!!.points!!.toString().trim()
+                cartTotal = res.data!!.serviceDetails!!.points!!
 
-            //restaurant title
-            tvBucketPointVendorTitle.text = res.data!!.serviceDetails!!.title!!
-            // retaurant address
-            tvBucketPointAddress.text = res.data!!.serviceDetails!!.address!!
-            // cart size
-            val cartSize = res.data!!.list!!.size
-            tvBucketPointMyCart.text =
-                "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
+                //restaurant title
+                tvBucketPointVendorTitle.text = res.data!!.serviceDetails!!.title!!
+                // retaurant address
+                tvBucketPointAddress.text = res.data!!.serviceDetails!!.address!!
+                // cart size
+                val cartSize = res.data!!.list!!.size
+                tvBucketPointMyCart.text =
+                    "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
 
-            //Service ID
-            serviceId = res.data!!.serviceDetails!!.id.toString().trim()
-            //Service Name
-            serviceName = res.data!!.serviceDetails!!.title!!.trim()
+                //Service ID
+                serviceId = res.data!!.serviceDetails!!.id.toString().trim()
+                //Service Name
+                serviceName = res.data!!.serviceDetails!!.title!!.trim()
 
-            // setting up special instruction
-            edBucketPointSpecialInstaruction.setText(
-                res.data!!.booking!!.specialInstruction!!.toString().trim()
-            )
-            // setting up radio group selection
-            radioGroup?.apply {
-                check(
-                    getChildAt(
-                        if (res.data!!.booking!!.type!!.toString()
-                                .lowercase(Locale.getDefault()) == pickupNowType
-                        ) 1 else 0
-                    ).id
+                // setting up special instruction
+                edBucketPointSpecialInstaruction.setText(
+                    res.data!!.booking!!.specialInstruction!!.toString().trim()
                 )
-            }
-            // setting time +30 if pickup type is pickup now
-            if (res.data!!.booking!!.type!!.toString()
-                    .lowercase(Locale.getDefault()) == pickupNowType
-            ) {
-                add30MinutesToCurrentTime()
-            } else {
-                // setting up booking time
-                tvBucketPointPickUpTime.text = PubFun.parseDate(
-                    res.data!!.booking!!.bookingTime!!,
-                    Config.requestTimeFormat,
-                    Config.defaultTimeFormat
-                )
-            }
+
+                Log.e("POINTT",res.data!!.booking!!.type!!.toString())
+                radioGroupMyPoints?.apply {
+                    check(
+                        getChildAt(
+                            if (res.data!!.booking!!.type!!.toString()
+                                    .lowercase(Locale.getDefault()) == pickupNowType
+                            ) 1 else 0
+                        ).id
+                    )
+                }
+
+                // setting time +30 if pickup type is pickup now
+                if (res.data!!.booking!!.type!!.toString()
+                        .lowercase(Locale.getDefault()) == pickupNowType
+                ) {
+                    selectedIndex = 1
+                    callApiForPickUpType("PICKUP_NOW", "")
+                } else {
+                    // setting up booking time
+                    if (res.data!!.booking!!.bookingTime!!.isNotEmpty()) {
+                        tvBucketPointPickUpTime.text = PubFun.parseDate(
+                            res.data!!.booking!!.bookingTime!!,
+                            Config.requestTimeFormat,
+                            Config.defaultTimeFormat
+                        )
+                        callApiForPickUpType(
+                            "SCHEDULE_PICKUP", PubFun.parseDate(
+                                tvBucketPointPickUpTime.text.toString(),
+                                Config.defaultTimeFormat,
+                                Config.requestTimeFormat
+                            ).toString()
+                        )
+
+                    }
+                    selectedIndex = 0
+
+                }
 //            else PubFun.addTimeInCurrentTime(formatHours, Calendar.MINUTE, 30)
 
-            //recycler view
-            val listener = object : ListClickListenerCart {
-                override fun onClickListener(
-                    view: View,
-                    pos: Int,
-                    objects: Any,
-                    isItemAdded: Boolean
-                ) {
-                    if (!isLoadedFirstTime) {
-                        val bucketData = objects as MyBucketCartRes
-                        //calling api for adding and removing items
-                        if (bucketData.qty > 0) {
-                            /*Validation with total points*/
-                            if (cartTotal - bucketData.point < 0 && isItemAdded) {
-                                bucketDataList[pos].qty = bucketData.qty - 1
-                                bucketMyPointAdapter.notifyDataSetChanged()
-                                showMsgDialogAndProceed("You don't have enough points")
-                            } else {
-                                bucketDataList[pos].qty = bucketData.qty
-                                bucketMyPointAdapter.notifyDataSetChanged()
-                                calculateFooterSection(bucketDataList)
-
-                                if (isItemAdded) {
-                                    cartTotal -= bucketData.point
-                                    tvBucketPointPoints.text = cartTotal.toString()
+                //recycler view
+                val listener = object : ListClickListenerCart {
+                    override fun onClickListener(
+                        view: View,
+                        pos: Int,
+                        objects: Any,
+                        isItemAdded: Boolean
+                    ) {
+                        if (!isLoadedFirstTime) {
+                            val bucketData = objects as MyBucketCartRes
+                            //calling api for adding and removing items
+                            if (bucketData.qty > 0) {
+                                /*Validation with total points*/
+                                if (cartTotal - bucketData.point < 0 && isItemAdded) {
+                                    bucketDataList[pos].qty = bucketData.qty - 1
+                                    bucketMyPointAdapter.notifyDataSetChanged()
+                                    showMsgDialogAndProceed("You don't have enough points")
                                 } else {
-                                    cartTotal += bucketData.point
-                                    tvBucketPointPoints.text = cartTotal.toString()
-                                }
+                                    bucketDataList[pos].qty = bucketData.qty
+                                    bucketMyPointAdapter.notifyDataSetChanged()
+                                    calculateFooterSection(bucketDataList)
 
+                                    if (isItemAdded) {
+                                        cartTotal -= bucketData.point
+                                        tvBucketPointPoints.text = cartTotal.toString()
+                                    } else {
+                                        cartTotal += bucketData.point
+                                        tvBucketPointPoints.text = cartTotal.toString()
+                                    }
+
+                                    vendorDetailViewModel.menu_add_cart(
+                                        bucketData.serviceId.toString(),
+                                        bucketData.menuID.toString(),
+                                        "1",
+                                        bucketData.qty.toString(),
+                                        "0",
+                                        0,
+                                        if (isMyPointDiningInSelected) 1 else 0
+                                    )
+                                }
+                            } else {
                                 vendorDetailViewModel.menu_add_cart(
                                     bucketData.serviceId.toString(),
                                     bucketData.menuID.toString(),
                                     "1",
-                                    bucketData.qty.toString(),
+                                    "0",
                                     "0",
                                     0,
                                     if (isMyPointDiningInSelected) 1 else 0
                                 )
-                            }
-                        } else {
-                            vendorDetailViewModel.menu_add_cart(
-                                bucketData.serviceId.toString(),
-                                bucketData.menuID.toString(),
-                                "1",
-                                "0",
-                                "0",
-                                0,
-                                if (isMyPointDiningInSelected) 1 else 0
-                            )
-                            bucketMyPointAdapter.removeItem(pos)
-                            bucketDataList.removeAt(pos)
-                            // cart size
-                            val cartSize = bucketDataList.size
-                            tvBucketPointMyCart.text =
-                                "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
-                            // calling backpress when cart size is 0
-                            if (cartSize < 1) {
-                                onBackPressed()
-                            }
-                            calculateFooterSection(bucketDataList)
+                                bucketMyPointAdapter.removeItem(pos)
+                                bucketDataList.removeAt(pos)
+                                // cart size
+                                val cartSize = bucketDataList.size
+                                tvBucketPointMyCart.text =
+                                    "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
+                                // calling backpress when cart size is 0
+                                if (cartSize < 1) {
+                                    onBackPressed()
+                                }
+                                calculateFooterSection(bucketDataList)
 
-                            cartTotal += bucketData.point
-                            tvBucketPointPoints.text = cartTotal.toString()
+                                cartTotal += bucketData.point
+                                tvBucketPointPoints.text = cartTotal.toString()
+                            }
                         }
                     }
                 }
-            }
-            bucketMyPointAdapter = BucketMyPointAdapter(listener)
-            bucketDataList.clear()
-            for (i in res.data!!.list!!.indices) {
-                val bucketCartRes = MyBucketCartRes(
-                    res.data!!.serviceDetails!!.id!!,
-                    res.data!!.serviceDetails!!.title!!,
-                    res.data!!.list!![i].menu!!.foodType!!,
-                    res.data!!.list!![i].menu!!.isSpicy!!,
-                    res.data!!.list!![i].menu!!.id!!,
-                    res.data!!.list!![i].menu!!.title!!,
-                    res.data!!.list!![i].menu!!.categoryName!!,
-                    res.data!!.list!![i].menu!!.finalPrice!!,
-                    res.data!!.list!![i].menu!!.actualPrice!!,
-                    res.data!!.list!![i].menu!!.redeemPoints!!,
-                    res.data!!.list!![i].menu!!.preparingTime!!,
-                    res.data!!.list!![i].qty!!,
-                    res.data!!.list!![i].menu!!.tax!!.toDouble(),
-                    res.data!!.list!![i].menu!!.currency!!,
-                    res.data!!.serviceDetails!!.currencyStr!!,
-                    res.data!!.serviceDetails!!.offers!![i].menuId!!,
-                    res.data!!.serviceDetails!!.offers!![i].couponCode!!.trim(),
-                    res.data!!.serviceDetails!!.offers!![i].discountType!!,
-                    res.data!!.serviceDetails!!.offers!![i].discountAmount!!,
-                    res.data!!.serviceDetails!!.offers!![i].buyQty!!,
-                    res.data!!.serviceDetails!!.offers!![i].getQty!!
-                )
-                bucketDataList.add(bucketCartRes)
+                bucketMyPointAdapter = BucketMyPointAdapter(listener)
+                bucketDataList.clear()
+                for (i in res.data!!.list!!.indices) {
+                    val bucketCartRes = MyBucketCartRes(
+                        res.data!!.serviceDetails!!.id!!,
+                        res.data!!.serviceDetails!!.title!!,
+                        res.data!!.list!![i].menu!!.foodType!!,
+                        res.data!!.list!![i].menu!!.isSpicy!!,
+                        res.data!!.list!![i].menu!!.id!!,
+                        res.data!!.list!![i].menu!!.title!!,
+                        res.data!!.list!![i].menu!!.categoryName!!,
+                        res.data!!.list!![i].menu!!.finalPrice!!,
+                        res.data!!.list!![i].menu!!.actualPrice!!,
+                        res.data!!.list!![i].menu!!.redeemPoints!!,
+                        res.data!!.list!![i].menu!!.preparingTime!!,
+                        res.data!!.list!![i].qty!!,
+                        res.data!!.list!![i].menu!!.tax!!.toDouble(),
+                        res.data!!.list!![i].menu!!.currency!!,
+                        res.data!!.serviceDetails!!.currencyStr!!,
+                        res.data!!.serviceDetails!!.offers!![i].menuId!!,
+                        res.data!!.serviceDetails!!.offers!![i].couponCode!!.trim(),
+                        res.data!!.serviceDetails!!.offers!![i].discountType!!,
+                        res.data!!.serviceDetails!!.offers!![i].discountAmount!!,
+                        res.data!!.serviceDetails!!.offers!![i].buyQty!!,
+                        res.data!!.serviceDetails!!.offers!![i].getQty!!
+                    )
+                    bucketDataList.add(bucketCartRes)
 
-                Log.e("bucket List",gson.toJson(bucketDataList))
-            }
-            bucketMyPointAdapter.setBucketData(bucketDataList)
-            rvBucketPointMyCart.apply {
-                layoutManager = LinearLayoutManager(this@MyPointBucketActivity)
-                adapter = bucketMyPointAdapter
-            }
-            calculateFooterSection(bucketDataList)
+                    Log.e("bucket List", gson.toJson(bucketDataList))
+                }
+                bucketMyPointAdapter.setBucketData(bucketDataList)
+                rvBucketPointMyCart.apply {
+                    layoutManager = LinearLayoutManager(this@MyPointBucketActivity)
+                    adapter = bucketMyPointAdapter
+                }
+                calculateFooterSection(bucketDataList)
 
-            cartTotal -= totalPoints
-            tvBucketPointPoints.text = cartTotal.toString()
+                cartTotal -= totalPoints
+                tvBucketPointPoints.text = cartTotal.toString()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -610,7 +655,27 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                     openRangeTimePickerDialog()
                 }
                 btnBucketPointCartConfirmYourOrder -> {
-                    callApiForConfirmOrder()
+                    // is selected type pick up now
+                    val currentTimess: String =
+                        SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Date())
+                    if (selectedIndex == 1) {
+                        callCheckRestaurantTimeApi(
+                            serviceId.toInt(),
+                            currentTimess
+                        )
+                        return
+                    }
+                    callCheckRestaurantTimeApi(
+                        serviceId.toInt(),
+                        PubFun.parseDate(
+                            tvBucketPointPickUpTime.text.toString().trim(),
+                            Config.defaultTimeFormat,
+                            Config.requestTimeFormat
+                        )!!
+
+                    )
+                    //only if check resustar success
+                    //callApiForConfirmOrder()
                 }
                 tvMyPointsDiningIn -> {
                     tvMyPointsDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -631,6 +696,7 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
     private fun openRangeTimePickerDialog() {
         try {
             val mCurrentTime = Calendar.getInstance()
+            mCurrentTime.add(Calendar.MINUTE, 30)
             val hour = mCurrentTime[Calendar.HOUR_OF_DAY]
             val minute = mCurrentTime[Calendar.MINUTE]
             val mTimePicker = RangeTimePickerDialog(
@@ -643,6 +709,15 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                     val mySelectedTime: String = "$mySelectedHrs:$mySelectedMin"
                     tvBucketPointPickUpTime.text =
                         PubFun.parseDate(mySelectedTime, "HH:mm", Config.defaultTimeFormat)
+
+                    callApiForPickUpType(
+                        "SCHEDULE_PICKUP", PubFun.parseDate(
+                            tvBucketPointPickUpTime.text.toString(),
+                            Config.defaultTimeFormat,
+                            Config.requestTimeFormat
+                        ).toString()
+                    )
+
                 }, hour, minute, false, true
             ) //true = 24 hour time
 

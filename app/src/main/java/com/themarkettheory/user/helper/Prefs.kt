@@ -103,4 +103,16 @@ class Prefs(context: Context) {
             return gson.fromJson<Data>(json, Data::class.java)
     }
 
+
+    fun setFeedback(isFeedback: Boolean) {
+        val editor = prefs.edit()
+        editor.putBoolean("feedback", isFeedback)
+        editor.apply()
+    }
+
+    fun getFeedback(context: Context): Boolean {
+        return prefs.getBoolean("feedback", false)
+    }
+
+
 }
