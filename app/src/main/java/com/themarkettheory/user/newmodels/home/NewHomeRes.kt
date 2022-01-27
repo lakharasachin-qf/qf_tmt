@@ -9,5 +9,7 @@ data class NewHomeRes(
     @SerializedName("message")
     var message: String? = "",
     @SerializedName("data")
-    var `data`: Data? = Data()
+    var `data`: Data? = Data(),
+    @SerializedName("is_feedback")
+    var isFeedBack: Int? = 0,
 )

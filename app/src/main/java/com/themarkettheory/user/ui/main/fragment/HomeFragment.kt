@@ -25,7 +25,10 @@ import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.interfaces.OnCategoryClickListener
 import com.themarkettheory.user.newmodels.getcategories.Category
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
-import com.themarkettheory.user.ui.main.activity.*
+import com.themarkettheory.user.ui.main.activity.CitySelectionActivity
+import com.themarkettheory.user.ui.main.activity.FeedbackActivity
+import com.themarkettheory.user.ui.main.activity.NotificationActivity
+import com.themarkettheory.user.ui.main.activity.SearchActivity
 import com.themarkettheory.user.ui.main.adapter.HomeCategoriesAdapter
 import com.themarkettheory.user.ui.restaurant.MyBucketActivity
 import com.themarkettheory.user.ui.restaurant.RestaurantFragment
@@ -149,12 +152,15 @@ class HomeFragment : BaseFragment(), View.OnClickListener, OnCategoryClickListen
             when (home.status!!) {
                 0 -> showMsgDialogAndProceed(home.message!!.trim())
                 1 -> {
+
                     // setting up the cart size
                     tvCartCount.visibility =
                         if (home.data!!.cartCount!!.toString().trim().toInt() > 0
                         ) View.VISIBLE else View.GONE
                     tvCartCount.text = home.data!!.cartCount!!.toString().trim()
-
+                    if (home.isFeedBack == 1) {
+                        startActivity(Intent(requireActivity(), FeedbackActivity::class.java))
+                    }
 
                     home.data?.let {
                         myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbNewHomeRes)
