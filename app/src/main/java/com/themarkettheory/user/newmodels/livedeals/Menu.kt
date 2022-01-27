@@ -13,7 +13,7 @@ data class Menu(
     @SerializedName("unit")
     var unit: String? = "",
     @SerializedName("final_price")
-    var finalPrice: String? = "",
+    var finalPrice: Int? = 0,
     @SerializedName("point")
     var point: Int? = 0,
     @SerializedName("is_spicy")

@@ -76,6 +76,52 @@
             tools:text="₹20" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvMenuListActualPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_12sp"
+            app:layout_constraintStart_toEndOf="@+id/tvCartLiveDealListFinalPrice"
+            app:layout_constraintTop_toTopOf="@+id/tvCartLiveDealListFinalPrice"
+            tools:text="₹20" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvMenuListPointLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:text="|  Points: "
+            android:textAlignment="center"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCartLiveDealListFinalPrice"
+            app:layout_constraintStart_toEndOf="@+id/tvMenuListActualPrice"
+            app:layout_constraintTop_toTopOf="@+id/tvCartLiveDealListFinalPrice"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvMenuListPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:gravity="center"
+            android:text="20"
+            android:textAlignment="center"
+            android:textColor="#02C8CE"
+            android:textSize="@dimen/_12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMenuListPointLabel"
+            app:layout_constraintStart_toEndOf="@+id/tvMenuListPointLabel"
+            app:layout_constraintTop_toTopOf="@+id/tvMenuListPointLabel" />
+
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvCartLiveDealListTime"
             android:layout_width="wrap_content"
             android:layout_height="0dp"

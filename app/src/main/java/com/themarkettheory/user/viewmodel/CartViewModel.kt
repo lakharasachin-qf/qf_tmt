@@ -218,8 +218,10 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
     fun get_cart(booking_id: Int, is_redeem: Int, isLiveDeal: Int,isDineIn: Int) {
         Log.e("booking_id","{$booking_id}")
         isLoading.value = true
+
         disposable = apiService
-            .get_cart(booking_id, is_redeem, isLiveDeal,isDineIn)
+            //.get_cart(booking_id, is_redeem, isLiveDeal,isDineIn)
+            .get_cartNew(booking_id, is_redeem, isLiveDeal)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result ->
@@ -247,14 +249,26 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
 
     fun pickup_type(type: String, schedule_time: String, is_redeem: Int, isLiveDeal: Int,isDineIn: Int) {
         isLoading.value = true
-        disposable = apiService
-            .schedule_pickup_type(type, schedule_time, is_redeem, isLiveDeal,isDineIn)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ result ->
-                responseGetCartNew.value = result
-                isLoading.value = false
-            }, { error -> isLoading.value = false })
+        if(schedule_time.isNotEmpty()) {
+            disposable = apiService
+                .schedule_pickup_type(type, schedule_time, is_redeem, isLiveDeal, isDineIn)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ result ->
+                    responseGetCartNew.value = result
+                    isLoading.value = false
+                }, { error -> isLoading.value = false })
+        }else{
+            disposable = apiService
+                .schedule_pickup_type_noTime(type,  is_redeem, isLiveDeal, isDineIn)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ result ->
+                    responseGetCartNew.value = result
+                    isLoading.value = false
+                }, { error -> isLoading.value = false })
+        }
     }
+    //["is_live_deal": false, "is_dine_in": false, "type": "SCHEDULE_PICKUP", "is_redeem": false]
 
 }

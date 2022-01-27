@@ -338,14 +338,10 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         tvMyBucketPickUpTime.visibility = View.VISIBLE
                         tvMyBucketPickUpTime.text = "Select Schedule Time"
                         selectedIndex = 0
-//                        if (tvMyBucketPickUpTime.text.toString() != "Select Schedule Time")
-//                            callApiForPickUpType(
-//                                "SCHEDULE_PICKUP", PubFun.parseDate(
-//                                    tvMyBucketPickUpTime.text.toString(),
-//                                    Config.defaultTimeFormat,
-//                                    Config.requestTimeFormat
-//                                ).toString()
-//                            )
+                        if (tvMyBucketPickUpTime.text.toString() != "Select Schedule Time")
+                            callApiForPickUpType("SCHEDULE_PICKUP", "")
+                        else
+                            callApiForPickUpType("SCHEDULE_PICKUP", "")
 
                     }
                     R.id.rbPickupNow -> {
@@ -508,6 +504,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             e.printStackTrace()
         }
     }
+
 
     private fun callApiForPickUpType(type: String, scheduleTime: String) {
         Log.e(type, scheduleTime)

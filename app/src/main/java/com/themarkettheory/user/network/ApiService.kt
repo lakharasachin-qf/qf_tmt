@@ -478,6 +478,14 @@ interface ApiService {
         @Query("is_dine_in") is_dine_in: Int
     ): Observable<GetCartNewRes>
 
+
+    @GET("get_cart")
+    fun get_cartNew(
+        @Query("booking_id") booking_id: Int,
+        @Query("is_redeem") is_redeem: Int,
+        @Query("is_live_deal") is_live_deal: Int,
+    ): Observable<GetCartNewRes>
+
     @FormUrlEncoded
     @POST("add_cart")
     fun add_cart(
@@ -812,6 +820,16 @@ interface ApiService {
         @Field("is_live_deal") is_live_deal: Int,
         @Field("is_dine_in") is_dine_in: Int
     ): Observable<GetCartNewRes>
+
+    @FormUrlEncoded
+    @POST("book_type")
+    fun schedule_pickup_type_noTime(
+        @Field("type") type: String,
+        @Field("is_redeem") is_redeem: Int,
+        @Field("is_live_deal") is_live_deal: Int,
+        @Field("is_dine_in") is_dine_in: Int
+    ): Observable<GetCartNewRes>
+
 
     @FormUrlEncoded
     @POST("check_restaurant_time")

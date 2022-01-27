@@ -459,6 +459,12 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                             R.id.rbLiveDealBucketSchedulePickup -> {
                                 ivLiveDealBucketClock.visibility = View.VISIBLE
                                 tvLiveDealBucketPickUpTime.visibility = View.VISIBLE
+                                tvLiveDealBucketPickUpTime.text = "Select Schedule Time"
+
+                                if (tvLiveDealBucketPickUpTime.text.toString() != "Select Schedule Time")
+                                    callApiForPickUpType("SCHEDULE_PICKUP", "")
+                                else
+                                    callApiForPickUpType("SCHEDULE_PICKUP",tvLiveDealBucketPickUpTime.text.toString().trim())
                             }
                             else -> {
                                 ivLiveDealBucketClock.visibility = View.GONE

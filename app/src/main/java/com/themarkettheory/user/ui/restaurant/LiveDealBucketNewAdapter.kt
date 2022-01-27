@@ -2,6 +2,7 @@ package com.themarkettheory.user.ui.restaurant
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,8 +60,40 @@ class LiveDealBucketNewAdapter(
                 cartRowData.menu!!.title!!.trim()
 
             /*Dish Ingredients*/
-            holder.rowMyCartLiveDealNewBinding.tvCartLiveDealListCategory.text =
-                cartRowData.menu!!.categoryName!!.trim()
+
+            holder.rowMyCartLiveDealNewBinding.tvCartLiveDealListCategory.apply {
+                text = cartRowData.menu!!.categoryName!!.trim()
+                visibility =
+                    if (cartRowData.menu!!.categoryName!!.trim().isEmpty() ||
+                        cartRowData.menu!!.categoryName!!.trim() == "0"
+                    ) View.GONE else View.VISIBLE
+            }
+
+            if (cartRowData.menu!!.finalPrice != cartRowData.menu!!.actualPrice) {
+                holder.rowMyCartLiveDealNewBinding.tvMenuListActualPrice.visibility = View.VISIBLE
+                holder.rowMyCartLiveDealNewBinding.tvMenuListActualPrice.text =
+                    "${cartRowData.menu!!.currency!!.trim()}${
+                        cartRowData.menu!!.actualPrice.toString().trim()
+                    }"
+                holder.rowMyCartLiveDealNewBinding.tvMenuListActualPrice.paintFlags =
+                    Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                holder.rowMyCartLiveDealNewBinding.tvMenuListActualPrice.visibility = View.GONE
+            }
+
+
+            holder.rowMyCartLiveDealNewBinding.tvMenuListPointLabel.visibility =
+                if (cartRowData.menu!!.point!! > 0) View.VISIBLE else View.GONE
+            holder.rowMyCartLiveDealNewBinding.tvMenuListPoint.visibility =
+                if (cartRowData.menu!!.point!! > 0) View.VISIBLE else View.GONE
+            holder.rowMyCartLiveDealNewBinding.tvMenuListPoint.apply {
+                text = cartRowData.menu!!.point.toString().trim()
+                visibility =
+                    if (cartRowData.menu!!.point.toString().trim()
+                            .isEmpty() || cartRowData.menu!!.point == 0
+                    ) View.GONE else View.VISIBLE
+            }
+
 
             /*Dish Final Price*/
             holder.rowMyCartLiveDealNewBinding.tvCartLiveDealListFinalPrice.text =
@@ -69,6 +102,14 @@ class LiveDealBucketNewAdapter(
             /*Dish Qty*/
             holder.rowMyCartLiveDealNewBinding.tvCartLiveDealListCount.text =
                 cartRowData.qty!!.toString().trim()
+
+            holder.rowMyCartLiveDealNewBinding.tvCartLiveDealListTime.apply {
+                text = cartRowData.menu!!.preparingTime!!.trim()
+                visibility =
+                    if (cartRowData.menu!!.preparingTime!!.trim().isEmpty() ||
+                        cartRowData.menu!!.preparingTime!!.trim() == "0 mins"
+                    ) View.GONE else View.VISIBLE
+            }
 
             /*Dish Add*/
             holder.rowMyCartLiveDealNewBinding.ivCartLiveDealListPlus.setOnClickListener {

@@ -2,6 +2,7 @@ package com.themarkettheory.user.ui.restaurant
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,9 +75,22 @@ class LiveDealNewAdapter(
                 else ContextCompat.getDrawable(context, R.drawable.ic_not_spicy)
             )
 
+
+            if (liveDealData.menu!!.finalPrice != liveDealData.menu!!.actualPrice) {
+                holder.rowLiveDealsNewBinding.tvMenuListActualPrice.visibility = View.VISIBLE
+                holder.rowLiveDealsNewBinding.tvMenuListActualPrice.text =
+                    "${liveDealData.menu!!.currency!!.trim()}${
+                        liveDealData.menu!!.actualPrice.toString().trim()
+                    }"
+                holder.rowLiveDealsNewBinding.tvMenuListActualPrice.paintFlags =
+                    Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                holder.rowLiveDealsNewBinding.tvMenuListActualPrice.visibility = View.GONE
+            }
+
             /*Dish Final Price*/
             holder.rowLiveDealsNewBinding.tvRowLiveDealsFinalPrice.text =
-                "${liveDealData.menu!!.currency!!} ${liveDealData.menu!!.finalPrice!!.trim()}"
+                "${liveDealData.menu!!.currency!!} ${liveDealData.menu!!.finalPrice}"
 
             /*Add Button*/
             holder.rowLiveDealsNewBinding.tvLiveDealListAdd.apply {
