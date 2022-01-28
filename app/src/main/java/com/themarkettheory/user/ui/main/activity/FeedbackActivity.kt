@@ -1,6 +1,7 @@
 package com.themarkettheory.user.ui.main.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -18,7 +19,7 @@ import com.themarkettheory.user.viewmodel.GeneralViewModel
 import kotlinx.android.synthetic.main.activity_feedback_new.*
 
 class FeedbackActivity : BaseActivity(), View.OnClickListener {
-
+    var serviceId = 0
     lateinit var generalViewModel: GeneralViewModel
     var priviousRating = 0.0f
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +38,7 @@ class FeedbackActivity : BaseActivity(), View.OnClickListener {
         val btnRating3 = findViewById<AppCompatButton>(R.id.btnRating3)
         val btnRating4 = findViewById<AppCompatButton>(R.id.btnRating4)
 
-
+        serviceId = intent.getIntExtra("serviceId", 0)
 
         btnRating1.setOnClickListener {
 
@@ -98,9 +99,9 @@ class FeedbackActivity : BaseActivity(), View.OnClickListener {
                 val rating = arrayOf(rating0, rating1, rating2, rating3)
                 //calling api as of now sending service id 3 hardcoded
                 if (PubFun.isInternetConnection(this@FeedbackActivity)) {
-                    generalViewModel.add_review(3, rating, comment)
+                    generalViewModel.add_review(serviceId, rating, comment)
                 } else {
-                    showMsgDialogAndProceed(Config.msgToastForInternet)
+                    showMsgDialogAndProceed(Config.msgToastForInternet, true)
                 }
             }
         }
@@ -109,16 +110,16 @@ class FeedbackActivity : BaseActivity(), View.OnClickListener {
     private fun getResponse() {
         generalViewModel.responseAddReview.observe(this, Observer {
             when (it.status) {
-                0 -> showMsgDialogAndProceed(it.message!!.trim())
+                0 -> showMsgDialogAndProceed(it.message!!.trim(), true)
                 1 -> {
-                    showMsgDialogAndProceed(it.message!!.trim())
+                    showMsgDialogAndProceed(it.message!!.trim(), false)
                 }
             }
         })
     }
 
     @SuppressLint("SetTextI18n")
-    private fun showMsgDialogAndProceed(msg: String) {
+    private fun showMsgDialogAndProceed(msg: String, isError: Boolean) {
         try {
             val myDialog = DialogToast(this@FeedbackActivity)
             myDialog.show()
@@ -133,7 +134,12 @@ class FeedbackActivity : BaseActivity(), View.OnClickListener {
                     override fun run() {
                         if (i == 0) {
                             myDialog.dismiss()
-                            finish()
+                            if (!isError) {
+                                val intent = Intent(this@FeedbackActivity, MainActivity::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+                            }
                         } else {
                             i--
                             it.btnDialogLogout.postDelayed(this, 1000)

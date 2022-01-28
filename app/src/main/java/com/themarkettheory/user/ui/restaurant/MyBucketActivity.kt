@@ -112,7 +112,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             tvCouponCode = findViewById(R.id.tvCouponCode)
             tvDiningIn = findViewById(R.id.tvDiningIn)
             init()
-            Log.e("Config.",Config.getSelectedCouponCode)
+            Log.e("Config.", Config.getSelectedCouponCode)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -262,7 +262,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
         // requesting api for cart detail
         callGetCart(bookingId.toInt())
 
-//        //Loader
+        //Loader
         cartViewModel.isLoading.observe(this, {
             try {
                 if (it!!) {
@@ -553,7 +553,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         subTotal.toString(),
                         totalAmt.toString(),
                         "",
-                        paymentData.paymentId.toString(), //"payment_id",
+                        paymentData.paymentId.toString(),//"payment_id"
                         totalPoints.toString(),
                         edMyBucketSpecialInstaruction.text.toString().trim(),
                         currentTimess,
@@ -1009,7 +1009,11 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     }
                 }
                 ivCouponCross -> {
-                    cartViewModel.removePromoCode(serviceId.toInt(),bookingId,Config.getSelectedCouponCode)
+                    cartViewModel.removePromoCode(
+                        serviceId.toInt(),
+                        bookingId,
+                        Config.getSelectedCouponCode
+                    )
                     Config.isCouponApplied = false
                     Config.isCouponRedeem = false
                     Config.getSelectedCouponCode = ""

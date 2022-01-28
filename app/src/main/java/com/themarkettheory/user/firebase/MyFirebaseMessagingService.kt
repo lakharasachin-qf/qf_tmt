@@ -120,6 +120,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val receiver_id = map["receiver_id"]
             val message_type = map["chat_type"]
             val message_text = map["chat_text"]
+            var serviceId =0 //map["chat_text"]
             val timestamp = System.currentTimeMillis()
             val prefs = Prefs(applicationContext)
             message = map["body"]
@@ -129,19 +130,22 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             if (message_type == "image")
                 imageUrl = message_text
 
+            if(notification_type == "10")
+                serviceId = map["service_id"]!!.toUInt().toInt()
+
             val pushNotification = Intent(Config.PUSH_NOTIFICATION)
             pushNotification.putExtra("message", message)
             pushNotification.putExtra("notification_type", notification_type)
+            pushNotification.putExtra("serviceId", serviceId)
             LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification)
 
             if (!prefs.getLoginModel().id.toString().isNullOrEmpty()) {
-//                    var resultIntent = Intent()
-//                        resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-//                        resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
                 val pushNotification = Intent("requests_count")
                 //pushNotification.putExtra("message", message)
                 pushNotification.putExtra("message", map["user_message"])
                 pushNotification.putExtra("notification_type", notification_type)
+                pushNotification.putExtra("serviceId", serviceId)
 
                 LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification)
 

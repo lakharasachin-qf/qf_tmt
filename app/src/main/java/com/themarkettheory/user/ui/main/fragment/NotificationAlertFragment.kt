@@ -57,9 +57,7 @@ class NotificationAlertFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val gson = Gson()
         generalViewModel.get_notifications()
-
         getResponse()
-
     }
 
     @SuppressLint("LongLogTag")

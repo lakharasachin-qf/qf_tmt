@@ -12,4 +12,6 @@ data class NewHomeRes(
     var `data`: Data? = Data(),
     @SerializedName("is_feedback")
     var isFeedBack: Int? = 0,
+    @SerializedName("feedback_remain_service_id")
+    var serviceId: Int? = 0,
 )

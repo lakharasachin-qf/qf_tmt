@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -159,7 +160,13 @@ class HomeFragment : BaseFragment(), View.OnClickListener, OnCategoryClickListen
                         ) View.VISIBLE else View.GONE
                     tvCartCount.text = home.data!!.cartCount!!.toString().trim()
                     if (home.isFeedBack == 1) {
-                        startActivity(Intent(requireActivity(), FeedbackActivity::class.java))
+                        Log.e("isFEEd","Count")
+                        startActivity(
+                            Intent(
+                                requireActivity(),
+                                FeedbackActivity::class.java
+                            ).putExtra("serviceId", home.serviceId)
+                        )
                     }
 
                     home.data?.let {

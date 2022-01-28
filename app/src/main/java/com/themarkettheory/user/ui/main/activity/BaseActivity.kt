@@ -56,8 +56,13 @@ open class BaseActivity : AppCompatActivity() {
                     if (intent.getStringExtra("notification_type")
                             .equals("10")
                     ) { // feedback form
-                        prefs.setFeedback(true)
-                        startActivity(Intent(this@BaseActivity, FeedbackActivity::class.java))
+
+                        startActivity(
+                            Intent(
+                                this@BaseActivity,
+                                FeedbackActivity::class.java
+                            ).putExtra("serviceId", intent.getIntExtra("serviceId",0))
+                        )
                     }
 
                 }
