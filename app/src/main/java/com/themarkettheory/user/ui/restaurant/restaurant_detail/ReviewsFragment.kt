@@ -92,7 +92,7 @@ class ReviewsFragment : Fragment(), View.OnClickListener {
         gson = GsonBuilder()
             .setLenient()
             .create()
-        Log.e("review Id:", gson.toJson(vendorDetailViewModel.review(id)))
+       // Log.e("review Id:", gson.toJson(vendorDetailViewModel.review(id)))
         vendorDetailViewModel.review(id)
 
         vendorDetailViewModel.responseReviews.observe(viewLifecycleOwner, Observer {
@@ -109,7 +109,7 @@ class ReviewsFragment : Fragment(), View.OnClickListener {
 
         try {
 
-            Log.e("Review Data", gson.toJson(res.data))
+          //  Log.e("Review Data", gson.toJson(res.data))
 
             if (res.data!!.isNotEmpty()) {
                 //setting total no of rating

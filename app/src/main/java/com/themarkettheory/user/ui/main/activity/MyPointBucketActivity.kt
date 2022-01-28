@@ -435,7 +435,7 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
 
     @SuppressLint("SetTextI18n")
     private fun populateCartDetails(res: GetCartNewRes) {
-        Log.e("PopulateCart", gson.toJson(res))
+     //   Log.e("PopulateCart", gson.toJson(res))
         try {
             if (res.data != null) {
                 //setting up the total points
@@ -596,7 +596,7 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                     )
                     bucketDataList.add(bucketCartRes)
 
-                    Log.e("bucket List", gson.toJson(bucketDataList))
+                   // Log.e("bucket List", gson.toJson(bucketDataList))
                 }
                 bucketMyPointAdapter.setBucketData(bucketDataList)
                 rvBucketPointMyCart.apply {

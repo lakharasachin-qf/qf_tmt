@@ -2,9 +2,7 @@ package com.themarkettheory.user.ui.main.fragment
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -83,6 +81,8 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         try {
+            Log.e("onViewCreated", "onViewCreated call")
+
             ivProfileMenu = requireActivity().findViewById(R.id.ivProfileMenu)
             ivBackgroundMenu = requireActivity().findViewById(R.id.ivBackground)
             /*Initialize Gson and MyRoomDb*/
@@ -90,13 +90,13 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
             myRoomDatabase = MyRoomDatabase.getDB(requireActivity())!!
 
             //init()
-
-            /*call profile API*/
             if (PubFun.isInternetConnection(requireActivity())) {
                 profileViewModel.profileNew()
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
             }
+            /*call profile API*/
+
             flTotalPoints.setOnClickListener(this)
             flCoupons.setOnClickListener(this)
             ivProfileMenu.setOnClickListener(this)
@@ -124,6 +124,7 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
             Log.e("onResume", "onResume call")
             requireActivity().supportFragmentManager.beginTransaction().attach(this).commit()
             init()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -155,6 +156,7 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
                 e.printStackTrace()
             }
         })
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -164,28 +166,14 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
             myRoomDatabase.daoConfig()
                 .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(loginRes)))
             if (loginRes.data != null) {
-                if (loginRes.data . mobileVerified == 0) {
+                if (loginRes.data.mobileVerified == 0) {
                     prefs.setLoginModel(loginRes.data)
-                    Log.e("editAfter",gson.toJson(loginRes.data))
-                     startActivity(Intent(activity, VerifyOtpActivity::class.java))
+                    startActivity(Intent(activity, VerifyOtpActivity::class.java))
                 }
             }
-            userName = loginRes.data!!.name.trim()
-            zip = loginRes.data!!.zip.toString()
-            dob = loginRes.data!!.dob.toString()
-            Log.e("userName", userName)
-            Log.e("zip", zip)
-            Log.e("dob", dob)
-            Log.e("gender", loginRes.data!!.gender.toString())
 
-            tvName.text = loginRes.data!!.name.trim()
-            tvPhoneEmail.text = "${loginRes.data.mobile.trim()} | ${loginRes.data.email.trim()}"
-            tvPoints.text = loginRes.data.points.toString().trim()
 
-            // setting the notification flag
-            Config.isnotification = loginRes.data.is_notification
-
-            var profileUrl = if (loginRes.data.profilePic.trim()
+            val profileUrl = if (loginRes.data!!.profilePic.trim()
                     .startsWith("https")
             ) loginRes.data.profilePic.trim() else
                 "${
@@ -194,6 +182,8 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
                         ""
                     )
                 }/uploads/profile_pics/${loginRes.data.profilePic.trim()}"
+            ivProfileMenu = requireActivity().findViewById(R.id.ivProfileMenu)
+            ivBackgroundMenu = requireActivity().findViewById(R.id.ivBackground)
 
             /*  Utils.showProgress(requireActivity())*/
             if (profileUrl.isEmpty()) {
@@ -204,44 +194,49 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
                     )
                 )
             } else {
-                if (ivBackgroundMenu != null) {
-                    Glide.with(requireActivity()).load(profileUrl)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .skipMemoryCache(true)
-                        .into(object : CustomTarget<Drawable>() {
-                            override fun onResourceReady(
-                                resource: Drawable,
-                                transition: Transition<in Drawable>?
-                            ) {
-                                ivProfileMenu.setImageDrawable(resource)
-                                ivBackgroundMenu.setImageDrawable(resource)
+                Glide.with(this).clear(ivProfileMenu)
+                Glide.with(this).clear(ivBackgroundMenu)
 
-                                ivProfileMenu.invalidate()
-                                ivBackgroundMenu.invalidate()
-                            }
+                Glide.with(this).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile)
+                    .into(ivProfileMenu)
 
-                            override fun onLoadCleared(placeholder: Drawable?) {
+                Glide.with(requireActivity()).load(profileUrl)
+                    .into(object : CustomTarget<Drawable>() {
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            ivBackgroundMenu.setImageDrawable(resource)
+                        }
 
-                            }
+                        override fun onLoadCleared(placeholder: Drawable?) {
 
-                            override fun onLoadFailed(errorDrawable: Drawable?) {
-                                super.onLoadFailed(errorDrawable)
-                                ivProfileMenu.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        requireActivity(),
-                                        R.drawable.ic_profile
-                                    )
+                        }
+
+                        override fun onLoadFailed(errorDrawable: Drawable?) {
+                            super.onLoadFailed(errorDrawable)
+                            ivBackgroundMenu.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireActivity(),
+                                    R.drawable.ic_gradient_rectangle
                                 )
-                                ivBackgroundMenu.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        requireActivity(),
-                                        R.drawable.ic_gradient_rectangle
-                                    )
-                                )
-                            }
-                        })
-                }
+                            )
+                        }
+                    })
+
             }
+
+            userName = loginRes.data!!.name.trim()
+            zip = loginRes.data!!.zip.toString()
+            dob = loginRes.data!!.dob.toString()
+
+            tvName.text = loginRes.data!!.name.trim()
+            tvPhoneEmail.text = "${loginRes.data.mobile.trim()} | ${loginRes.data.email.trim()}"
+            tvPoints.text = loginRes.data.points.toString().trim()
+
+            // setting the notification flag
+            Config.isnotification = loginRes.data.is_notification
         } catch (e: Exception) {
             e.printStackTrace()
         }

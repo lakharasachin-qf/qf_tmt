@@ -170,7 +170,7 @@ class LiveDealsActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun populateLiveDeals(res: NewLiveDealRes) {
-        Log.e("populateLive",gson.toJson(res))
+   //     Log.e("populateLive",gson.toJson(res))
         try {
             if (res.data!!.list.isNullOrEmpty()) {
                 clLiveDeal.visibility = View.GONE

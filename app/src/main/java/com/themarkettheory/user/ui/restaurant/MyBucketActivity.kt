@@ -233,7 +233,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         .selectConfigTableByField(Config.dbNewBookingDetailRes)!!,
                     NewBookingDetailsRes::class.java
                 )
-            Log.e("TableBBB0", gson.toJson(newBookingDetailsRes.data))
+        //    Log.e("TableBBB0", gson.toJson(newBookingDetailsRes.data))
             //Getting booking Id
             bookingId = newBookingDetailsRes.data!!.id!!.toString().trim()
 
@@ -590,7 +590,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     private fun populateCartDetails(res: GetCartNewRes) {
         try {
             Log.e("populateCartDetails", "populateCartDetails");
-            Log.e("Cart Data", gson.toJson(res))
+        //    Log.e("Cart Data", gson.toJson(res))
             if (res.data != null) {
 
 
@@ -688,7 +688,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                                     bucketData.menuID.toString(),
                                     "0",
                                     bucketData.qty.toString(),
-                                    "0",
+                                    bookingId,
                                     0,
                                     if (isDiningInSelected) 1 else 0
                                 )
@@ -720,7 +720,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                                     bucketData.menuID.toString(),
                                     "0",
                                     "0",
-                                    "0",
+                                    bookingId,
                                     0,
                                     if (isDiningInSelected) 1 else 0
                                 )
@@ -783,7 +783,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         res.data!!.serviceDetails!!.offers!![i].buyQty!!,
                         res.data!!.serviceDetails!!.offers!![i].getQty!!,
                     )
-                    Log.e("NEwCreated", gson.toJson(bucketCartRes))
+                  //  Log.e("NEwCreated", gson.toJson(bucketCartRes))
                     bucketDataList.add(bucketCartRes)
                 }
 

@@ -99,7 +99,7 @@ class OtherSettingsActivity : BaseActivity(), View.OnClickListener {
             generalViewModel.responseDeleteAccount.observe(this, Observer {
                 if (it.status == 1) {
                     //{"message":"Message not found with key: ACCOUNT_DELETED","status":1}
-                    Log.e("Deleted Data", gson.toJson(it.response))
+                  //  Log.e("Deleted Data", gson.toJson(it.response))
                     prefs.clear()
                     startActivity(Intent(this, SigninActivity::class.java))
                     finishAffinity()

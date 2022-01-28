@@ -77,7 +77,7 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
 
         termAndCondition = intent.getStringExtra("terms_condition")
 
-        Log.e("Terms Data:", gson.toJson(termAndCondition))
+       // Log.e("Terms Data:", gson.toJson(termAndCondition))
         if (Config.isLoginWithSocialButton) {
             val socialLoginResponse = gson.fromJson(
                 myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbSocialLogin),

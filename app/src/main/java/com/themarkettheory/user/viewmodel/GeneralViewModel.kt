@@ -115,7 +115,7 @@ class GeneralViewModel(application: Application) : BaseViewModel(application) {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result ->
-                Log.e("deleted Response", gson.toJson(result))
+              //  Log.e("deleted Response", gson.toJson(result))
                 responseDeleteAccount.value = result
                 isLoading.value = false
             }, { error ->

@@ -86,7 +86,7 @@ class NotificationCouponCodesFragment : Fragment() {
                             ""
                         )
                     }
-                Log.e("CouponData List Data:", Config.gson.toJson(it.data))
+             //   Log.e("CouponData List Data:", Config.gson.toJson(it.data))
                 rvCoupons.adapter = notificationCouponCodesAdapter
                 rvCoupons.layoutManager = LinearLayoutManager(activity)
             } else {

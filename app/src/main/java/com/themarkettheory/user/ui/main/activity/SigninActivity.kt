@@ -182,7 +182,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                             val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
                             // Google Sign In was successful, authenticate with Firebase
                             val account = task.getResult(ApiException::class.java)!!
-                            Log.e("GMAIL - ", gson.toJson(account))
+                         //   Log.e("GMAIL - ", gson.toJson(account))
                             System.out.println("firebaseAuthWithGoogle:" + account.id)
 
 

@@ -389,7 +389,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                     )
                 }
 
-                Log.e("occasion_id:", gson.toJson(res.data!!))
+              //  Log.e("occasion_id:", gson.toJson(res.data!!))
 
 
                 if (res.data!!.occasion_name!!.toString().trim().isNotEmpty()) {

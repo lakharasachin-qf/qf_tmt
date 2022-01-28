@@ -655,7 +655,7 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
                                 it.data!!.offers!!
                             )
                             else -> {
-                                Log.e("SEARCH",gson.toJson(it.data))
+                             //   Log.e("SEARCH",gson.toJson(it.data))
                                 if (it.data!!.restaurant!!.isNotEmpty()) {
                                     when (Config.isRestaurantListOpeningFrom) {
                                         Config.restaurantListOpeningFromPopularLocationSeeAll -> rvRestaurantListPopularLocation.visibility =

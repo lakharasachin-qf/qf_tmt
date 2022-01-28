@@ -313,7 +313,7 @@
     <string name="unusual_activity_please_report"><u>Unusual activity please report</u></string>
     <string name="coupon_detail">Coupon Detail</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
-    <string name="invite_n_earn">Ask your friends to signup as a vendor<br />with your referral code and make an initial<br />point. Once done, each earn <font color='#02C8CE'>100</font> Points.</string>
+    <string name="invite_n_earn">Ask your friends to signup as a vendor with your referral code and make an initial point. Once done, each earn <font color='#02C8CE'>100</font> Points.</string>
 
     <string name="points_text"><![CDATA[<font color=\'#02C8CE\'>%s</font><font color=\'#77868F\'> Points</font>]]></string>
     <string name="points_PointText"><![CDATA[<font color=\'#02C8CE\'>Live</font><font color=\'#ffffff\'> Deals</font>]]></string>

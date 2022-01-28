@@ -107,7 +107,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
     private fun refreshDataLogin(res: NewLoginResponse) {
         try {
-            Log.e("LOGIN RES", gson.toJson(res))
+           // Log.e("LOGIN RES", gson.toJson(res))
             myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbNewLoginRes)
             myRoomDatabase.daoConfig()
                 .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(res)))
@@ -270,7 +270,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
             myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbNewLoginRes)
             myRoomDatabase.daoConfig()
                 .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(res)))
-            Log.e("checkAccountStatus", gson.toJson(res))
+         //   Log.e("checkAccountStatus", gson.toJson(res))
             showMsgDialogAndProceed(res, "", false, 101)
 
         } catch (e: Exception) {
@@ -280,7 +280,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
 
     private fun loginResponse(res: NewLoginResponse) {
         try {
-            Log.e("LOGIN RES", gson.toJson(res))
+       //     Log.e("LOGIN RES", gson.toJson(res))
             myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbNewLoginRes)
             myRoomDatabase.daoConfig()
                 .insertConfigTable(TableConfig(Config.dbNewLoginRes, gson.toJson(res)))
@@ -296,7 +296,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
         try {
             if (PubFun.isInternetConnection(this@EditProfileActivity)) {
                 prefs = Prefs(this@EditProfileActivity)
-                Log.e("OnBacked", gson.toJson(prefs.getLoginModel()))
+              ///  Log.e("OnBacked", gson.toJson(prefs.getLoginModel()))
                 if (prefs.getLoginModel().mobileVerified == 0) {
                     profileViewModel.checkStatusForAccount()
                 } else {
@@ -411,7 +411,7 @@ class EditProfileActivity : BaseActivity(), View.OnClickListener {
                                             if (res.data != null) {
                                                 prefs.setLoginModel(res.data)
                                                 if (res.data.mobileVerified == 0) {
-                                                    Log.e("editAfter", gson.toJson(res.data))
+                                             //       Log.e("editAfter", gson.toJson(res.data))
                                                     //profileViewModel.checkStatusForAccount()
                                                     myRoomDatabase.daoConfig().apply {
                                                         deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)

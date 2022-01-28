@@ -436,10 +436,10 @@ class SplashActivity : BaseActivity() {
     private fun init() {
         Config.myRoomDatabase = MyRoomDatabase.getDB(this@SplashActivity)!!
         val isDashboard = myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbIsDashboard)
-        Log.e("SPles",gson.toJson(prefs.getLoginModel()))
+       // Log.e("SPles",gson.toJson(prefs.getLoginModel()))
 
         val selectNavigates = myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
-        Log.e("SPles", selectNavigates.toString())
+      //  Log.e("SPles", selectNavigates.toString())
 
         if(selectNavigates != Config.editProfileActivity) {
             myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)

@@ -436,7 +436,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     @SuppressLint("SetTextI18n")
     private fun populateLiveDealBucket(res: GetCartNewRes) {
         try {
-            Log.e("API-DATa", gson.toJson(res))
+       //     Log.e("API-DATa", gson.toJson(res))
             /*Razorpay Currency String*/
             if (res.data != null) {
 

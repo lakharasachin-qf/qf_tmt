@@ -78,7 +78,7 @@ class NotificationAlertFragment : Fragment() {
             if (it.status == 1) {
                 val notificationAlertsAdapter =
                     it.data?.let { it1 -> NotificationAlertsAdapter(requireActivity(), it1) }
-                Log.e("NotificationsAlertData:", gson.toJson(it.data))
+               // Log.e("NotificationsAlertData:", gson.toJson(it.data))
                 rvAlert.adapter = notificationAlertsAdapter
                 rvAlert.layoutManager = LinearLayoutManager(activity)
             } else {

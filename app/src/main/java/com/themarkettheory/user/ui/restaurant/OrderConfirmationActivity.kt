@@ -203,7 +203,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
         try {
             if (res.data != null) {
 
-                Log.e("Order Confirmation Data", gson.toJson(res))
+             //   Log.e("Order Confirmation Data", gson.toJson(res))
                 val currency = res.data!!.menuDetails!![0].menu!!.currency
 
                 // setting orderno

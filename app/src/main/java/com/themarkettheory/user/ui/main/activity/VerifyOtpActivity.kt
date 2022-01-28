@@ -309,7 +309,7 @@ class VerifyOtpActivity : BaseActivity(), View.OnClickListener {
                         )
                     )
                 }
-                Log.e("User Response", gson.toJson(res))
+        //        Log.e("User Response", gson.toJson(res))
                 prefs.setAccessToken(this@VerifyOtpActivity, res.data.token)
                 prefs.setLoginModel(res.data)
                 termAndCondition = res.data.terms_condition
