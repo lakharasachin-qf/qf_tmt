@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.FtsOptions
 import com.razorpay.*
 import com.themarkettheory.user.R
 import com.themarkettheory.user.helper.Utils

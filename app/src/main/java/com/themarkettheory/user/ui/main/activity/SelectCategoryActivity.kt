@@ -8,15 +8,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.FtsOptions
 import com.razorpay.*
 import com.themarkettheory.user.R
 import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.viewmodel.EventsViewModel
 import kotlinx.android.synthetic.main.activity_select_category.*
 import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 

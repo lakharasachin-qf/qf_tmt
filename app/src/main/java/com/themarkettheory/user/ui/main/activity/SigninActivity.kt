@@ -14,7 +14,6 @@ import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -26,14 +25,11 @@ import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.GraphRequest
-import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
@@ -45,7 +41,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.themarkettheory.user.R
 import com.themarkettheory.user.database.dbtables.TableConfig
 import com.themarkettheory.user.helper.*
-import com.themarkettheory.user.helper.AppSignatureHelper.Companion.TAG
 import com.themarkettheory.user.model.SocialLoginResponse
 import com.themarkettheory.user.model.SocialModel
 import com.themarkettheory.user.newmodels.login.NewLoginResponse

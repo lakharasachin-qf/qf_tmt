@@ -6,8 +6,7 @@ object Constants {
     const val FCM_TOKEN: String = "fcm_token"
     const val PREFERENCE_NAME = "iKholo"
 
-    const val deviceType =
-        "2" // web = 1 , android = 2, iOS = 3 throughout project. In our case it will be always 2
+    const val deviceType = "2" // web = 1 , android = 2, iOS = 3 throughout project. In our case it will be always 2
     const val login_model = "login_model"
     const val register_model = "register_model"
     const val fcm_token = "fcm_token"

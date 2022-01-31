@@ -2,8 +2,6 @@ package com.themarkettheory.user.ui.main.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer

@@ -1,7 +1,6 @@
 package com.themarkettheory.user.ui.main.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.themarkettheory.user.R
-import com.themarkettheory.user.helper.Config
 import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.ui.main.adapter.NotificationCouponCodesAdapter
 import com.themarkettheory.user.viewmodel.GeneralViewModel

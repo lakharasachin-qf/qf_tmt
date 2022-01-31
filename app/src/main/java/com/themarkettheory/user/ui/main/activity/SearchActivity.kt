@@ -23,8 +23,6 @@ import com.themarkettheory.user.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 import android.view.inputmethod.EditorInfo
 
-import android.widget.TextView
-
 import android.widget.TextView.OnEditorActionListener
 
 

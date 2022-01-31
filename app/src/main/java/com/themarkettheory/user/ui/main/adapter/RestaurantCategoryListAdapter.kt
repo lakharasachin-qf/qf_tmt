@@ -11,7 +11,6 @@ import com.themarkettheory.user.R
 import com.themarkettheory.user.databinding.RowMenuCategoryBinding
 import com.themarkettheory.user.model.Menu
 import com.themarkettheory.user.model.MenuList
-import kotlinx.android.synthetic.main.fragment_restaurant_menu.*
 import java.util.*
 
 class RestaurantCategoryListAdapter(
