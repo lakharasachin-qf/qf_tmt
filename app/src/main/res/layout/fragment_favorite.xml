@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.main.fragment.FavoriteFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:background="@color/black"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1e202b"
+                android:orientation="vertical"
+                android:paddingBottom="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Favorites"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/ivNotification"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/ic_notification_icon" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHomeCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/row_home_category"
+                tools:orientation="horizontal"
+                android:layout_marginTop="16dp" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/llRestaurant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/rlRestaurant"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/ic_menu_selected_bg">
+
+                            <ImageView
+                                android:id="@+id/ivRestaurant"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_restaurant_icon" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvRestaurant"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:letterSpacing="-0.09"
+                            android:text="Restaurant"
+                            android:textAllCaps="true"
+                            android:textColor="@color/robins_egg_blue"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llSalon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/rlSalon"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/ic_menu_bg">
+
+                            <ImageView
+                                android:id="@+id/ivSalon"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_salon_icon" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvSalon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="@string/salon"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llSpa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/rlSpa"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/ic_menu_bg">
+
+                            <ImageView
+                                android:id="@+id/ivSpa"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_spa_icon" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvSpa"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="@string/spa"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llRetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/rlRetail"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/ic_menu_bg">
+
+                            <ImageView
+                                android:id="@+id/ivRetail"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_retail_icon" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvRetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="@string/retail"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llGym"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/rlGym"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/ic_menu_bg">
+
+                            <ImageView
+                                android:id="@+id/ivGym"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_gym_icon" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvGym"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="@string/gym"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llBakery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/rlBakery"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/ic_menu_bg">
+
+                            <ImageView
+                                android:id="@+id/ivBakery"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_bakery_icon" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvBakery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="@string/bakery"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFavorites"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>

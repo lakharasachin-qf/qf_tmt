@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_solid_rounded_r7"
+        android:foreground="?selectableItemBackground"
+        android:id="@+id/rl"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/ebony_clay">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivOffer"
+            android:layout_width="85dp"
+            android:layout_height="95dp"
+            android:scaleType="centerCrop"
+            android:src="@color/cinder"
+            app:riv_corner_radius_top_left="7dp"
+            app:riv_corner_radius_bottom_left="7dp"
+            app:riv_corner_radius_bottom_right="0dp"
+            app:riv_corner_radius_top_right="0dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/ivOffer"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="10dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/lato_bold"
+                    android:maxLines="1"
+                    android:background="@color/shimmer"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:ellipsize="end"
+                    android:visibility="gone"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:maxLines="1"
+                    android:text="off first purchase"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lato_regular"
+                android:background="@color/shimmer"
+                android:maxLines="2"
+                android:textColor="@color/slate_gray"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/ic_dashed_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="40dp"
+                        android:layout_height="7dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:background="@color/shimmer"
+                        android:textSize="9sp" />
+
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="7dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:background="@color/shimmer"
+                        android:textSize="9sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="45dp"
+                    android:layout_height="7dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:background="@color/shimmer"
+                    android:textSize="9sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_half_left_circle"
+            android:visibility="gone"
+            android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/ivRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"
+            android:src="@drawable/ic_half_right_circle"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+</layout>

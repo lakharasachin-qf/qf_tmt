@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--Toolbar-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clPointsDetailToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/myBlackPearl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--Back Arrow-->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivPointsDetailsToolbarBackArrow"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:adjustViewBounds="true"
+            android:fitsSystemWindows="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--Title-->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvPointsDetailToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="@string/my_points"
+            android:textColor="@color/myWhite"
+            android:textSize="@dimen/_18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--Dish Images-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivPointsDetailDishImage"
+        android:layout_width="@dimen/_75sdp"
+        android:layout_height="@dimen/_75sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:adjustViewBounds="true"
+        android:fitsSystemWindows="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clPointsDetailToolbar"
+        app:shapeAppearanceOverlay="@style/ShapeableImageViewCornerSize7" />
+
+    <!--Restaurant Name-->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvPointsDetailRestaurantName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:maxLines="2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPointsDetailDishImage"
+        app:layout_constraintTop_toBottomOf="@+id/clPointsDetailToolbar"
+        tools:text="Mirch Masala" />
+
+    <!--Dish Name-->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvPointsDetailDishName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/proxima_nova_bold"
+        android:maxLines="2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sp"
+        app:layout_constraintStart_toStartOf="@+id/tvPointsDetailRestaurantName"
+        app:layout_constraintTop_toBottomOf="@+id/tvPointsDetailRestaurantName"
+        tools:text="Dal Makhani (300 grams)" />
+
+    <!--Dish Category-->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvPointsDetailDishCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/slate_gray"
+        android:textSize="@dimen/_10sp"
+        app:layout_constraintStart_toStartOf="@id/tvPointsDetailDishName"
+        app:layout_constraintTop_toBottomOf="@+id/tvPointsDetailDishName"
+        tools:text="Dal" />
+
+    <!--Dish Points-->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvPointsDetailDishPoints"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/proxima_nova_regular"
+        android:textSize="@dimen/_12sp"
+        app:layout_constraintStart_toStartOf="@+id/tvPointsDetailDishCategory"
+        app:layout_constraintTop_toBottomOf="@+id/tvPointsDetailDishCategory"
+        tools:text="5 Points" />
+
+    <!--Dish isVeg-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivPointsDetailIsVeg"
+        android:layout_width="@dimen/_16sdp"
+        android:layout_height="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:adjustViewBounds="true"
+        android:fitsSystemWindows="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_veg_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPointsDetailDishSpicy"
+        app:layout_constraintEnd_toStartOf="@+id/ivPointsDetailDishSpicy"
+        app:layout_constraintTop_toTopOf="@+id/ivPointsDetailDishSpicy" />
+
+    <!--Dish isSpicy-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivPointsDetailDishSpicy"
+        android:layout_width="@dimen/_16sdp"
+        android:layout_height="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:adjustViewBounds="true"
+        android:fitsSystemWindows="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_spicy"
+        app:layout_constraintBottom_toBottomOf="@+id/tvPointsDetailDishPoints"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvPointsDetailDishPoints" />
+
+    <!--Point Detail Divider-->
+    <View
+        android:id="@+id/viewPointsDetailDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:alpha="0.5"
+        android:background="@color/slate_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPointsDetailDishImage" />
+
+    <!--Description Label-->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvPointsDetailDescriptionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/proxima_nova_bold"
+        android:text="Description"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_18sp"
+        app:layout_constraintStart_toStartOf="@+id/ivPointsDetailDishImage"
+        app:layout_constraintTop_toBottomOf="@+id/viewPointsDetailDivider"
+        tools:ignore="HardcodedText" />
+
+    <!--Points Detail Description-->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvPointsDetailDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/proxima_nova_bold"
+        android:text="Description"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sp"
+        app:layout_constraintStart_toStartOf="@+id/tvPointsDetailDescriptionLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvPointsDetailDescriptionLabel"
+        tools:ignore="HardcodedText" />
+
+    <!--Redeem Button-->
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+        android:id="@+id/btnPointsDetailsRedeemPoints"
+        style="@style/button_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_margin="@dimen/_15sdp"
+        android:fontFamily="@font/proxima_nova_bold"
+        android:gravity="center"
+        android:text="@string/redeem_points"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

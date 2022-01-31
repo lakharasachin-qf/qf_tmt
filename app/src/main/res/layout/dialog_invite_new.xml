@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/inviteMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_20sdp"
+        android:background="@color/transparent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:background="@drawable/ic_solid_rounded_r7"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvInviteFriends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:gravity="center"
+                android:text="Invite Friends/Guest"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_26sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvInvite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:gravity="center"
+                android:text="If you liked, share it with your \n friends or guest"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_16sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvInviteFriends"
+                app:layout_constraintStart_toStartOf="@+id/tvInviteFriends"
+                app:layout_constraintTop_toBottomOf="@+id/tvInviteFriends" />
+
+            <View
+                android:id="@+id/viewInvite"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:alpha="0.5"
+                android:background="@color/slate_gray"
+                app:layout_constraintTop_toBottomOf="@+id/tvInvite" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@+id/viewInvite">
+
+                <View
+                    android:id="@+id/viewVertical"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:alpha="0.7"
+                    android:background="@color/slate_gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivFacebook"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:adjustViewBounds="true"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_facebook_round"
+                    app:layout_constraintEnd_toEndOf="@+id/viewVertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvFacebookText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:text="Facebook"
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/viewVertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivFacebook" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivWhatsApp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:adjustViewBounds="true"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_whatsapp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivFacebook"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/viewVertical"
+                    app:layout_constraintTop_toTopOf="@id/ivFacebook" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvWhatsAppText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:text="Whatapp"
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvFacebookText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/viewVertical"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFacebookText"
+                    app:layout_constraintTop_toTopOf="@+id/tvFacebookText" />
+
+                <View
+                    android:id="@+id/viewHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:alpha="0.7"
+                    android:background="@color/slate_gray"
+                    app:layout_constraintTop_toBottomOf="@+id/tvWhatsAppText" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivEmail"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:adjustViewBounds="true"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_email_round"
+                    app:layout_constraintEnd_toEndOf="@id/ivFacebook"
+                    app:layout_constraintStart_toStartOf="@id/ivFacebook"
+                    app:layout_constraintTop_toBottomOf="@+id/viewHorizontal" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:gravity="center"
+                    android:text="Email"
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/tvFacebookText"
+                    app:layout_constraintStart_toStartOf="@+id/tvFacebookText"
+                    app:layout_constraintTop_toBottomOf="@+id/ivEmail" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivText"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:adjustViewBounds="true"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_text"
+                    app:layout_constraintBottom_toBottomOf="@id/ivEmail"
+                    app:layout_constraintEnd_toEndOf="@id/ivWhatsApp"
+                    app:layout_constraintStart_toStartOf="@+id/ivWhatsApp"
+                    app:layout_constraintTop_toTopOf="@id/ivEmail" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_regular"
+                    android:gravity="center"
+                    android:text="Text"
+                    android:textColor="@color/slate_gray"
+                    android:textSize="@dimen/_16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvEmail"
+                    app:layout_constraintEnd_toEndOf="@id/tvWhatsAppText"
+                    app:layout_constraintStart_toStartOf="@+id/tvWhatsAppText"
+                    app:layout_constraintTop_toBottomOf="@+id/ivText"
+                    app:layout_constraintTop_toTopOf="@+id/tvEmail" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:adjustViewBounds="true"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_invite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/inviteMain" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

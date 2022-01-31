@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivRowReviewUserImage"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@drawable/ic_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowReviewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:text="2 weeks ago"
+            android:textColor="@color/robins_egg_blue"
+            android:textSize="@dimen/_14sp"
+            app:layout_constraintStart_toEndOf="@+id/ivRowReviewUserImage"
+            app:layout_constraintTop_toTopOf="@+id/ivRowReviewUserImage" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowReviewUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/proxima_nova_semibold"
+            android:text="Sumit Awasthi"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sdp"
+            app:layout_constraintStart_toEndOf="@+id/ivRowReviewUserImage"
+            app:layout_constraintTop_toBottomOf="@+id/tvRowReviewTime" />
+
+        <View
+            android:id="@+id/viewReviewRow"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@color/slate_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRowReviewDescription" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowReviewDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:text="nice place "
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_14sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvRowReviewPointText"
+            app:layout_constraintStart_toEndOf="@+id/ivRowReviewUserImage"
+            app:layout_constraintTop_toBottomOf="@+id/tvRowReviewUserName" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRowReviewPointText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:text="4.2"
+            android:textColor="@color/slate_gray"
+            android:textSize="@dimen/_14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvRowReviewUserName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvRowReviewUserName" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:src="@drawable/fill_star"
+            app:layout_constraintBottom_toBottomOf="@+id/tvRowReviewPointText"
+            app:layout_constraintEnd_toStartOf="@+id/tvRowReviewPointText"
+            app:layout_constraintTop_toTopOf="@+id/tvRowReviewPointText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
