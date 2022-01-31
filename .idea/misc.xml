@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/drawable/ic_down_arrow.xml" value="0.2125" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_coupon.xml" value="0.33" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_edit_profile_new.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_my_bucket.xml" value="0.19635416666666666" />
@@ -13,6 +14,7 @@
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/fragment_attire_menu.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/fragment_menu.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/fragment_restaurant_menu.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/popup_content_for_food_type.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/toolbar.xml" value="0.19635416666666666" />
         <entry key="..\:/__ANDROID_PROJECTS/TMTProject/TMTProject/app/src/main/res/drawable/bg_edittext_blue_border.xml" value="0.38333333333333336" />
         <entry key="..\:/__ANDROID_PROJECTS/TMTProject/TMTProject/app/src/main/res/layout/activity_add_address.xml" value="0.3671875" />
