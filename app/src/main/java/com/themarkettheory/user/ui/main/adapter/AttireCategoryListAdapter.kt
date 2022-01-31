@@ -12,7 +12,6 @@ import com.themarkettheory.user.R
 import com.themarkettheory.user.databinding.*
 import com.themarkettheory.user.model.RetailMenuList
 import com.themarkettheory.user.ui.main.activity.AttireDetailActivity
-import kotlinx.android.synthetic.main.fragment_attire_menu.*
 
 class AttireCategoryListAdapter(val context: Activity, val data: List<RetailMenuList>) :
     RecyclerView.Adapter<AttireCategoryListAdapter.ViewHolder>() {

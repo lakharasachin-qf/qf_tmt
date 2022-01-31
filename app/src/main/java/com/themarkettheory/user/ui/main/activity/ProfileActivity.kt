@@ -1,7 +1,6 @@
 package com.themarkettheory.user.ui.main.activity
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,7 +8,6 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
 import android.view.View
-import android.view.Window
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView

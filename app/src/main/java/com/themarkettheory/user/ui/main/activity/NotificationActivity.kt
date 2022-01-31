@@ -1,7 +1,6 @@
 package com.themarkettheory.user.ui.main.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -9,8 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.themarkettheory.user.R
-import com.themarkettheory.user.helper.Config
-import com.themarkettheory.user.helper.PubFun
 import com.themarkettheory.user.ui.main.fragment.NotificationAlertFragment
 import com.themarkettheory.user.ui.main.fragment.NotificationCouponCodesFragment
 import com.themarkettheory.user.viewmodel.OfferViewModel
@@ -18,7 +15,6 @@ import kotlinx.android.synthetic.main.activity_notification.*
 import kotlinx.android.synthetic.main.activity_notification.ll
 import kotlinx.android.synthetic.main.fragment_booking.*
 import kotlinx.android.synthetic.main.toolbar.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 class NotificationActivity : BaseActivity(), View.OnClickListener {

@@ -1,9 +1,7 @@
 package com.themarkettheory.user.ui.main.fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.themarkettheory.user.R
-import com.themarkettheory.user.helper.Config.Companion.gson
 import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.ui.main.adapter.NotificationAlertsAdapter
 import com.themarkettheory.user.viewmodel.GeneralViewModel
 import kotlinx.android.synthetic.main.fragment_notiification_alert.*
-import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
