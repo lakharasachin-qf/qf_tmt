@@ -97,7 +97,8 @@
                 android:layout_height="wrap_content"
                 app:emptyDrawable="@drawable/empty_star"
                 app:filledDrawable="@drawable/fill_star"
-                app:isIndicator="false"
+                app:isIndicator="true"
+                android:focusable="false"
                 app:numStars="5"
                 app:starSize="@dimen/_10sdp"
                 app:starSpacing="@dimen/_2sdp" />

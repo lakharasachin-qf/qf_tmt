@@ -67,6 +67,7 @@ class RecommendedListAdapter(
             holder.binding?.obj = data[position]
 
             holder.binding!!.rating.rating = data[position].rating!!.toFloat()
+
             if (data[getItemViewType(position)].isFavourite == 0) {
                 holder.binding!!.ivFavorite.setImageResource(R.drawable.ic_like_unselected)
             } else {

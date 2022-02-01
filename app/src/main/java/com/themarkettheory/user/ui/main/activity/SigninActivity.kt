@@ -139,7 +139,6 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
             )
         }
 
-
         // prefs.setToken(this, Firebase.getInstance().getToken()!!)
 
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

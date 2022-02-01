@@ -126,7 +126,7 @@ class RecommendedActivity : BaseActivity(), View.OnClickListener {
             tvFoodType.setText("Non Veg")
             popup.dismiss()
         }
-        popup.showAtLocation(anchorView, Gravity.CENTER, 0, 0);
+        popup.showAtLocation(anchorView, Gravity.CENTER, 0, 0)
 
         popup.contentView = layout
         // Set content width and height

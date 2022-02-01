@@ -168,6 +168,8 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
             if (res.data!!.orderType!!.equals("QR")) {
                 tvOrderDetailOrderType.text =
                     res.data!!.orderType!!.trim() + " code Table No: " + res.data!!.table_no!!.trim()
+            } else if (res.data!!.orderType!!.equals("INVITE USER")) {
+                tvOrderDetailOrderType.text = "Invite User"
             } else {
                 tvOrderDetailOrderType.text = res.data!!.orderType!!.trim()
             }
