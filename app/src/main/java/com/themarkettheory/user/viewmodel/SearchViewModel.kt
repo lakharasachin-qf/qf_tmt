@@ -1,6 +1,7 @@
 package com.themarkettheory.user.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.themarkettheory.user.newmodels.searchrestaurant.SearchRestaurantRes
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,6 +13,7 @@ class SearchViewModel(application: Application) : BaseViewModel(application) {
     val responseSearch = MutableLiveData<SearchRestaurantRes>()
 
     fun allSearch(search_string: String) {
+        Log.e("search Api","Loaded")
         isLoading.value = true
         disposable = apiService
             .all_search(search_string)

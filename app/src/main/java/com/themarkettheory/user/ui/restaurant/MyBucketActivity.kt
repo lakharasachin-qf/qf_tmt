@@ -282,6 +282,8 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             }
         })
 
+
+
         cartViewModel.responseRemovePromocode.observe(this, {
             when (it.status!!) {
                 0 -> showMsgDialogAndProceed(it.message!!)
@@ -312,6 +314,44 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             }
         })
 
+        //region Live Deal Menu Cart Response
+        vendorDetailViewModel.responseMenuAddCart.observe(this, {
+            when (it.status!!) {
+                0 -> showMsgDialogAndProceed(it.message!!.trim())
+                1 -> {
+                    Log.e("Remove Coupon id", gson.toJson(it.is_remove_coupon!!))
+                    if (isActionIsItemRemove && bucketDataList.size == 0) {
+                        isActionIsItemRemove = false
+
+                        if (Config.isCouponApplied && Config.isCouponDiscountType == couponBuyGet
+                            && Config.isCouponMenuId == onSelectedCartObject.menuID
+                        ) {
+                            ivCouponCross.performClick()
+                        }
+                        if (bucketDataList.size == 0) {
+                            onBackPressed()
+                        }
+                    }
+
+                    if (it.is_remove_coupon == 1 && Config.isCouponApplied) {
+                        removeApplyCoupon()
+                    }
+
+
+                }
+            }
+        })
+        vendorDetailViewModel.isLoading.observe(this, {
+            try {
+                if (it!!) {
+                    Utils.showProgress(this@MyBucketActivity)
+                } else {
+                    Utils.hideProgress(this@MyBucketActivity)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        })
         //Check Restaurant Time API response
         vendorDetailViewModel.responseCheckRestaurantTime.observe(this, {
             try {
@@ -584,7 +624,24 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
         }
     }
 
+    private fun removeApplyCoupon() {
+        Config.isCouponApplied = false
+        Config.isCouponRedeem = false
+        Config.getSelectedCouponCode = ""
+        Config.isCouponDiscountType = 0
+        Config.isCouponBuyQty = 0
+        Config.isCouponGetQty = 0
+        Config.isCouponMenuId = 0
+        Config.isCouponBuyGetSelected = false
+        discountCouponTotal = 0.0
+        applyCouponChanges()
+        calculateFooterSection(bucketDataList)
+    }
+
     lateinit var serviceDetails: ServiceDetails
+    var selectedPos: Int = 0
+    var isActionIsItemRemove: Boolean = false
+    lateinit var onSelectedCartObject: MyBucketCartRes
 
     @SuppressLint("SetTextI18n")
     private fun populateCartDetails(res: GetCartNewRes) {
@@ -680,9 +737,11 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                             bucketDataList[pos].qty = bucketData.qty
                             bucketAdapter.notifyDataSetChanged()
                             calculateFooterSection(bucketDataList)
-
+                            Log.e("PrintCount", bucketData.qty.toString())
+                            Log.e("bookingId", bookingId.toString())
                             //calling api for adding and removing items
                             if (bucketData.qty > 0) {
+
                                 vendorDetailViewModel.menu_add_cart(
                                     bucketData.serviceId.toString(),
                                     bucketData.menuID.toString(),
@@ -724,13 +783,17 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                                     0,
                                     if (isDiningInSelected) 1 else 0
                                 )
+
+                                isActionIsItemRemove = true
+                                onSelectedCartObject = bucketData
+                                selectedPos = pos
+
                                 bucketAdapter.removeItem(pos)
                                 bucketDataList.removeAt(pos)
                                 // cart size
                                 val cartSize = bucketDataList.size
                                 tvMyCart.text =
                                     "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
-                                // calling onbackpress when cart size is 0
                                 if (cartSize < 1) {
                                     Config.isCouponApplied = false
                                     Config.isCouponRedeem = false
@@ -743,15 +806,9 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                                     discountCouponTotal = 0.0
                                     applyCouponChanges()
                                     calculateFooterSection(bucketDataList)
-                                    onBackPressed()
                                 }
                                 calculateFooterSection(bucketDataList)
 
-                                if (Config.isCouponApplied && Config.isCouponDiscountType == couponBuyGet
-                                    && Config.isCouponMenuId == bucketData.menuID
-                                ) {
-                                    ivCouponCross.performClick()
-                                }
                             }
                         }
                     }
@@ -865,79 +922,88 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
     @SuppressLint("SetTextI18n")
     private fun calculateFooterSection(bucketDataList: ArrayList<MyBucketCartRes>) {
-        try {
-            subTotal = 0.0
-            totalTax = 0.0
-            totalPoints = 0
-            totalAmt = 0.0
+        if (bucketDataList.size != 0) {
+            try {
+                subTotal = 0.0
+                totalTax = 0.0
+                totalPoints = 0
+                totalAmt = 0.0
 
-            for (i in bucketDataList.indices) {
-                //Calculate Sub Total
-                subTotal += bucketDataList[i].qty * bucketDataList[i].finalPrice
+                for (i in bucketDataList.indices) {
+                    //Calculate Sub Total
+                    subTotal += bucketDataList[i].qty * bucketDataList[i].finalPrice
 
-                //Calculate Total Tax
-                //totalTax += (subTotal * bucketDataList[i].tax) / 100
+                    //Calculate Total Tax
+                    //totalTax += (subTotal * bucketDataList[i].tax) / 100
 
-                //Calculate Total Points
-                totalPoints += bucketDataList[i].qty * bucketDataList[i].point
-            }
+                    //Calculate Total Points
+                    totalPoints += bucketDataList[i].qty * bucketDataList[i].point
+                }
 
-            totalTax += (subTotal * bucketDataList[0].tax) / 100
+                totalTax += (subTotal * bucketDataList[0].tax) / 100
 
 
-            //region Check for discounted coupon if any
-            if (Config.isCouponApplied) {
-                for (obj in serviceDetails.offers!!) {
-                    //Log.e("coupon-list", bucketDataList[i].offerCouponCode.toString())
-                    if (obj.couponCode != null) {
-                        if (obj.couponCode!!.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(
-                                Locale.getDefault()
-                            )
-                        ) {
-                            val discountAmt = obj.discountAmount
-                            Log.e("coupon discount", "{$discountAmt}")
-                            if (discountAmt != null) {
-                                discountCouponTotal = when (obj.discountType) {
-                                    couponPercentage -> (subTotal * discountAmt) / 100
-                                    couponFlat -> discountAmt.toDouble()
-                                    else -> if (Config.isCouponBuyGetSelected) discountCouponTotal else 0.0
+                if (Config.isCouponApplied) {
+                    for (obj in serviceDetails.offers!!) {
+                        Log.e("final amount", gson.toJson(obj))
+
+                        if (obj.couponCode != null) {
+                            if (obj.couponCode!!.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(
+                                    Locale.getDefault()
+                                )
+                            ) {
+                                val discountAmt = obj.discountAmount
+                                if (discountAmt != null) {
+                                    if (obj.discountType == couponPercentage) {
+                                         discountCouponTotal = (subTotal * discountAmt) / 100
+                                        if (obj.maxDiscount != 0 && discountCouponTotal > obj.maxDiscount!!) {
+                                            discountCouponTotal = obj.maxDiscount!!.toDouble()
+                                        }
+                                    } else if (obj.discountType == couponFlat) {
+                                        discountCouponTotal = discountAmt.toDouble()
+
+                                    } else {
+                                        discountCouponTotal = if (Config.isCouponBuyGetSelected)
+                                            discountCouponTotal
+                                        else
+                                            0.0
+                                    }
                                 }
+                                break
                             }
-                            break
                         }
                     }
                 }
+
+                //Setting Sub Total Amount
+                tvSubtotal.text =
+                    bucketDataList[0].currency + if (subTotal == 0.0) "0.00" else numberFormat.format(
+                        subTotal
+                    )
+
+                //Discount Coupon
+                tvCouponDiscount.text = "-${bucketDataList[0].currency}" +
+                        numberFormat.format(discountCouponTotal)
+
+                //Setting Tax Amount
+                tvtax.text =
+                    bucketDataList[0].currency + if (totalTax == 0.0) "0.00" else numberFormat.format(
+                        totalTax
+                    )
+
+                //Setting Total Amount = Sub Total Amount + Tax Amount
+                totalAmt = subTotal - discountCouponTotal + totalTax
+                tvMyBucketTotalAmount.text = "${bucketDataList[0].currency}${
+                    if (totalAmt == 0.0) "0.00" else numberFormat.format(totalAmt)
+                }"
+
+                //Setting Total Item Point
+                tvMyBucketTotalOrderPoints.text = totalPoints.toString()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                isLoadedFirstTime = false
             }
-            //endregion
-
-            //Setting Sub Total Amount
-            tvSubtotal.text =
-                bucketDataList[0].currency + if (subTotal == 0.0) "0.00" else numberFormat.format(
-                    subTotal
-                )
-
-            //Discount Coupon
-            tvCouponDiscount.text = "-${bucketDataList[0].currency}" +
-                    numberFormat.format(discountCouponTotal)
-
-            //Setting Tax Amount
-            tvtax.text =
-                bucketDataList[0].currency + if (totalTax == 0.0) "0.00" else numberFormat.format(
-                    totalTax
-                )
-
-            //Setting Total Amount = Sub Total Amount + Tax Amount
-            totalAmt = subTotal - discountCouponTotal + totalTax
-            tvMyBucketTotalAmount.text = "${bucketDataList[0].currency}${
-                if (totalAmt == 0.0) "0.00" else numberFormat.format(totalAmt)
-            }"
-
-            //Setting Total Item Point
-            tvMyBucketTotalOrderPoints.text = totalPoints.toString()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            isLoadedFirstTime = false
         }
     }
 

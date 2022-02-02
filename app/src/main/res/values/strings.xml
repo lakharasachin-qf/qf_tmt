@@ -3,8 +3,8 @@
     <string name="sign_in">Sign In</string>
 
 
-    <string name="razorpay_live_key" translatable="false">rzp_live_jt5nT7EvpCH8qD</string>  <!--Live Key-->
-  <!--  <string name="razorpay_live_key" translatable="false">rzp_test_M2FkmkrT6qthLV</string> --> <!--Testing key-->
+<!--    <string name="razorpay_live_key" translatable="false">rzp_live_jt5nT7EvpCH8qD</string>  &lt;!&ndash;Live Key&ndash;&gt;-->
+      <string name="razorpay_live_key" translatable="false">rzp_test_M2FkmkrT6qthLV</string>  Testing key
 
     <string name="with_your_social_network">with your social network</string>
     <string name="facebook">Facebook</string>
@@ -233,10 +233,11 @@
     <string name="add_to_cart">Add to Cart</string>
     <string name="added_to_cart">Added to Cart</string>
     <!--<string name="google_key">AIzaSyABGkxexMgUDwjNle_FsokJ_j6Aqvyu0tc</string>-->
-    <string name="google_key">AIzaSyBXGQYyh1UlT229SHt3JyehDkBlZ-CCN78</string>
+    <!--    <string name="google_key">AIzaSyBXGQYyh1UlT229SHt3JyehDkBlZ-CCN78</string>--><!--development-->
+    <string name="google_key">AIzaSyB9l64Pb12pnkX7bqVwH57Q2DSsrRv_eo4</string><!--live-->
     <string name="google_place_api_key">AIzaSyB9l64Pb12pnkX7bqVwH57Q2DSsrRv_eo4</string>
     <string name="googleAccountWebClientID">250742114157-kkt1dtnp0997cqcokq4fujmgnp1thvm5.apps.googleusercontent.com</string>  <!--old id-->
- <!--<string name="googleAccountWebClientID">250742114157-j8ikumdniofs716593auhaqabcqpl0t3.apps.googleusercontent.com</string> --><!--new id-->
+    <!--<string name="googleAccountWebClientID">250742114157-j8ikumdniofs716593auhaqabcqpl0t3.apps.googleusercontent.com</string> --><!--new id-->
     <string name="googleApplicationID">1:250742114157:android:20f78a555c7b2a6f4f3c64</string>
     <string name="googleProjectID">the-market-theory-09072021</string>
     <string name="you_can_cancle_your_plan_at_any_time_n_one_time_payment">You can cancel your plan at any time.\n One time payment</string>

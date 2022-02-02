@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Base64
 import android.provider.Settings
 import android.text.SpannableString
 import android.text.method.PasswordTransformationMethod
@@ -25,6 +26,7 @@ import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.GraphRequest
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -53,6 +55,16 @@ import org.json.JSONException
 import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
+import android.content.pm.PackageManager
+
+import android.content.pm.PackageInfo
+import android.media.tv.TvContract.Programs.Genres.encode
+import android.os.Build
+import android.util.Base64.*
+import androidx.annotation.RequiresApi
+import java.net.URLEncoder.encode
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 @AndroidEntryPoint
@@ -78,6 +90,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
 
     private val RC_SIGN_IN = 123;
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
@@ -106,10 +119,10 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
             }
 
             var token = task.result.trim().toString()
-            Log.e("getInstanceId failed", "getInstanceId  "+task.result.trim())
+            Log.e("getInstanceId failed", "getInstanceId  " + task.result.trim())
             prefs.setToken(this, task.result.trim())
 
-         //   prefs.setToken(this, "test_android")
+            //   prefs.setToken(this, "test_android")
 
         }
 
@@ -165,6 +178,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                 .replace("]", "")
     }
 
+
     private val onActivityResultSignIn: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
         ActivityResultCallback {
@@ -176,7 +190,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                             val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
                             // Google Sign In was successful, authenticate with Firebase
                             val account = task.getResult(ApiException::class.java)!!
-                         //   Log.e("GMAIL - ", gson.toJson(account))
+                            //   Log.e("GMAIL - ", gson.toJson(account))
                             System.out.println("firebaseAuthWithGoogle:" + account.id)
 
 
@@ -228,6 +242,24 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
             }
         }
     )
+
+    private fun showKeyHash() {
+        try {
+            val info = packageManager.getPackageInfo(
+                "com.themarkettheory.user",
+                PackageManager.GET_SIGNATURES
+            )
+            for (signature in info.signatures) {
+                val md = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT))
+            }
+        } catch (e: PackageManager.NameNotFoundException) {
+
+        } catch (e: NoSuchAlgorithmException) {
+
+        }
+    }
 
     private fun signIn() {
 
@@ -307,11 +339,15 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
 
             override fun onCancel() {
 
+                Log.e("onCancel", "onCancel")
+
                 // App code
                 var a = ""
             }
 
             override fun onError(exception: FacebookException) {
+
+                Log.e("onCancel", "onCancel" + exception)
                 // App code
                 var a = ""
             }
@@ -644,7 +680,8 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                 if (PubFun.isInternetConnection(this@SigninActivity)) {
                     Config.isLoginWithSocialButton = false
                     Config.isLoginWithSocialName = Constants.loginViaNormal
-                    myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
+                    myRoomDatabase.daoConfig()
+                        .deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
                     myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbSocialLogin)
                     myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPEmail)
                     Firebase.auth.signOut()
@@ -675,10 +712,11 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
             }
 
             llFacebook -> {
+
                 if (PubFun.isInternetConnection(this@SigninActivity)) {
                     Config.isLoginWithSocialButton = true
                     Config.isLoginWithSocialName = Constants.loginViaFacebook
-                    //LoginManager.getInstance().logOut();
+                    //LoginManager.getInstance().logOut()
                     login_button.performClick()
                 } else {
                     showMsgDialogAndProceed(null, Config.msgToastForInternet, true)

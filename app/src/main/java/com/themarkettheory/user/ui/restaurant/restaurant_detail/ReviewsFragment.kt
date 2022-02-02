@@ -60,6 +60,7 @@ class ReviewsFragment : Fragment(), View.OnClickListener {
     private fun showFooter() {
         try {
             if (Config.inBucketPoints.toInt() > 0 && Config.inBucketCount.toInt() > 0) {
+                if(rlReviewFooter==null) return
                 rlReviewFooter.visibility = View.VISIBLE
                 tvReviewNoOfItems.text = Config.inBucketCount
                 tvReviewTotalPoints.text = "Total Points : ${Config.inBucketPoints}"

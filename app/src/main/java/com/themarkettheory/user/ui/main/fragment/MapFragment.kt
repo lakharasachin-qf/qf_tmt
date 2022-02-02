@@ -777,6 +777,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         try {
             mMap = p0!!
 
+
             mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
             try {
                 mMap.setMapStyle(
@@ -793,16 +794,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
                     return
                 }
                 mMap.isMyLocationEnabled = true
+                val locationUpdates = LatLng(20.77, 73.72)
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(locationUpdates))
 
             } catch (e: Exception) {
                 e.printStackTrace()

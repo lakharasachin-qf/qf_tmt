@@ -143,8 +143,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener {
 
                 override fun afterTextChanged(s: Editable?) {
                     try {
-                        lastEditText = System.currentTimeMillis()
-                        handlerSearch.postDelayed(runnableSearch, delay)
+                       // lastEditText = System.currentTimeMillis()
+                       // handlerSearch.postDelayed(runnableSearch, delay)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
