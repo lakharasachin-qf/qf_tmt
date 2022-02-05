@@ -13,6 +13,8 @@ import com.themarkettheory.user.R
 import com.themarkettheory.user.helper.Config
 import com.themarkettheory.user.helper.PubFun
 import com.themarkettheory.user.helper.Utils
+import com.themarkettheory.user.model.SocialLoginResponse
+import com.themarkettheory.user.newmodels.mytablebookings.MyTableBookingData
 import com.themarkettheory.user.newmodels.orderconfirmation.GetNewOrderConfirmRes
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.main.adapter.OrderDetailAdapter
@@ -33,6 +35,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
 
     //ViewModel
     lateinit var cartViewModel: CartViewModel
+    lateinit var selectedOrder: MyTableBookingData
 
     //Booking Status Type
     private val newOrderType = 0
@@ -52,7 +55,12 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
             //Button SetOnClickListener
             ivBackToolBarOrderDetail.setOnClickListener(this)
             btnOrderDetailCancelOrder.setOnClickListener(this)
-
+            if (intent.hasExtra("data")) {
+                selectedOrder = gson.fromJson(
+                    intent.getStringExtra("data"),
+                    MyTableBookingData::class.java
+                )
+            }
             init()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -165,13 +173,21 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
 //            tvOrderDetailOrderType.text =
 //                PubFun.toCamelCase(res.data!!.orderType!!.trim()) + " code Table No: " + res.data!!.table_no!!.trim()
             //Order Type
-            if (res.data!!.orderType!!.equals("QR")) {
+            /*case BOOKING_TABLE = "BOOKING TABLE", PRE_ORDER = "PRE ORDER", SCHEDULE_PICKUP = "SCHEDULE PICKUP",
+            PICKUP_NOW = "PICKUP NOW", QR = "QR", INVITE_USER = "INVITE USER", DINING_IN = "DINING IN"*/
+
+            if (res.data!!.orderType!!.lowercase() == "schedule pickup" ||
+                res.data!!.orderType!!.lowercase() == "pickup now" ||
+                res.data!!.orderType!!.lowercase() == "dining in" ||
+                res.data!!.orderType!!.lowercase() == "invite user"
+            ) {
+                tvOrderDetailOrderType.text = PubFun.toCamelCase(res.data!!.orderType!!.trim())
+            } else if (res.data!!.orderType!! == "QR") {
                 tvOrderDetailOrderType.text =
                     res.data!!.orderType!!.trim() + " code Table No: " + res.data!!.table_no!!.trim()
-            } else if (res.data!!.orderType!!.equals("INVITE USER")) {
-                tvOrderDetailOrderType.text = "Invite User"
             } else {
-                tvOrderDetailOrderType.text = res.data!!.orderType!!.trim()
+                tvOrderDetailOrderType.text =
+                    "Table For " + selectedOrder.total_person + " Person"
             }
 
             //Order Date
@@ -243,6 +259,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
             if (menuList.isNotEmpty()) {
                 //RecyclerView for Menu List
                 val orderDetailAdapter = OrderDetailAdapter()
+                orderDetailAdapter.setOrderRes(res)
                 orderDetailAdapter.setBucketData(menuList)
                 rvOrderDetailMyCart.apply {
                     layoutManager = LinearLayoutManager(this@OrderDetailActivity)
@@ -264,6 +281,14 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
 
             //Total Points
             tvOrderDetailTotalOrderPoints.text = res.data!!.points!!.toString().trim()
+
+
+
+            if (res.data!!.subtotal!!.toString() == "0.00") {
+                tvOrderDetailOrderPoint.text = "Order Redeem Points"
+            } else {
+                tvOrderDetailOrderPoint.text = "Order Points"
+            }
 
             //Cancel Button Visibility
             btnOrderDetailCancelOrder.visibility =

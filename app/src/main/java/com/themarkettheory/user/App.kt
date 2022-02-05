@@ -21,12 +21,13 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val options = FirebaseOptions.Builder()
-            .setApplicationId(getString(R.string.googleApplicationID)) // Required for Analytics.
-            .setProjectId(getString(R.string.googleProjectID)) // Required for Firebase Installations.
-            .setApiKey(getString(R.string.google_key)) // Required for Auth.
-            .build()
-        FirebaseApp.initializeApp(this, options, "The Market Theory")
+//        val options = FirebaseOptions.Builder()
+//            .setApplicationId(getString(R.string.googleApplicationID)) // Required for Analytics.
+//            .setProjectId(getString(R.string.googleProjectID)) // Required for Firebase Installations.
+//            .setApiKey(getString(R.string.google_key)) // Required for Auth.
+//            .build()
+
+        //FirebaseApp.initializeApp(applicationContext)
 
         val leastRecentlyUsedCacheEvictor = LeastRecentlyUsedCacheEvictor(1024 * 1024 * 1024)
         val databaseProvider: DatabaseProvider = ExoDatabaseProvider(this)

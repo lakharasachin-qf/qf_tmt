@@ -1,5 +1,8 @@
 package com.themarkettheory.user.ui.restaurant
 
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,6 +14,9 @@ import android.provider.Telephony
 import android.text.Html
 import android.util.Log
 import android.view.View
+import android.view.animation.Animation
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,6 +63,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
     var time: String = ""
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var runnable: Runnable
+    private lateinit var view: View
 
     //facebook
     private lateinit var shareDialog: ShareDialog
@@ -67,6 +74,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_confirmation_new)
         try {
+            view= findViewById(R.id.pbOrderConfirmation)
             init()
 
         } catch (e: Exception) {
@@ -149,10 +157,55 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
             ivOrderConfirmationCross.setOnClickListener(this)
             btnOrderInvite.setOnClickListener(this)
             //setting the progress bar value
-            setProgressbar()
+            setProgressBlinking()
+            //setProgressbar()
 
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+
+    }
+
+    private fun setProgressbar() {
+        try {
+            var i = 0
+            runnable = object : Runnable {
+                override fun run() {
+                    if (i == 120) {
+                        handler.removeCallbacks(this)
+                        handler.removeCallbacksAndMessages(null)
+                    } else {
+                        i++
+                        //pbOrderConfirmation.progress = i
+                        handler.postDelayed(this, 1000)
+                    }
+                }
+            }
+            handler.postDelayed(runnable, 1000)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    @SuppressLint("ObjectAnimatorBinding")
+    private fun setProgressBlinking() {
+
+        val anim = ObjectAnimator.ofInt(
+            view, "backgroundColor",
+            ContextCompat.getColor(applicationContext, R.color.robins_egg_blue),
+            ColorUtils.setAlphaComponent(
+                ContextCompat.getColor(
+                    applicationContext,
+                    R.color.robins_egg_blue
+                ), 85
+            )
+        )
+        anim.apply {
+            duration = 500
+            setEvaluator(ArgbEvaluator())
+            repeatMode = ValueAnimator.REVERSE
+            repeatCount = Animation.INFINITE
+            start()
         }
 
     }
@@ -167,26 +220,6 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun setProgressbar() {
-        try {
-            var i = 0
-            runnable = object : Runnable {
-                override fun run() {
-                    if (i == 120) {
-                        handler.removeCallbacks(this)
-                        handler.removeCallbacksAndMessages(null)
-                    } else {
-                        i++
-                        pbOrderConfirmation.progress = i
-                        handler.postDelayed(this, 1000)
-                    }
-                }
-            }
-            handler.postDelayed(runnable, 1000)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 
     private fun getResponse() {
         cartViewModel.responseOrderDetail.observe(this, {
@@ -201,9 +234,10 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
     @SuppressLint("SetTextI18n")
     private fun populateResDetails(res: GetNewOrderConfirmRes) {
         try {
+
             if (res.data != null) {
 
-             //   Log.e("Order Confirmation Data", gson.toJson(res))
+                //   Log.e("Order Confirmation Data", gson.toJson(res))
                 val currency = res.data!!.menuDetails!![0].menu!!.currency
 
                 // setting orderno
@@ -356,13 +390,13 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                             if (i == 0) {
                                 myDialog.dismiss()
                                 if (isOrderAccepted) {
-                                   // ivOrderConfirmationCross.visibility = View.VISIBLE
+                                    // ivOrderConfirmationCross.visibility = View.VISIBLE
                                     btnOrderInvite.visibility = View.VISIBLE
                                     shareIcon.visibility = View.VISIBLE
                                     tvConfirmationText.visibility = View.GONE
                                     pbOrderConfirmation.visibility = View.GONE
                                 } else {
-                                   // ivOrderConfirmationCross.visibility = View.VISIBLE
+                                    // ivOrderConfirmationCross.visibility = View.VISIBLE
                                     tvConfirmationText.visibility = View.GONE
                                     pbOrderConfirmation.visibility = View.GONE
                                 }

@@ -52,6 +52,8 @@ data class Data(
     var time: String?,
     @SerializedName("order_number")
     var orderNumber: String?,
+    @SerializedName("total_person")
+    var totalPerson: String?,
     @SerializedName("order_details")
     var orderDetails: OrderDetails?,
     @SerializedName("menu_details")

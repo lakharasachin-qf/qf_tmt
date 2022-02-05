@@ -21,6 +21,41 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
 
     //region Added by Milan Sheth
     val responseCheckEmailMobile = MutableLiveData<NewLoginResponse>()
+    fun checkEmailMobileWithSocial(
+        name: String,
+        mobile: String,
+        countryCode: String,
+        email: String,
+        is_edit: String,
+        login_via: String,
+        social_id: String,
+        profile_pic: String,
+        device_token: String
+    ) {
+        isLoadingRegister.value = true
+        disposable = apiService
+            .check_email_mobile_with_social(
+
+                name,
+                mobile,
+                countryCode,
+                email,
+                is_edit,
+                login_via,
+                social_id,
+                profile_pic,
+                device_token
+            )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ result ->
+                responseCheckEmailMobile.value = result
+                isLoadingRegister.value = false
+            }, { error ->
+                isLoadingRegister.value = false
+                errorMsg.value = error.message
+            })
+    }
 
     fun checkEmailMobile(
         mobile: String,
@@ -30,7 +65,8 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
         login_via: String,
         password: String,
         social_id: String,
-        profile_pic: String
+        profile_pic: String,
+        device_token: String
     ) {
         isLoadingRegister.value = true
         disposable = apiService
@@ -42,7 +78,7 @@ class RegisterViewModel(application: Application) : BaseViewModel(application) {
                 login_via,
                 password,
                 social_id,
-                profile_pic
+                profile_pic,device_token
             )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

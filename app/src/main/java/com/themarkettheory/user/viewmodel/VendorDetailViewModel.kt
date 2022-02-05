@@ -198,7 +198,12 @@ class VendorDetailViewModel(application: Application) : BaseViewModel(applicatio
         isDineIn: Int
     ) {
 
-        Log.e("data",service_id.toString())
+        Log.e("service_id",service_id.toString())
+        Log.e("dish_id",dish_id.toString())
+        Log.e("is_redeem",is_redeem.toString())
+        Log.e("qty",qty.toString())
+        Log.e("booking_id",booking_id.toString())
+        Log.e("isDineIn",isDineIn.toString())
         isLoading.value = true
         disposable = apiService
             .menu_add_cart(service_id, dish_id, is_redeem, qty, booking_id, isLiveDeal, isDineIn)

@@ -19,6 +19,7 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.text.Html
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -119,6 +120,7 @@ class OverviewFragment : Fragment(), View.OnClickListener {
         generalViewModel = ViewModelProvider(requireActivity()).get(GeneralViewModel::class.java)
         offerViewModel = ViewModelProvider(this).get(OfferViewModel::class.java)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
     }
 
     override fun onCreateView(

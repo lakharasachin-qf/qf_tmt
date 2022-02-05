@@ -319,6 +319,8 @@ class VerifyOtpActivity : BaseActivity(), View.OnClickListener {
                 } else if (res.data.mobileVerified == 0) {
                     showMsgDialogAndProceed(null, "Please verify your mobile", true)
                 } else if (res.data.emailVerified == 1 && res.data.mobileVerified == 1 && res.data.zip.isEmpty()) {
+                    prefs.setLoginModel(res.data)
+
                     startActivity(
                         Intent(
                             this@VerifyOtpActivity,

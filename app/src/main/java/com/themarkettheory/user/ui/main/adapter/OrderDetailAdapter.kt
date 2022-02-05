@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.themarkettheory.user.R
 import com.themarkettheory.user.databinding.RowMyOrderDetailsNewBinding
 import com.themarkettheory.user.helper.Config
+import com.themarkettheory.user.newmodels.orderconfirmation.GetNewOrderConfirmRes
 import com.themarkettheory.user.ui.restaurant.MyBucketCartRes
+import kotlinx.android.synthetic.main.activity_order_detail.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
@@ -20,6 +22,7 @@ class OrderDetailAdapter :
     RecyclerView.Adapter<OrderDetailAdapter.Holder>() {
     private var orderMenuList = ArrayList<MyBucketCartRes>()
     private val numberFormat: NumberFormat = DecimalFormat("#0.00")
+    private lateinit var res: GetNewOrderConfirmRes
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val itemView = LayoutInflater.from(parent.context).inflate(
@@ -93,8 +96,20 @@ class OrderDetailAdapter :
             holder.RowMyOrderDetailsNewBinding.tvRowOrderDetailsListCount.text =
                 bucketCartData.qty.toString().trim()
 
+            if (res.data!!.subtotal!!.toString() == "0.00") {
+                holder.RowMyOrderDetailsNewBinding.tvRowOrderDetailsListPointLabel.text = "Redeem Points: "
+            } else {
+                holder.RowMyOrderDetailsNewBinding.tvRowOrderDetailsListPointLabel.text = "Points: "
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    fun setOrderRes(res: GetNewOrderConfirmRes) {
+        res.apply {
+            this@OrderDetailAdapter.res = res
         }
     }
 

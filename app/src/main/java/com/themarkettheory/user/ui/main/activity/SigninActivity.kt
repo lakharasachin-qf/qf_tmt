@@ -1,5 +1,6 @@
 package com.themarkettheory.user.ui.main.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -37,7 +38,6 @@ import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.themarkettheory.user.R
@@ -62,6 +62,7 @@ import android.media.tv.TvContract.Programs.Genres.encode
 import android.os.Build
 import android.util.Base64.*
 import androidx.annotation.RequiresApi
+import com.facebook.internal.Logger
 import java.net.URLEncoder.encode
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -82,7 +83,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
     private lateinit var socialLoginResponse: SocialLoginResponse
     private var lastClickTime = 0L
 
-    private lateinit var auth: FirebaseAuth
+    //  private lateinit var auth: FirebaseAuth
     lateinit var mGoogleSignInClient: GoogleSignInClient
 
     private var onActivityResultCode = 0
@@ -111,18 +112,15 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
         spanContent.setSpan(UnderlineSpan(), 0, spanContent.length, 0)
         tvRecoverMyPassword.text = spanContent
 
-        FirebaseMessaging.getInstance().isAutoInitEnabled = true
+        //FirebaseMessaging.getInstance().isAutoInitEnabled = true
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.e("", "getInstanceId failed", task.exception)
                 return@addOnCompleteListener
             }
 
-            var token = task.result.trim().toString()
             Log.e("getInstanceId failed", "getInstanceId  " + task.result.trim())
             prefs.setToken(this, task.result.trim())
-
-            //   prefs.setToken(this, "test_android")
 
         }
 
@@ -169,7 +167,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
 //        if (mGoogleSignInClient != null)
 //            mGoogleSignInClient.signOut()
 
-        auth = Firebase.auth
+        // auth = Firebase.auth
 //        if (auth != null)
 //            auth.signOut()
 
@@ -272,27 +270,6 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
 
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String) {
-
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    //                    Log.d(TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    // ...
-                    val v = auth.currentUser
-                    Toast.makeText(this, "Authentication Failed.", Toast.LENGTH_LONG).show()
-                    //                    Snackbar.make(view, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
-                    updateUI(null)
-                }
-
-            }
-    }
 
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
@@ -323,7 +300,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
             )
 
         } else {
-            Firebase.auth.signOut()
+            //Firebase.auth.signOut()
         }
 
     }
@@ -488,8 +465,6 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
     private fun checkResponse(res: NewLoginResponse) {
         if (res.data != null) {
             if (res.data.token.isNotEmpty()) {
-
-
                 myRoomDatabase.daoConfig().apply {
                     deleteConfigTableByField(Config.dbNewLoginRes)
                     insertConfigTable(
@@ -501,6 +476,10 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                 }
                 prefs.setAccessToken(this@SigninActivity, res.data.token)
                 prefs.setLoginModel(res.data)
+                if (res.data.mobileVerified == 1) {
+                    prefs.setLoginModel(res.data)
+                }
+
                 if (res.data.emailVerified == 0) {
                     showMsgDialogAndProceed(res, "", false)
                 } else if (res.data.mobileVerified == 0) {
@@ -525,6 +504,35 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
             showMsgDialogAndProceed(res, "", false)
         }
     }
+
+    @SuppressLint("SetTextI18n")
+    private fun showMsgDialogAndProceedForToken(msg: String) {
+        try {
+            val myDialog = DialogToast(this@SigninActivity)
+            myDialog.show()
+            myDialog.holder?.let {
+                it.tvTitle.text = "Sign-In"
+                it.tvMessage.text = msg
+                it.btnDialogCancel.visibility = View.GONE
+                it.btnDialogLogout.text = "OK"
+                it.btnDialogLogout.visibility = View.GONE
+                var i = Config.autoDialogDismissTimeInSec
+                it.btnDialogLogout.post(object : Runnable {
+                    override fun run() {
+                        if (i == 0) {
+                            myDialog.dismiss()
+                        } else {
+                            i--
+                            it.btnDialogLogout.postDelayed(this, 1000)
+                        }
+                    }
+                })
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 
     private fun showMsgDialogAndProceed(res: NewLoginResponse?, msg: String, isMsgShow: Boolean) {
         try {
@@ -673,7 +681,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
         lastClickTime = SystemClock.elapsedRealtime()
         when (v) {
             tvSignup -> {
-                Firebase.auth.signOut()
+                // Firebase.auth.signOut()
                 mGoogleSignInClient.signOut()
                 myRoomDatabase.daoConfig().deleteConfigTableByField(Config.email)
 
@@ -684,7 +692,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                         .deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
                     myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbSocialLogin)
                     myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPEmail)
-                    Firebase.auth.signOut()
+                    //Firebase.auth.signOut()
                     mGoogleSignInClient.signOut()
 
                     startActivity(Intent(this, SignupActivity::class.java))
@@ -723,11 +731,15 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                 }
             }
 
-            btn -> if (checkValidation()) {
-                if (PubFun.isInternetConnection(this@SigninActivity)) {
-                    performLogin()
-                } else {
-                    showMsgDialogAndProceed(null, Config.msgToastForInternet, true)
+            btn -> {
+                if (checkValidation()) {
+                    if (PubFun.isInternetConnection(this@SigninActivity)) {
+                        //showMsgDialogAndProceedForToken(prefs.getToken(this))
+
+                        performLogin()
+                    } else {
+                        showMsgDialogAndProceed(null, Config.msgToastForInternet, true)
+                    }
                 }
             }
 

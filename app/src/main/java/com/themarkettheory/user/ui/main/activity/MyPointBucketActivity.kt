@@ -14,6 +14,7 @@ import android.view.WindowManager
 import android.widget.RadioGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.textview.MaterialTextView
 import com.razorpay.*
 import com.themarkettheory.user.R
 import com.themarkettheory.user.database.dbtables.TableConfig
@@ -29,7 +30,11 @@ import com.themarkettheory.user.ui.restaurant.MyBucketCartRes
 import com.themarkettheory.user.ui.restaurant.OrderConfirmationActivity
 import com.themarkettheory.user.viewmodel.CartViewModel
 import com.themarkettheory.user.viewmodel.VendorDetailViewModel
+import kotlinx.android.synthetic.main.activity_my_bucket_live_deal.*
 import kotlinx.android.synthetic.main.activity_my_bucket_mypoints.*
+import kotlinx.android.synthetic.main.activity_my_bucket_mypoints.tvBucketPointDateText
+import kotlinx.android.synthetic.main.activity_my_bucket_mypoints.tvBucketPointOrderConfirmationTextValue
+import kotlinx.android.synthetic.main.activity_my_bucket_mypoints.tvBucketPointPoints
 import kotlinx.android.synthetic.main.activity_mybucket_new.*
 import kotlinx.android.synthetic.main.activity_mybucket_new.clMyBucketTable
 import kotlinx.android.synthetic.main.activity_mybucket_new.constraintPickUp
@@ -64,7 +69,9 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
     var serviceName = ""
     val pickupNowType = "pickup now"
     var cartTotal = 0
+    private var isDiningInSelected = false
     private var isMyPointDiningInSelected = false
+    private lateinit var tvDiningIn: MaterialTextView
 
     // edit text delay
     val delay: Long = 3000
@@ -87,6 +94,7 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE or
                             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
                 )
+
             init()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -132,6 +140,18 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
         clMyBucketTable.visibility = View.GONE
         constraintPickUp.visibility = View.VISIBLE
 
+        cartViewModel.isLoading.observe(this, {
+            try {
+                if (it!!) {
+                    Utils.showProgress(this@MyPointBucketActivity)
+                } else {
+                    Utils.hideProgress(this@MyPointBucketActivity)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        })
+
         //region For Booking Table for X person with date & time
         if (Config.isMenuFragmentComingFrom == Config.isMenuFragmentComingFromBookingTable) {
             val newBookingDetailsRes =
@@ -166,13 +186,18 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                 newBookingDetailsRes.data!!.booking_time!!.trim()
         }
         //endregion
+
         // setting up the text on picktime text
         radioGroupMyPoints = findViewById(R.id.radioGroupMyPoints)
+        tvDiningIn = findViewById(R.id.tvMyPointsDiningIn)
 
         with(radioGroupMyPoints) {
             this?.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
                 when (checkedId) {
                     R.id.rbBucketPointSchedulePickup -> {
+                        if (isDiningInSelected) {
+                            tvDiningIn.performClick()
+                        }
                         ivBucketPointClock.visibility = View.VISIBLE
                         tvBucketPointPickUpTime.visibility = View.VISIBLE
                         tvBucketPointPickUpTime.text = "Select Schedule Time"
@@ -184,8 +209,11 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                             callApiForPickUpType("SCHEDULE_PICKUP", "")
                     }
                     R.id.rbBucketPointPickupNow -> {
-                        selectedIndex = 1
 
+                        if (isDiningInSelected) {
+                            tvDiningIn.performClick()
+                        }
+                        selectedIndex = 1
                         ivBucketPointClock.visibility = View.GONE
                         tvBucketPointPickUpTime.visibility = View.GONE
                         callApiForPickUpType("PICKUP_NOW", "")
@@ -193,6 +221,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                 }
             })
         }
+
+
         // requesting api for cart detail
         callGetCart(bookingId.toInt())
 
@@ -270,6 +300,27 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
 
         // setting onclick listener to confirm your order button
         btnBucketPointCartConfirmYourOrder.setOnClickListener(this)
+        tvDiningIn.setOnClickListener {
+            Log.e("data", "nothing")
+
+            if (!isDiningInSelected) {
+                with(radioGroupMyPoints) { this?.clearCheck() }
+            }
+
+            tvDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                if (isDiningInSelected) R.drawable.ic_radio_button_unchecked else
+                    R.drawable.ic_radio_button_checked,
+                0,
+                0,
+                0
+            )
+
+            isDiningInSelected = !isDiningInSelected
+            if (isDiningInSelected) {
+                selectedIndex = 2
+                callApiForPickUpType("DINING_IN", "")
+            }
+        }
 
         val runnableEditText = Runnable {
             if (System.currentTimeMillis() > ((lastEditText + delay) - 500)) {
@@ -390,8 +441,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                 }
                 if (PubFun.isInternetConnection(this)) {
                     val currentTimess: String =
-                        SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Date())
-                    if (selectedIndex == 1) {
+                        SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+                    if (selectedIndex == 1 || selectedIndex == 2) {
                         cartViewModel.confirmOrder(
                             bucketDataList[0].serviceId.toString(),
                             menuArray,
@@ -435,7 +486,7 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
 
     @SuppressLint("SetTextI18n")
     private fun populateCartDetails(res: GetCartNewRes) {
-     //   Log.e("PopulateCart", gson.toJson(res))
+        Log.e("PopulateCart", gson.toJson(res))
         try {
             if (res.data != null) {
                 //setting up the total points
@@ -461,15 +512,22 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                     res.data!!.booking!!.specialInstruction!!.toString().trim()
                 )
 
-                Log.e("POINTT",res.data!!.booking!!.type!!.toString())
-                radioGroupMyPoints?.apply {
-                    check(
-                        getChildAt(
-                            if (res.data!!.booking!!.type!!.toString()
-                                    .lowercase(Locale.getDefault()) == pickupNowType
-                            ) 1 else 0
-                        ).id
-                    )
+                Log.e("POINTT", res.data!!.booking!!.type!!.toString())
+
+                if (res.data!!.booking!!.type!!.toString()
+                        .lowercase(Locale.getDefault()) == "dining in"
+                ) {
+                    tvDiningIn.performClick()
+                } else {
+                    radioGroupMyPoints?.apply {
+                        check(
+                            getChildAt(
+                                if (res.data!!.booking!!.type!!.toString()
+                                        .lowercase(Locale.getDefault()) == pickupNowType || res.data!!.booking!!.type!!.isEmpty()
+                                ) 1 else 0
+                            ).id
+                        )
+                    }
                 }
 
                 // setting time +30 if pickup type is pickup now
@@ -478,7 +536,9 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                 ) {
                     selectedIndex = 1
                     callApiForPickUpType("PICKUP_NOW", "")
-                } else {
+                } else if (res.data!!.booking!!.type!!.toString()
+                        .lowercase(Locale.getDefault()) == "schedule pickup"
+                ) {
                     // setting up booking time
                     if (res.data!!.booking!!.bookingTime!!.isNotEmpty()) {
                         tvBucketPointPickUpTime.text = PubFun.parseDate(
@@ -587,16 +647,16 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                         res.data!!.list!![i].menu!!.tax!!.toDouble(),
                         res.data!!.list!![i].menu!!.currency!!,
                         res.data!!.serviceDetails!!.currencyStr!!,
-                        res.data!!.serviceDetails!!.offers!![i].menuId!!,
-                        res.data!!.serviceDetails!!.offers!![i].couponCode!!.trim(),
-                        res.data!!.serviceDetails!!.offers!![i].discountType!!,
-                        res.data!!.serviceDetails!!.offers!![i].discountAmount!!,
-                        res.data!!.serviceDetails!!.offers!![i].buyQty!!,
-                        res.data!!.serviceDetails!!.offers!![i].getQty!!
+                        res.data!!.serviceDetails!!.offers!![0].menuId!!,
+                        res.data!!.serviceDetails!!.offers!![0].couponCode!!.trim(),
+                        res.data!!.serviceDetails!!.offers!![0].discountType!!,
+                        res.data!!.serviceDetails!!.offers!![0].discountAmount!!,
+                        res.data!!.serviceDetails!!.offers!![0].buyQty!!,
+                        res.data!!.serviceDetails!!.offers!![0].getQty!!,
                     )
                     bucketDataList.add(bucketCartRes)
 
-                   // Log.e("bucket List", gson.toJson(bucketDataList))
+                    // Log.e("bucket List", gson.toJson(bucketDataList))
                 }
                 bucketMyPointAdapter.setBucketData(bucketDataList)
                 rvBucketPointMyCart.apply {
@@ -657,8 +717,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                 btnBucketPointCartConfirmYourOrder -> {
                     // is selected type pick up now
                     val currentTimess: String =
-                        SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Date())
-                    if (selectedIndex == 1) {
+                        SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+                    if (selectedIndex != 0) {
                         callCheckRestaurantTimeApi(
                             serviceId.toInt(),
                             currentTimess

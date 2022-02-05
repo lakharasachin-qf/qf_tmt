@@ -3,25 +3,37 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/drawable/bg_live_deals.xml" value="0.2125" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/drawable/ic_confirm_order_shap.xml" value="0.2125" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/drawable/ic_down_arrow.xml" value="0.2125" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/drawable/ic_notification_circle.xml" value="0.2125" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/drawable/progress_bar_states.xml" value="0.19" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_coupon.xml" value="0.33" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_edit_profile_new.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_live_deals_new.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_my_bucket.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_my_bucket_live_deal.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_my_bucket_mypoints.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_my_orders.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_my_table_booking_detail.xml" value="0.19635416666666666" />
-        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_mybucket_new.xml" value="0.25" />
-        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_order_confirmation_new.xml" value="0.19635416666666666" />
-        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_order_detail.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_my_table_bookings.xml" value="0.18512820512820513" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_mybucket_new.xml" value="0.1" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_order_confirmation_new.xml" value="0.25" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_order_detail.xml" value="0.33" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_recommended.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_restaurant_list.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_search.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/activity_signin.xml" value="0.18802083333333333" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/button_progress.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/fragment_attire_menu.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/fragment_menu.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/fragment_restaurant_menu.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/popup_content_for_food_type.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/row_live_deal.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/row_live_deal_category.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/row_live_deals_new.xml" value="0.19635416666666666" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/row_my_order_details_new.xml" value="0.5" />
+        <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/row_nearest.xml" value="0.1" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/row_recommended.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/toolbar.xml" value="0.19635416666666666" />
         <entry key="..\:/__ANDROID_PROJECTS/TMTProject/TMTProject/app/src/main/res/drawable/bg_edittext_blue_border.xml" value="0.38333333333333336" />

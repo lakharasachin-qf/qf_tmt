@@ -85,6 +85,8 @@ class SignupActivity : BaseActivity(), View.OnClickListener,
     private var login_via = Constants.loginViaNormal //default
     private var social_id = ""
     private var social_profile_pic = ""
+    private var socialName = ""
+    private var deviceType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +95,18 @@ class SignupActivity : BaseActivity(), View.OnClickListener,
         callbackManager = CallbackManager.Factory.create()
         registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.e("", "getInstanceId failed", task.exception)
+                return@addOnCompleteListener
+            }
+            var token = task.result.trim().toString()
+            Log.e("getInstanceId failed", "getInstanceId  " + task.result.trim())
+            prefs.setToken(this, task.result.trim())
 
+            //   prefs.setToken(this, "test_android")
+
+        }
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w("", "getInstanceId failed", task.exception)
@@ -131,11 +144,13 @@ class SignupActivity : BaseActivity(), View.OnClickListener,
                 intent.getStringExtra(Config.socialLoginResponseBundle),
                 SocialLoginResponse::class.java
             )
+
             if (socialLoginResponse != null) {
                 edEmailSignUp.setText(socialLoginResponse.email)
                 edEmailSignUp.isEnabled = !socialLoginResponse.email.isNotEmpty()
                 Log.e("loginEmail:", socialLoginResponse.email.isNotEmpty().toString())
-
+                login_via = socialLoginResponse.login_via
+                social_id = socialLoginResponse.social_id
             }
         }
 
@@ -159,10 +174,16 @@ class SignupActivity : BaseActivity(), View.OnClickListener,
                 myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbSocialLogin),
                 SocialLoginResponse::class.java
             )
+            Log.e("socialLoginResponse:", gson.toJson(socialLoginResponse))
+
             if (socialLoginResponse != null) {
                 if (!socialLoginResponse.email.isNullOrEmpty()) {
                     is_edit = "0"
                 }
+
+                login_via = socialLoginResponse.login_via
+                social_id = socialLoginResponse.social_id
+                socialName = socialLoginResponse.name
             }
         } else {
             is_edit = "1"
@@ -737,25 +758,41 @@ class SignupActivity : BaseActivity(), View.OnClickListener,
             body
         )*/
 
-        Log.e("email", edMobileSignup.text!!.toString().trim())
+        Log.e("mobile", edMobileSignup.text!!.toString().trim())
         Log.e("countryCode", Config.countryCode.toString())
         Log.e("edEmailSignUp", edEmailSignUp.text!!.toString().trim())
         Log.e("is_edit", is_edit)
         Log.e("login_via", login_via)
         Log.e("social_id", social_id)
 
-        registerViewModel.checkEmailMobile(
-            edMobileSignup.text!!.toString().trim(),
-            Config.countryCode, //Hardcoded as of now.
-            edEmailSignUp.text!!.toString().trim(),
-            is_edit,
-            login_via,
-            if (edPasswordSignUp.text?.length == 0) "xxxxxx" else edPasswordSignUp.text.toString()
-                .trim(),
-            social_id,
-            social_profile_pic
+        if (Config.isLoginWithSocialButton) {
+            registerViewModel.checkEmailMobileWithSocial(
+                socialName,
+                edMobileSignup.text!!.toString().trim(),
+                Config.countryCode, //Hardcoded as of now.
+                edEmailSignUp.text!!.toString().trim(),
+                is_edit,
+                login_via,
+                social_id,
+                social_profile_pic,
+                prefs.getToken(this)
+            )
+        } else {
+            registerViewModel.checkEmailMobile(
+                edMobileSignup.text!!.toString().trim(),
+                Config.countryCode, //Hardcoded as of now.
+                edEmailSignUp.text!!.toString().trim(),
+                is_edit,
+                login_via,
+                if (edPasswordSignUp.text?.length == 0) "xxxxxx" else edPasswordSignUp.text.toString()
+                    .trim(),
+                social_id,
+                social_profile_pic,
+                prefs.getToken(this)
+            )
+        }
 
-        )
+
 //        Log.e("Email id", edMobileSignup.text!!.toString().trim())
 //        Log.e("is_edit", is_edit)
 //        Log.e("login_via", login_via)

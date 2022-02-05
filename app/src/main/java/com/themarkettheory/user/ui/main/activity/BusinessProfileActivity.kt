@@ -65,10 +65,11 @@ class BusinessProfileActivity : BaseActivity(), View.OnClickListener {
     override fun onBackPressed() {
         try {
             if (PubFun.isInternetConnection(this@BusinessProfileActivity)) {
-                if (!Config.isMyPointClickedFromHome) {
-                    Config.bottomBarClickedName = Config.menuBottomBarClick
-                }
-                finish()
+//                if (!Config.isMyPointClickedFromHome) {
+//                    Config.bottomBarClickedName = Config.menuBottomBarClick
+//                }
+                Config.bottomBarClickedName = Config.menuBottomBarClick
+                super.onBackPressed()
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
             }

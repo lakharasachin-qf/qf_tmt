@@ -8,11 +8,13 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.textview.MaterialTextView
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
@@ -48,6 +50,8 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     private var cartArrayList = ArrayList<CartList>()
     private lateinit var cartListRowData: CartList
     private var cartListRowPosition = 0
+    private var isDiningInSelected = false
+
 
     /*General*/
     private val pickupNowType = "pickup now"
@@ -60,6 +64,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     private val numberFormat: NumberFormat = DecimalFormat("#0.00")
     private var razorPayCurrentStr = ""
     private var isLiveDealDiningInSelected = false
+    private lateinit var tvDiningIn: MaterialTextView
 
     /*For Special Instruction Edittext*/
     private val delay: Long = 3000
@@ -82,6 +87,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
         btnLiveDealBucketConfirmYourOrder.setOnClickListener(this)
         tvLiveDealDiningIn.setOnClickListener(this)
 
+        tvDiningIn = findViewById(R.id.tvLiveDealDiningIn)
         init()
     }
 
@@ -203,8 +209,9 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                     menuArray.put(menuObject)
                 }
 
-                val currentTimess: String = SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Date())
-                if (selectedIndex == 1) {
+                val currentTimess: String =
+                    SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+                if (selectedIndex == 1 || selectedIndex == 2) {
                     cartViewModel.confirmOrder(
                         Config.vendorDetailServiceId,
                         menuArray,
@@ -250,9 +257,10 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                 }
                 tvLiveDealBucketPickUpTime -> openRangeTimePickerDialog()
                 btnLiveDealBucketConfirmYourOrder -> {
-                    val currentTimess: String = SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Date())
+                    val currentTimess: String =
+                        SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
 
-                    if (selectedIndex == 1) {
+                    if (selectedIndex != 0) {
                         callCheckRestaurantTimeApi(
                             Config.vendorDetailServiceId.toInt(),
                             currentTimess
@@ -435,8 +443,9 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     @SuppressLint("SetTextI18n")
     private fun populateLiveDealBucket(res: GetCartNewRes) {
         try {
-       //     Log.e("API-DATa", gson.toJson(res))
+            //     Log.e("API-DATa", gson.toJson(res))
             /*Razorpay Currency String*/
+            Log.e("Cart Data", gson.toJson(res))
             if (res.data != null) {
 
                 razorPayCurrentStr = res.data!!.serviceDetails!!.currencyStr!!.trim()
@@ -489,6 +498,10 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                     this.setOnCheckedChangeListener { group, checkedId ->
                         when (checkedId) {
                             R.id.rbLiveDealBucketSchedulePickup -> {
+
+                                if (isDiningInSelected) {
+                                    tvDiningIn.performClick()
+                                }
                                 ivLiveDealBucketClock.visibility = View.VISIBLE
                                 tvLiveDealBucketPickUpTime.visibility = View.VISIBLE
                                 tvLiveDealBucketPickUpTime.text = "Select Schedule Time"
@@ -504,6 +517,9 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                             }
                             else -> {
                                 selectedIndex = 1
+                                if (isDiningInSelected) {
+                                    tvDiningIn.performClick()
+                                }
 
                                 ivLiveDealBucketClock.visibility = View.GONE
                                 tvLiveDealBucketPickUpTime.visibility = View.GONE
@@ -513,23 +529,54 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                     }
                 }
 
-                radioGroupLiveDealBucket.apply {
-                    check(
-                        getChildAt(
-                            if (res.data!!.booking!!.type!!.lowercase(Locale.getDefault()) == pickupNowType
-                                || res.data!!.booking!!.type!!.isEmpty()
-                            )
-                                1 else 0
-                        ).id
+                tvDiningIn.setOnClickListener {
+                    if (!isDiningInSelected) {
+                        with(radioGroupLiveDealBucket) { this?.clearCheck() }
+                    }
+
+                    tvDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        if (isDiningInSelected) R.drawable.ic_radio_button_unchecked else
+                            R.drawable.ic_radio_button_checked,
+                        0,
+                        0,
+                        0
                     )
+
+                    isDiningInSelected = !isDiningInSelected
+                    if (isDiningInSelected) {
+                        selectedIndex = 2
+                        callApiForPickUpType("DINING_IN", "")
+                    }
                 }
+
+                if (res.data!!.booking!!.type!!.toString()
+                        .lowercase(Locale.getDefault()) == "dining in"
+                ) {
+                    tvDiningIn.performClick()
+                } else {
+                    // setting up radio group selection
+
+                    radioGroupLiveDealBucket?.apply {
+                        check(
+                            getChildAt(
+                                if (res.data!!.booking!!.type!!.toString().lowercase(Locale.getDefault()) == pickupNowType || res.data!!.booking!!.type!!.isEmpty()
+                                ) 1 else 0
+                            ).id
+                        )
+                    }
+                }
+
+
                 //endregion
 
                 /*Adding 30 min+ if radio type selection is pickup now */
                 if (res.data!!.booking!!.type!!.lowercase(Locale.getDefault()) == pickupNowType) {
                     // add30MinutesToCurrentTime()
+                    selectedIndex = 1
                     callApiForPickUpType("PICKUP_NOW", "")
-                } else {
+                }else if (res.data!!.booking!!.type!!.toString()
+                        .lowercase(Locale.getDefault()) == "schedule pickup"
+                ) {
                     if (res.data!!.booking!!.bookingTime!!.isNotEmpty()) {
                         tvLiveDealBucketPickUpTime.text =
                             PubFun.parseDate(
@@ -538,12 +585,13 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                                 Config.defaultTimeFormat
                             )
                         callApiForPickUpType(
-                            schedulePickUp,
+                             schedulePickUp,
                             tvLiveDealBucketPickUpTime.text.toString().trim()
                         )
                     } else {
 
                     }
+                    selectedIndex = 0
                 }
 
                 /*Special Instruction*/

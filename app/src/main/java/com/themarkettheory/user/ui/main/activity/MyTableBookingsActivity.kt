@@ -222,7 +222,7 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
                 Intent(
                     this@MyTableBookingsActivity,
                     OrderDetailActivity::class.java
-                )
+                ).putExtra("data",gson.toJson(dataRow))
             )
         } catch (e: Exception) {
             e.printStackTrace()

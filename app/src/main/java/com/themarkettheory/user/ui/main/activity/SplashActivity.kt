@@ -444,12 +444,14 @@ class SplashActivity : BaseActivity() {
         if(selectNavigates != Config.editProfileActivity) {
             myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbVerifyOTPNavigatesFrom)
             Handler(Looper.getMainLooper()).postDelayed({
+
                 if (prefs.getLoginModel().emailVerified == 0) {
                     startActivity(Intent(this, SigninActivity::class.java))
                 } else if (prefs.getLoginModel().emailVerified == 1 &&
                     prefs.getLoginModel().mobileVerified == 0
                 ) {
-                    startActivity(Intent(this, VerifyOtpActivity::class.java))
+                    //startActivity(Intent(this, VerifyOtpActivity::class.java))
+                    startActivity(Intent(this, SigninActivity::class.java))
                 } else if (prefs.getLoginModel().emailVerified == 1 &&
                     prefs.getLoginModel().mobileVerified == 1 &&
                     prefs.getLoginModel().zip.isEmpty()
@@ -463,6 +465,7 @@ class SplashActivity : BaseActivity() {
                 } else {
                     startActivity(Intent(this, CitySelectionActivity::class.java))
                 }
+
                 finish()
             }, 1000)
         }else{

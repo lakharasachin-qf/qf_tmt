@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:250742114157:android:259fcfdab9e00e5d4f3c64",
+        "mobilesdk_app_id": "1:250742114157:android:4e86370bca499d494f3c64",
         "android_client_info": {
           "package_name": "com.themarkettheory.user"
         }
@@ -28,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBXGQYyh1UlT229SHt3JyehDkBlZ-CCN78"
+          "current_key": "AIzaSyBGUa9guADMSP5g1y0XeBnS3PI5rtcMF5Y"
         }
       ],
       "services": {

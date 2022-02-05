@@ -46,7 +46,6 @@ import java.util.concurrent.TimeUnit
 import okhttp3.ResponseBody
 import retrofit2.Call
 
-
 interface ApiService {
 
     companion object {
@@ -140,9 +139,23 @@ interface ApiService {
         @Field("login_via") login_via: String?,
         @Field("password") password: String?,
         @Field("social_id") social_id: String?,
-        @Field("profile_pic") profile_pic: String?
+        @Field("profile_pic") profile_pic: String?,
+        @Field("device_token") device_token: String?
     ): Observable<NewLoginResponse>
 
+    @FormUrlEncoded
+    @POST("auth/check_email_mobile")
+    fun check_email_mobile_with_social(
+        @Field("name") name: String?,
+        @Field("mobile") mobile: String?,
+        @Field("country_code") country_code: String?,
+        @Field("email") email: String?,
+        @Field("is_edit") is_edit: String?,
+        @Field("login_via") login_via: String?,
+        @Field("social_id") social_id: String?,
+        @Field("profile_pic") profile_pic: String?,
+        @Field("device_token") device_token: String?
+    ): Observable<NewLoginResponse>
 
     @Multipart
     @POST("auth/register")

@@ -112,6 +112,8 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
             flSignout.setOnClickListener(this)
             ivEditProfile.setOnClickListener(this)
             ivMenuEditProfile.setOnClickListener(this)
+
+            flReferAndEarn.visibility=View.GONE
         } catch (e: Exception) {
             e.printStackTrace()
         }

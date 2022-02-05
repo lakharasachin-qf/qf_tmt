@@ -102,15 +102,15 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
                 Config.isCouponRedeem = false
                 etCouponApply.setText(Config.getSelectedCouponCode)
             } else {
-                Config.isCouponRedeem = false
-                Config.getSelectedCouponCode = ""
-                Config.isCouponApplied = false
-                Config.isCouponDiscountType = 0
-                Config.isCouponBuyQty = 0
-                Config.isCouponGetQty = 0
-                Config.isCouponMenuId = 0
-                Config.isCouponBuyGetSelected = false
-                etCouponApply.setText("")
+//                Config.isCouponRedeem = false
+//                Config.getSelectedCouponCode = ""
+//                Config.isCouponApplied = false
+//                Config.isCouponDiscountType = 0
+//                Config.isCouponBuyQty = 0
+//                Config.isCouponGetQty = 0
+//                Config.isCouponMenuId = 0
+//                Config.isCouponBuyGetSelected = false
+//                etCouponApply.setText("")
             }
 
             /*Get Offer List Service Id*/
