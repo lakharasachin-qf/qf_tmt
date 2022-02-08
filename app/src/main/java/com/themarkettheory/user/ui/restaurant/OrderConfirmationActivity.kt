@@ -74,7 +74,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_confirmation_new)
         try {
-            view= findViewById(R.id.pbOrderConfirmation)
+            view = findViewById(R.id.pbOrderConfirmation)
             init()
 
         } catch (e: Exception) {
@@ -177,11 +177,11 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                     } else {
                         i++
                         //pbOrderConfirmation.progress = i
-                        handler.postDelayed(this, 1000)
+                        handler.postDelayed(this, 500)
                     }
                 }
             }
-            handler.postDelayed(runnable, 1000)
+            handler.postDelayed(runnable, 500)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -402,7 +402,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                                 }
                             } else {
                                 i--
-                                postDelayed(this, 1500)
+                                postDelayed(this, 1000)
                             }
                         }
                     })

@@ -89,7 +89,7 @@ class RecoverPasswordActivity : BaseActivity(), View.OnClickListener {
                                 }
                             } else {
                                 i--
-                                postDelayed(this, 1000)
+                                postDelayed(this, 500)
                             }
                         }
                     })

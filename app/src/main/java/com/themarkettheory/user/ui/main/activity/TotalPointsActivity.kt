@@ -302,7 +302,7 @@ class TotalPointsActivity : BaseActivity(), View.OnClickListener {
                                 myDialog.dismiss()
                             } else {
                                 i--
-                                postDelayed(this, 1000)
+                                postDelayed(this, 500)
                             }
                         }
                     })

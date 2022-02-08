@@ -567,8 +567,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/proxima_nova_semibold"
-                    android:text="Orders once placed can not be cancelled and are non-refundable"
-                    android:textColor="@color/robins_egg_blue"
+                    android:text="Order once placed can not be cancelled and Non-refundable"
+                    android:textColor="@color/red"
                     android:textSize="@dimen/_15sp"
                     app:layout_constraintStart_toStartOf="@+id/tvMyBucketOrderPoint"
                     app:layout_constraintTop_toBottomOf="@+id/tvMyBucketOrderPoint" />

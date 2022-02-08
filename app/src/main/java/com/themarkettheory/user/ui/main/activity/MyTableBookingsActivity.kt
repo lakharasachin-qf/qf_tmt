@@ -3,9 +3,12 @@ package com.themarkettheory.user.ui.main.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.themarkettheory.user.R
@@ -32,15 +35,31 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
     private lateinit var viewToolBarMyBooking: View
     private lateinit var viewToolBarBackButton: ShapeableImageView
     private lateinit var viewToolBarTitle: MaterialTextView
+    private lateinit var swipeContainer: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_table_bookings)
         try {
+            iniRefreshListener()
             init()
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun iniRefreshListener() {
+        swipeContainer = findViewById(R.id.swipeContainer)
+        swipeContainer.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener { // This method gets called when user pull for refresh,
+            // You can make your API call here,
+            callMyTableBookingApi()
+            val handler = Handler()
+            handler.postDelayed(Runnable {
+                if (swipeContainer.isRefreshing()) {
+                    swipeContainer.setRefreshing(false)
+                }
+            }, 1500)
+        })
     }
 
     override fun onResume() {
@@ -101,40 +120,47 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
             //Toolbar Back Button
             viewToolBarBackButton.setOnClickListener(this)
 
-            //ProgressBar
-            menuViewModel.isLoading.observe(this, {
-                try {
-                    if (it!!) {
-                        Utils.showProgress(this@MyTableBookingsActivity)
-                    } else {
-                        Utils.hideProgress(this@MyTableBookingsActivity)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            })
+            getResponse()
 
-            //My Table Booking Response
-            menuViewModel.responseTableBookings.observe(this, {
-                try {
-                    when (it.status!!) {
-                        0 -> showMsgDialogAndProceed(it.message!!.trim())
-                        1 -> populateMyTableBooking(it)
-                    }
-                } catch (e: Exception) {
-                    menuViewModel.isLoading.value = false
-                    e.printStackTrace()
-                }
-            })
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun getResponse(){
+        //ProgressBar
+        menuViewModel.isLoading.observe(this, {
+            try {
+                if (it!!) {
+                    Utils.showProgress(this)
+                } else {
+                    Utils.hideProgress(this)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        })
+
+        //My Table Booking Response
+        menuViewModel.responseTableBookings.observe(this, {
+            try {
+                when (it.status!!) {
+                    0 -> showMsgDialogAndProceed(it.message!!.trim())
+                    1 -> populateMyTableBooking(it)
+                }
+            } catch (e: Exception) {
+
+                e.printStackTrace()
+            }
+        })
     }
 
     private fun callMyTableBookingApi() {
         try {
             if (PubFun.isInternetConnection(this@MyTableBookingsActivity)) {
                 menuViewModel.myTableBooking()
+                //getResponse()
+
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
             }
@@ -146,6 +172,7 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
     private fun populateMyTableBooking(res: MyTableBookingNewRes) {
         try {
             if (res.`data` != null) {
+                Log.e("My TableBookingList:", res.toString())
                 val tableBookingList = ArrayList<MyTableBookingData>()
                 for (i in res.`data`!!.indices) {
                     tableBookingList.add(res.`data`!![i])
@@ -222,7 +249,7 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
                 Intent(
                     this@MyTableBookingsActivity,
                     OrderDetailActivity::class.java
-                ).putExtra("data",gson.toJson(dataRow))
+                ).putExtra("data", gson.toJson(dataRow))
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -248,7 +275,7 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
                             myDialog.dismiss()
                         } else {
                             i--
-                            it.btnDialogLogout.postDelayed(this, 1000)
+                            it.btnDialogLogout.postDelayed(this, 500)
                         }
                     }
                 })

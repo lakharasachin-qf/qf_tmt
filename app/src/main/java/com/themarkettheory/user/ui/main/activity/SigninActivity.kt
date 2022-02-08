@@ -523,7 +523,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                             myDialog.dismiss()
                         } else {
                             i--
-                            it.btnDialogLogout.postDelayed(this, 1000)
+                            it.btnDialogLogout.postDelayed(this, 500)
                         }
                     }
                 })
@@ -605,7 +605,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                                     }
                                 } else {
                                     i--
-                                    postDelayed(this, 1000)
+                                    postDelayed(this, 500)
                                 }
                             } catch (e: Exception) {
                                 e.printStackTrace()

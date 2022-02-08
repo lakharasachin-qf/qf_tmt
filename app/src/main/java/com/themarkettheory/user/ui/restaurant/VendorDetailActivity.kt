@@ -401,7 +401,7 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
                     share.type = "text/plain"
                     share.putExtra(
                         Intent.EXTRA_TEXT,
-                         serviceDetail?.title + "\n" + serviceDetail?.address +" \n"+"https://themarkettheory.com"
+                        serviceDetail?.title + "\n" + serviceDetail?.address + " \n" + "https://themarkettheory.com"
                     )
                     //"Find this service on The Market Theory | " +
                     startActivity(Intent.createChooser(share, "Share"))
@@ -428,7 +428,7 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
                                 myDialog.dismiss()
                             } else {
                                 i--
-                                postDelayed(this, 1000)
+                                postDelayed(this, 500)
                             }
                         }
                     })

@@ -275,7 +275,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                                 }
                             } else {
                                 i--
-                                postDelayed(this, 1500)
+                                postDelayed(this, 1000)
                             }
                         }
                     })
@@ -389,7 +389,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                     )
                 }
 
-              //  Log.e("occasion_id:", gson.toJson(res.data!!))
+                //  Log.e("occasion_id:", gson.toJson(res.data!!))
 
 
                 if (res.data!!.occasion_name!!.toString().trim().isNotEmpty()) {
@@ -507,7 +507,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                             myDialog.dismiss()
                         } else {
                             i--
-                            it.btnDialogLogout.postDelayed(this, 1000)
+                            it.btnDialogLogout.postDelayed(this, 500)
                         }
                     }
                 })

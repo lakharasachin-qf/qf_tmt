@@ -3,11 +3,13 @@ package com.themarkettheory.user.ui.main.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.themarkettheory.user.R
@@ -23,6 +25,9 @@ import com.themarkettheory.user.ui.main.adapter.OrderListAdapter
 import com.themarkettheory.user.viewmodel.MenuViewModel
 import kotlinx.android.synthetic.main.activity_my_orders.*
 import kotlinx.android.synthetic.main.toolbar.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.themarkettheory.user.ui.coupon.CouponActivity
+
 
 class MyOrdersActivity : BaseActivity(), View.OnClickListener {
 
@@ -30,6 +35,7 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
     private lateinit var viewOrderToolbar: View
     private lateinit var ivBackOrderToolbar: ShapeableImageView
     private lateinit var tvTitleOrderToolbar: MaterialTextView
+    private lateinit var swipeContainer: SwipeRefreshLayout
 
     //General
     private val myOrderNewDataList = ArrayList<MyOrderNewData>()
@@ -46,14 +52,30 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
             viewOrderToolbar = findViewById(R.id.myOrdersToolbar)
             ivBackOrderToolbar = viewOrderToolbar.findViewById(R.id.ivBack)
             tvTitleOrderToolbar = viewOrderToolbar.findViewById(R.id.tvTitle)
-
+            iniRefreshListener()
             init()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
+    fun iniRefreshListener() {
+        swipeContainer = findViewById(R.id.swipeContainer)
+
+        swipeContainer.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener { // This method gets called when user pull for refresh,
+            // You can make your API call here,
+            callMyOrderApi()
+            val handler = Handler()
+            handler.postDelayed(Runnable {
+                if (swipeContainer.isRefreshing()) {
+                    swipeContainer.setRefreshing(false)
+                }
+            }, 1500)
+        })
+    }
+
     override fun onResume() {
+
         super.onResume()
         try {
             //calling api for my orders
@@ -65,53 +87,70 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
     }
 
-    private fun init() {
-        try {// setting title bar
-            tvTitleOrderToolbar.text = getString(R.string.my_orders)
 
-            //initializing model
-            menuViewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
+    private fun init() = try {// setting title bar
+        tvTitleOrderToolbar.text = getString(R.string.my_orders)
 
-            //ProgressBar
-            menuViewModel.isLoading.observe(this, {
-                try {
-                    if (it!!) {
-                        Utils.showProgress(this)
-                    } else {
-                        Utils.hideProgress(this)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            })
+        //initializing model
+        menuViewModel = ViewModelProvider(this@MyOrdersActivity).get(MenuViewModel::class.java)
+        getResponse()
+        //onclicklistener on back button
+        ivBackOrderToolbar.setOnClickListener(this)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 
-            //getting response for api
-            menuViewModel.responseOrdersNew.observe(this, Observer {
-                when (it.status!!) {
-                    0 -> showMsgDialogAndProceed(it.message!!)
-                    1 -> populateData(it)
-                }
-            })
-
-            //onclicklistener on back button
-            ivBackOrderToolbar.setOnClickListener(this)
+    private fun callMyOrderApi() {
+        try {
+            if (PubFun.isInternetConnection(this@MyOrdersActivity)) {
+                menuViewModel.myOrders()
+                getResponse()
+            } else {
+                showMsgDialogAndProceed(Config.msgToastForInternet)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun getResponse() {
+
+        //ProgressBar
+        menuViewModel.isLoading.observe(this, {
+            try {
+                if (it!!) {
+                    Utils.showProgress(this)
+                } else {
+                    Utils.hideProgress(this)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        })
+
+        //getting response for api
+        menuViewModel.responseOrdersNew.observe(this, Observer {
+            when (it.status!!) {
+                0 -> showMsgDialogAndProceed(it.message!!)
+                1 -> populateData(it)
+            }
+        })
     }
 
     private fun populateData(res: MyOrdersNewRes) {
         Utils.hideProgress(this)
         myOrderNewDataList.clear()
 
-        Log.e("My OrderList:", res.toString())
         for (i in res.data!!.indices) {
             myOrderNewDataList.add(res.data!![i])
         }
-
+        Log.e("My OrderList:", myOrderNewDataList.toString())
         if (myOrderNewDataList.isNotEmpty()) {
+
+            Log.e("My OrderList:", myOrderNewDataList.toString())
             val listener = object : ListClickListener {
                 override fun onClickListener(view: View, pos: Int, objects: Any) {
                     try {
@@ -207,7 +246,7 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
                             myDialog.dismiss()
                         } else {
                             i--
-                            it.btnDialogLogout.postDelayed(this, 1000)
+                            it.btnDialogLogout.postDelayed(this, 500)
                         }
                     }
                 })

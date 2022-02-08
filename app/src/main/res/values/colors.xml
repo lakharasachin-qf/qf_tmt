@@ -27,6 +27,7 @@
     <!--<color name="shimmer">#ededed</color>-->
     <color name="shimmer">#2b2d38</color>
     <color name="change">#FF4837</color>
+    <color name="red">#fa2e18</color>
 
     <!--Show Toast-->
     <color name="colorStatusInfo">#3498db</color>

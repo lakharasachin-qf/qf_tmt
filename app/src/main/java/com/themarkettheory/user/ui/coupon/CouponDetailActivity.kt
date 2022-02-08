@@ -4,20 +4,29 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import com.themarkettheory.user.R
 import com.themarkettheory.user.helper.Config
+import com.themarkettheory.user.helper.Config.Companion.gson
+import com.themarkettheory.user.helper.Config.Companion.myRoomDatabase
 import com.themarkettheory.user.helper.PubFun
 import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.newmodels.coupons.NewOfferListData
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.main.activity.BaseActivity
+import com.themarkettheory.user.ui.main.fragment.MapFragment
 import com.themarkettheory.user.ui.restaurant.VendorDetailActivity
+import com.themarkettheory.user.ui.restaurant.restaurant_detail.OverviewFragment
+import com.themarkettheory.user.ui.restaurant.restaurant_detail.RestaurantMenuFragment
 import com.themarkettheory.user.viewmodel.OfferViewModel
 import kotlinx.android.synthetic.main.activity_coupon_detail_new.*
 
@@ -111,20 +120,53 @@ class CouponDetailActivity : BaseActivity(), View.OnClickListener {
                             Config.isCouponOpeningFromOverview = false
                         } else {
                             Config.isVendorComingFromCouponDetail = true
+
+                            Log.e(
+                                "id",
+                                gson.toJson(newOfferListData.serviceDetails!!.id.toString())
+                            )
                             startActivity(
                                 Intent(this@CouponDetailActivity, VendorDetailActivity::class.java)
-                                    .putExtra(
-                                        "category",
-                                        newOfferListData.serviceDetails!!.categoryId.toString()
-                                    )
-                                    .putExtra(
-                                        "serviceId",
-                                        newOfferListData.serviceDetails!!.id.toString()
-                                    )
+                                    .putExtra("category", "1")
+                                    .putExtra("serviceId", newOfferListData.serviceDetails!!.id.toString())
                                     .putExtra("vendorTitle", newOfferListData.serviceDetails!!.title)
+                                    .putExtra("selectPosition", 2)
                             )
+                            finish()
+//                            return setFragment(
+//                                RestaurantMenuFragment.newInstance(
+//                                    newOfferListData.serviceDetails!!.id.toString(),
+//                                    newOfferListData.serviceDetails!!.title
+//                                )
+//                            )
+
+//                            val fragments = RestaurantMenuFragment()
+//                            val bundle = Bundle()
+//                            bundle.putString(
+//                                "category",
+//                                newOfferListData.serviceDetails!!.categoryId.toString()
+//                            )
+//                            bundle.putString(
+//                                "serviceId",
+//                                newOfferListData.serviceDetails!!.id.toString()
+//                            )
+//                            bundle.putString("vendorTitle", newOfferListData.serviceDetails!!.title)
+//                            fragment.arguments = bundle
+//                            return setFragment(fragment)
+//                            startActivity(
+//                                Intent(this@CouponDetailActivity, VendorDetailActivity::class.java)
+//                                    .putExtra(
+//                                        "category",
+//                                        newOfferListData.serviceDetails!!.categoryId.toString()
+//                                    )
+//                                    .putExtra(
+//                                        "serviceId",
+//                                        newOfferListData.serviceDetails!!.id.toString()
+//                                    )
+//                                    .putExtra("vendorTitle", newOfferListData.serviceDetails!!.title)
+//                            )
                         }
-                        finish()
+
                     } else {
                         showMsgDialogAndProceed(Config.msgToastForInternet)
                     }
@@ -133,6 +175,38 @@ class CouponDetailActivity : BaseActivity(), View.OnClickListener {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    class ViewStackListFragment : Fragment() {
+
+
+        companion object {
+
+            fun newInstance(position: Int): RestaurantMenuFragment {
+                var newOfferListData: NewOfferListData = gson.fromJson(
+                    myRoomDatabase
+                        .daoConfig().selectConfigTableByField(Config.dbOfferListResRowData),
+                    NewOfferListData::
+                    class.java
+                )
+                val fragment = RestaurantMenuFragment()
+                val args = Bundle()
+                args.putString("category", newOfferListData.serviceDetails!!.categoryId.toString())
+                args.putString("serviceId", newOfferListData.serviceDetails!!.id.toString())
+                args.putString("vendorTitle", newOfferListData.serviceDetails!!.title)
+                fragment.arguments = args
+                // fragment.setArguments(args)
+                return fragment
+            }
+        }
+    }
+
+    private fun setFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .addToBackStack(null)
+            .replace(com.themarkettheory.user.R.id.frameLayout, fragment)
+            .commit()
     }
 
     private fun init() {
@@ -328,7 +402,7 @@ class CouponDetailActivity : BaseActivity(), View.OnClickListener {
                                 myDialog.dismiss()
                             } else {
                                 i--
-                                postDelayed(this, 1000)
+                                postDelayed(this, 500)
                             }
                         }
                     })

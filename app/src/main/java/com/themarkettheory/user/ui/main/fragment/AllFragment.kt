@@ -571,7 +571,7 @@ class AllFragment() : BaseFragment(), OnCategoryClickListener, View.OnClickListe
                             myDialog.dismiss()
                         } else {
                             i--
-                            it.btnDialogLogout.postDelayed(this, 1000)
+                            it.btnDialogLogout.postDelayed(this, 500)
                         }
                     }
                 })

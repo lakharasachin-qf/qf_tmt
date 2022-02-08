@@ -410,7 +410,7 @@ class BookingFragment : Fragment(), View.OnClickListener, TimePickerDialog.OnTim
                                 myDialog.dismiss()
                             } else {
                                 i--
-                                postDelayed(this, 1000)
+                                postDelayed(this, 500)
                             }
                         }
                     }

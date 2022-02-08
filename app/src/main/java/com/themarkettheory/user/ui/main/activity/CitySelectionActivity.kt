@@ -337,7 +337,7 @@ class CitySelectionActivity : BaseActivity(), View.OnClickListener {
                             )
                         } else {
                             i--
-                            it.btnDialogLogout.postDelayed(this, 1000)
+                            it.btnDialogLogout.postDelayed(this, 500)
                         }
                     }
                 })
@@ -364,7 +364,7 @@ class CitySelectionActivity : BaseActivity(), View.OnClickListener {
                             myDialog.dismiss()
                         } else {
                             i--
-                            it.btnDialogLogout.postDelayed(this, 1000)
+                            it.btnDialogLogout.postDelayed(this, 500)
                         }
                     }
                 })

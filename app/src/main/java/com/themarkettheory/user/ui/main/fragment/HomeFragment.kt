@@ -159,8 +159,8 @@ class HomeFragment : BaseFragment(), View.OnClickListener, OnCategoryClickListen
                         if (home.data!!.cartCount!!.toString().trim().toInt() > 0
                         ) View.VISIBLE else View.GONE
                     tvCartCount.text = home.data!!.cartCount!!.toString().trim()
-                    if (home.isFeedBack == 1) {
-                        Log.e("isFEEd","Count")
+                    if (home.serviceIdName!!.isNotEmpty()) {
+                        Log.e("isFEEd", "Count")
                         startActivity(
                             Intent(
                                 requireActivity(),
@@ -494,7 +494,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, OnCategoryClickListen
                             myDialog.dismiss()
                         } else {
                             i--
-                            it.btnDialogLogout.postDelayed(this, 1000)
+                            it.btnDialogLogout.postDelayed(this, 500)
                         }
                     }
                 })

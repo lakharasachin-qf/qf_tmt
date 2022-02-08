@@ -61,7 +61,7 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
     private val strRatingHighToLow = "Rating: High to Low"
     private val strMostFavorite = "Most Favorite"
     private val strNearBy = "Near By"
-    private val strAscending = "Ascending"
+    private val strAscending = "A to Z"
 
     private val strDefaultValue = ""
     private val strRecommendedByTMTValue = "1"
@@ -764,7 +764,7 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
                                 myDialog.dismiss()
                             } else {
                                 i--
-                                postDelayed(this, 1000)
+                                postDelayed(this, 500)
                             }
                         }
                     })

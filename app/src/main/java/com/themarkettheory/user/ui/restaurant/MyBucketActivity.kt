@@ -286,9 +286,6 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 1 -> populateCartDetails(it!!)
             }
         })
-
-
-
         cartViewModel.responseRemovePromocode.observe(this, {
             when (it.status!!) {
                 0 -> showMsgDialogAndProceed(it.message!!)
@@ -526,7 +523,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                                 myDialog.dismiss()
                             } else {
                                 i--
-                                postDelayed(this, 1000)
+                                postDelayed(this, 500)
                             }
                         }
                     })
@@ -1058,7 +1055,6 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             }
         }
     }
-
     override fun onClick(v: View?) {
         try {
             when (v) {

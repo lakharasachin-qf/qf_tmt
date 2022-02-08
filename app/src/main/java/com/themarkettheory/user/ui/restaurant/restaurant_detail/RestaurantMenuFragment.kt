@@ -109,7 +109,7 @@ class RestaurantMenuFragment : Fragment(), View.OnClickListener {
                                 myDialog.dismiss()
                             } else {
                                 i--
-                                postDelayed(this, 1000)
+                                postDelayed(this, 500)
                             }
                         }
                     })
@@ -171,6 +171,19 @@ class RestaurantMenuFragment : Fragment(), View.OnClickListener {
             //Call menu api
             callMenuApi()
 
+
+            //region Progress Bar Response
+            vendorDetailViewModel.isLoading.observe(viewLifecycleOwner, {
+                try {
+                    if (it!!) {
+                        Utils.showProgress(requireActivity())
+                    } else {
+                        Utils.hideProgress(requireActivity())
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            })
             //Menu List Response
             vendorDetailViewModel.responseGetMenus.observe(viewLifecycleOwner, Observer {
                 try {

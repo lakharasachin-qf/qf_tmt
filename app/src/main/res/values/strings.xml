@@ -92,7 +92,7 @@
     <string name="see_more">SeeMore</string>
     <string name="see_less">SeeLess</string>
     <string name="collect_stamps_amp_get_product_free"><font color="#ffffff">Collect Stamps &amp; Get Product</font> <font color="#02c8ce">Free</font></string>
-    <string name="discounted_coupons">Discounted Coupons</string>
+    <string name="discounted_coupons">Discount Coupon</string>
     <string name="cross_promotion_partners">Cross Promotion Partners</string>
     <string name="in_bucket">In Bucket</string>
     <string name="my_bucket">My Bucket</string>
@@ -144,7 +144,7 @@
     <string name="_50_off_first_purchase"><font color="#ffd230">50%</font> <font color="#ffffff">off first purchase</font></string>
     <string name="coupon_code">Coupon Code</string>
     <string name="regular">Regular</string>
-    <string name="buzzer">Buzzer</string>
+    <string name="buzzer">Personalized</string>
     <string name="cross_promotion">Cross Promotion</string>
     <string name="popular">Popular</string>
     <string name="search">Search</string>

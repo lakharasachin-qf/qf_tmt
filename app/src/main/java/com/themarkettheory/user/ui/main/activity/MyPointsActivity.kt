@@ -205,36 +205,36 @@ class MyPointsActivity : BaseActivity(), View.OnClickListener {
 
             val listener = object : ListClickListener {
                 override fun onClickListener(view: View, pos: Int, objects: Any) {
-                    try {
-                        val newPointsData = objects as NewMyPointData
-                        myRoomDatabase.daoConfig().apply {
-                            /*Service Details*/
-                            deleteConfigTableByField(Config.dbNewPointsDataRowServiceDetails)
-                            insertConfigTable(
-                                TableConfig(
-                                    Config.dbNewPointsDataRowServiceDetails,
-                                    gson.toJson(res.serviceDetails!!)
-                                )
-                            )
-
-                            /*NewMyPointsData*/
-                            deleteConfigTableByField(Config.dbNewPointsDataRow)
-                            insertConfigTable(
-                                TableConfig(
-                                    Config.dbNewPointsDataRow,
-                                    gson.toJson(newPointsData)
-                                )
-                            )
-                        }
-                        startActivity(
-                            Intent(
-                                this@MyPointsActivity,
-                                MyPointsDetailActivity::class.java
-                            )
-                        )
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+//                    try {
+//                        val newPointsData = objects as NewMyPointData
+//                        myRoomDatabase.daoConfig().apply {
+//                            /*Service Details*/
+//                            deleteConfigTableByField(Config.dbNewPointsDataRowServiceDetails)
+//                            insertConfigTable(
+//                                TableConfig(
+//                                    Config.dbNewPointsDataRowServiceDetails,
+//                                    gson.toJson(res.serviceDetails!!)
+//                                )
+//                            )
+//
+//                            /*NewMyPointsData*/
+//                            deleteConfigTableByField(Config.dbNewPointsDataRow)
+//                            insertConfigTable(
+//                                TableConfig(
+//                                    Config.dbNewPointsDataRow,
+//                                    gson.toJson(newPointsData)
+//                                )
+//                            )
+//                        }
+//                        startActivity(
+//                            Intent(
+//                                this@MyPointsActivity,
+//                                MyPointsDetailActivity::class.java
+//                            )
+//                        )
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
                 }
             }
             val redeemClickListener = object : ListClickListener {
@@ -395,7 +395,7 @@ class MyPointsActivity : BaseActivity(), View.OnClickListener {
                             myDialog.dismiss()
                         } else {
                             i--
-                            it.btnDialogLogout.postDelayed(this, 1000)
+                            it.btnDialogLogout.postDelayed(this, 500)
                         }
                     }
                 })

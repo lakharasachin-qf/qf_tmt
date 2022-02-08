@@ -245,7 +245,7 @@ class VerifyOtpActivity : BaseActivity(), View.OnClickListener {
                                 }
                             } else {
                                 i--
-                                postDelayed(this, 1000)
+                                postDelayed(this, 500)
                             }
                         }
                     })
@@ -443,7 +443,7 @@ class VerifyOtpActivity : BaseActivity(), View.OnClickListener {
                         pinView.setText(Config.otpSmsTextReceiver)
                         btnVerify.performClick()
                     }
-                    handler.postDelayed(this, 1000)
+                    handler.postDelayed(this, 500)
                 }
             }
         })

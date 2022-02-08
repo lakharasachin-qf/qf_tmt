@@ -52,7 +52,7 @@ interface ApiService {
         /*var BASE_URL = "https://dev.themarkettheory.com/api/" */  // Development
         //var BASE_URL = "https://themarkettheory.com/api/v1/" //  Live
 
-        var BASE_URL = "https://themarkettheory.com/api/user/v1/"  //new Test Url
+        var BASE_URL = "https://themarkettheory.com/api/user/v2/"  //new Test Url
 
         fun create(token: String?): ApiService {
             val client = OkHttpClient.Builder()
