@@ -20,6 +20,7 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.Html
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -193,6 +194,7 @@ class OverviewFragment : Fragment(), View.OnClickListener {
             when (it.status!!) {
                 0 -> showMsgDialogAndProceed(it.message.toString())
                 1 -> {
+                    Log.e("SERVICE",gson.toJson(it));
                     llOverview.visibility = View.VISIBLE
                     data.clear()
                     data.addAll(it.data?.image!!)
@@ -906,6 +908,20 @@ class OverviewFragment : Fragment(), View.OnClickListener {
             if (isNavigate) {
                 generalViewModel.navigateToBooking.value = true
             }
+        }
+    }
+
+    fun updateFragment() {
+        try {
+            Log.e("Update","Callled")
+            // calling api for service detail
+            if (PubFun.isInternetConnection(requireActivity())) {
+                vendorDetailViewModel.service_details(serviceId)
+            } else {
+                showMsgDialogAndProceed(Config.msgToastForInternet)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

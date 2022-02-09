@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.paris.R2.id.text
 import com.themarkettheory.user.R
 import com.themarkettheory.user.databinding.RowMyCartLiveDealNewBinding
 import com.themarkettheory.user.interfaces.ListClickListenerCart

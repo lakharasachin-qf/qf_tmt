@@ -572,6 +572,16 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                             val bucketData = objects as MyBucketCartRes
                             //calling api for adding and removing items
                             if (bucketData.qty > 0) {
+
+                                var total = 0
+                                for (i in 0 until bucketDataList.size) {
+                                    total += bucketDataList[i].qty!!
+                                    Log.e("PrintCountss", total.toString())
+                                }
+                                tvBucketPointMyCart.text =
+                                    "My Cart (${total} ${if (total == 1) "Item" else "Items"})"
+
+
                                 /*Validation with total points*/
                                 if (cartTotal - bucketData.point < 0 && isItemAdded) {
                                     bucketDataList[pos].qty = bucketData.qty - 1
@@ -690,6 +700,18 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
             totalTax = 0.0
             totalPoints = 0
             totalAmt = 0.0
+
+
+            if (bucketDataList.size != 0) {
+
+                var total = 0
+                for (i in 0 until bucketDataList.size) {
+                    total += bucketDataList[i].qty!!
+                    Log.e("PrintCountss", total.toString())
+                }
+                tvBucketPointMyCart.text =
+                    "My Cart (${total} ${if (total == 1) "Item" else "Items"})"
+            }
 
             for (i in bucketDataList.indices) {
                 totalPoints += bucketDataList[i].qty * bucketDataList[i].point

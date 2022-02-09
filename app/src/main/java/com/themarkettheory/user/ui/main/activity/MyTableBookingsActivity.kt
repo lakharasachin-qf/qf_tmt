@@ -23,6 +23,7 @@ import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.main.adapter.MyTableBookingAdapter
 import com.themarkettheory.user.viewmodel.MenuViewModel
 import kotlinx.android.synthetic.main.activity_my_table_bookings.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
     //View Model
@@ -42,6 +43,7 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_my_table_bookings)
         try {
             iniRefreshListener()
+
             init()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -96,6 +98,13 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
         try {
             when (v) {
                 viewToolBarBackButton -> onBackPressed()
+                refreshPage -> if (PubFun.isInternetConnection(this@MyTableBookingsActivity)) {
+                    menuViewModel.myTableBooking()
+                    //getResponse()
+
+                } else {
+                    showMsgDialogAndProceed(Config.msgToastForInternet)
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -111,6 +120,8 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
                 viewToolBarMyBooking.findViewById(R.id.ivBack)
             viewToolBarTitle = viewToolBarMyBooking.findViewById(R.id.tvTitle)
 
+            refreshPage.visibility = View.VISIBLE
+
             //Initialize View Model
             menuViewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
 
@@ -119,6 +130,7 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
 
             //Toolbar Back Button
             viewToolBarBackButton.setOnClickListener(this)
+            refreshPage.setOnClickListener(this)
 
             getResponse()
 
@@ -127,7 +139,7 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun getResponse(){
+    private fun getResponse() {
         //ProgressBar
         menuViewModel.isLoading.observe(this, {
             try {

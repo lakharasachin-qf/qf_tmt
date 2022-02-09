@@ -58,14 +58,11 @@ class RestaurantListAdapter(
 
             //Live Deal
             holder.rowRestaurantListBinding.tvRestaurantListLiveDealTitle.visibility =
-                if (restaurant.isLiveDeal!! &&
-                    (Config.isRestaurantListOpeningFrom == Config.restaurantListOpeningFromLiveDealSeeAll)
-                )
+                if (restaurant.isLiveDeal!! && (Config.isRestaurantListOpeningFrom == Config.restaurantListOpeningFromLiveDealSeeAll))
                     View.VISIBLE else View.GONE
 
-            if (restaurant.isLiveDeal!! &&
-                (Config.isRestaurantListOpeningFrom == Config.restaurantListOpeningFromLiveDealSeeAll)
-            ) {
+            if (restaurant.isLiveDeal!! && (Config.isRestaurantListOpeningFrom == Config.restaurantListOpeningFromLiveDealSeeAll))
+            {
                 animateLiveDeal(holder)
             }
             //Title

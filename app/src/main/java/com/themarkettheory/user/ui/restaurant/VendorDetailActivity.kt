@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -222,6 +223,19 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
                 }
             }
         })
+
+
+
+        vendorDetailViewModel.responseFavoriteService.observe(this, Observer {
+            when (it.status!!) {
+                0 -> showMsgDialogAndProceed(it.message!!.trim())
+                1 -> {
+                    Log.e("ERRRRR","SSSSS");
+
+                    overViewFragment.updateFragment()
+                }
+            }
+        })
     }
 
     private fun listeners() {
@@ -275,26 +289,9 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
 
         })
 
-        /*container.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                window.statusBarColor = ContextCompat.getColor(this@VendorDetailActivity, R.color.myWhite)
-            }
-
-            override fun onPageSelected(position: Int) {
-                window.statusBarColor = ContextCompat.getColor(this@VendorDetailActivity, R.color.myWhite)
-                container.currentItem = position
-                tabs.setScrollPosition(position, 0.0f, true)
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-                window.statusBarColor = ContextCompat.getColor(this@VendorDetailActivity, R.color.myWhite)
-            }
-        })*/
     }
+
+    lateinit var overViewFragment: OverviewFragment
 
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
@@ -302,13 +299,13 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             if (position == 0) {
-                val fragment = OverviewFragment()
+                overViewFragment = OverviewFragment()
                 val bundle = Bundle()
                 bundle.putString("category", category)
                 bundle.putString("serviceId", serviceId)
                 bundle.putString("vendorTitle", vendorTitle)
-                fragment.arguments = bundle
-                return fragment
+                overViewFragment.arguments = bundle
+                return overViewFragment
             } else if (position == 1) {
                 if (category == "2") {
                     return PackagesFragment.newInstance(serviceId, vendorTitle)
@@ -336,15 +333,15 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             if (position == 0) {
-                val fragment = OverviewFragment()
+                overViewFragment = OverviewFragment()
                 val bundle = Bundle()
                 bundle.putString("category", category)
                 bundle.putString("serviceId", serviceId)
                 bundle.putString("vendorTitle", vendorTitle)
                 Config.toolbartitle = ""
                 Config.toolbartitle = vendorTitle
-                fragment.arguments = bundle
-                return fragment
+                overViewFragment.arguments = bundle
+                return overViewFragment
             } else if (position == 1) {
                 return BookingFragment.newInstance(serviceId, vendorTitle)
             } else if (position == 2) {
@@ -387,9 +384,11 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
                         toolBarFavorite.setImageResource(R.drawable.ic_like_selected)
                     else
                         toolBarFavorite.setImageResource(R.drawable.ic_like_unselected)
+
                     isFavorite = !isFavorite
                     is_liked = is_liked!!.xor(1)
                     vendorDetailViewModel.favourite_service(serviceId)
+
                 } else {
                     showMsgDialogAndProceed(Config.msgToastForInternet)
                 }

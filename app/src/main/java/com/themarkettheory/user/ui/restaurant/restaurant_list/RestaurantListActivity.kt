@@ -26,6 +26,7 @@ import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.main.activity.BaseActivity
 import com.themarkettheory.user.ui.main.activity.SearchActivity
 import com.themarkettheory.user.ui.main.adapter.*
+import com.themarkettheory.user.ui.restaurant.LiveDealsActivity
 import com.themarkettheory.user.ui.restaurant.VendorDetailActivity
 import com.themarkettheory.user.viewmodel.HomeViewModel
 import com.themarkettheory.user.viewmodel.OfferViewModel
@@ -541,18 +542,21 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
             val restaurantListener = object : ListClickListener {
                 override fun onClickListener(view: View, pos: Int, objects: Any) {
                     try {
-                        val restaurant = objects as Restaurant
+                       // val restaurant = objects as Restaurant
                         Config.isMenuFragmentComingFrom = ""
                         if (PubFun.isInternetConnection(this@RestaurantListActivity)) {
-                            startActivity(
-                                Intent(
-                                    this@RestaurantListActivity,
-                                    VendorDetailActivity::class.java
-                                )
-                                    .putExtra("category", restaurant.categoryId.toString())
-                                    .putExtra("serviceId", restaurant.id.toString())
-                                    .putExtra("vendorTitle", restaurant.title)
-                            )
+                            val restaurant = objects as Restaurant
+                            Config.vendorDetailServiceId = restaurant.id!!.toString().trim()
+                            startActivity(Intent(this@RestaurantListActivity, LiveDealsActivity::class.java))
+//                            startActivity(
+//                                Intent(
+//                                    this@RestaurantListActivity,
+//                                    VendorDetailActivity::class.java
+//                                )
+//                                    .putExtra("category", restaurant.categoryId.toString())
+//                                    .putExtra("serviceId", restaurant.id.toString())
+//                                    .putExtra("vendorTitle", restaurant.title)
+//                            )
                         } else {
                             showMsgDialogAndProceed(Config.msgToastForInternet)
                         }

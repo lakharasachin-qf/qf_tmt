@@ -115,7 +115,9 @@ class Config {
 
         //Date & Time Format
         const val requestDateFormat = "yyyy-MM-dd"
-        const val requestTimeFormat = "HH:mm:ss"
+        const val requestTimeFormat = "HH:mm:ss"//18:47:43
+        const val requestTimeFormats = "HH:mm aa"//3:03 pm
+        const val defaultTimeFormats = "hh:mm aa"
         const val defaultDateFormat = "dd/MM/yyyy"
         const val defaultTimeFormat = "hh:mm aa"
         const val editProfileDateFormat = "dd MMM yyyy"

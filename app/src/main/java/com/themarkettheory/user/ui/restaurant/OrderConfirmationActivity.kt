@@ -237,7 +237,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
 
             if (res.data != null) {
 
-                //   Log.e("Order Confirmation Data", gson.toJson(res))
+                Log.e("Order Confirmation Data", gson.toJson(res))
                 val currency = res.data!!.menuDetails!![0].menu!!.currency
 
                 // setting orderno
@@ -262,7 +262,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                         Config.requestTimeFormat,
                         Config.defaultTimeFormat
                     )!!
-                        .lowercase(Locale.getDefault())
+
 
                 //setting subtotal
                 tvOrderConfirmationSubTotal.text =

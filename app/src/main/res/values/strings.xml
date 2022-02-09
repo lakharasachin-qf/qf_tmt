@@ -4,7 +4,7 @@
 
 
     <string name="razorpay_live_key" translatable="false">rzp_live_jt5nT7EvpCH8qD</string>  <!--Live Key-->
-     <!--<string name="razorpay_live_key" translatable="false">rzp_test_M2FkmkrT6qthLV</string>-->  <!-- Testing key-->
+   <!--  <string name="razorpay_live_key" translatable="false">rzp_test_M2FkmkrT6qthLV</string> --> <!-- Testing key-->
 
     <string name="with_your_social_network">with your social network</string>
     <string name="facebook">Facebook</string>

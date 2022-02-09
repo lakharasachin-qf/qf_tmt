@@ -30,8 +30,10 @@ import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.main.activity.BaseActivity
 import com.themarkettheory.user.viewmodel.CartViewModel
 import com.themarkettheory.user.viewmodel.VendorDetailViewModel
+import kotlinx.android.synthetic.main.activity_my_bucket.*
 import kotlinx.android.synthetic.main.activity_my_bucket_live_deal.*
 import kotlinx.android.synthetic.main.activity_mybucket_new.*
+import kotlinx.android.synthetic.main.activity_mybucket_new.tvMyCart
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.DecimalFormat
@@ -94,6 +96,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     override fun onResume() {
         super.onResume()
         try {
+
             callGetCart()
             callServiceDetail() //Added by Milan on 28-11-2021 for dining in option.
         } catch (e: Exception) {
@@ -130,6 +133,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     private fun callServiceDetail() {
         try {
             if (PubFun.isInternetConnection(this@MyBucketLiveDealActivity)) {
+
                 vendorDetailViewModel.service_details(Config.vendorDetailServiceId)
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
@@ -473,6 +477,16 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                             cartListRowPosition = pos
 
                             if (cartListRowData.qty!! > 0) {
+
+
+                                var total = 0
+                                for (i in 0 until cartArrayList.size) {
+                                    total += cartArrayList[i].qty!!
+                                    Log.e("PrintCountss", total.toString())
+                                }
+                                tvLiveDealBucketCartItemCount.text =
+                                    "My Cart (${total} ${if (total == 1) "Item" else "Items"})"
+
                                 callAddMenuCart(cartListRowData.qty.toString().trim())
                             } else {
                                 callAddMenuCart("0")
@@ -559,7 +573,8 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                     radioGroupLiveDealBucket?.apply {
                         check(
                             getChildAt(
-                                if (res.data!!.booking!!.type!!.toString().lowercase(Locale.getDefault()) == pickupNowType || res.data!!.booking!!.type!!.isEmpty()
+                                if (res.data!!.booking!!.type!!.toString()
+                                        .lowercase(Locale.getDefault()) == pickupNowType || res.data!!.booking!!.type!!.isEmpty()
                                 ) 1 else 0
                             ).id
                         )
@@ -574,7 +589,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                     // add30MinutesToCurrentTime()
                     selectedIndex = 1
                     callApiForPickUpType("PICKUP_NOW", "")
-                }else if (res.data!!.booking!!.type!!.toString()
+                } else if (res.data!!.booking!!.type!!.toString()
                         .lowercase(Locale.getDefault()) == "schedule pickup"
                 ) {
                     if (res.data!!.booking!!.bookingTime!!.isNotEmpty()) {
@@ -585,7 +600,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                                 Config.defaultTimeFormat
                             )
                         callApiForPickUpType(
-                             schedulePickUp,
+                            schedulePickUp,
                             tvLiveDealBucketPickUpTime.text.toString().trim()
                         )
                     } else {
@@ -612,6 +627,16 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
             totalAmt = 0.0
             totalPoints = 0
 
+            if (cartArrayList.size != 0) {
+
+                var total = 0
+                for (i in 0 until cartArrayList.size) {
+                    total += cartArrayList[i].qty!!
+                    Log.e("PrintCountss", total.toString())
+                }
+                tvLiveDealBucketCartItemCount.text =
+                    "My Cart (${total} ${if (total == 1) "Item" else "Items"})"
+            }
 
             for (i in cartArrayList.indices) {
                 /*Sub Total*/

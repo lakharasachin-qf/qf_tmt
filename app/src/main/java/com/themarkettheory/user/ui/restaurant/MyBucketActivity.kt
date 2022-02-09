@@ -647,6 +647,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
         }
     }
 
+    var totalSize: Int = 0
     private fun removeApplyCoupon() {
         Config.isCouponApplied = false
         Config.isCouponRedeem = false
@@ -665,6 +666,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     var selectedPos: Int = 0
     var isActionIsItemRemove: Boolean = false
     lateinit var onSelectedCartObject: MyBucketCartRes
+    var total: Int = 0
 
     @SuppressLint("SetTextI18n")
     private fun populateCartDetails(res: GetCartNewRes) {
@@ -685,8 +687,11 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     tvAddress.text = res.data!!.serviceDetails!!.address!!
                     // cart size
                     val cartSize = res.data!!.list!!.size
+
+                    Log.e("getToTal", total.toString())
                     tvMyCart.text =
                         "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
+
                     //Service ID
                     serviceId = res.data!!.serviceDetails!!.id.toString().trim()
                     //Service Name
@@ -784,6 +789,15 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                                     if (isDiningInSelected) 1 else 0
                                 )
 
+                                var total = 0
+
+                                for (i in 0 until bucketDataList.size) {
+                                    total += bucketDataList[i].qty
+                                    Log.e("PrintCountss", total.toString())
+                                }
+                                tvMyCart.text =
+                                    "My Cart (${total} ${if (bucketData.qty == 1) "Item" else "Items"})"
+
                                 //region Coupon Logic for Bug 1 Get 1 free
                                 val totalQty = Config.isCouponBuyQty + Config.isCouponGetQty
                                 if (Config.isCouponApplied && Config.isCouponDiscountType == couponBuyGet
@@ -822,13 +836,13 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                                 isActionIsItemRemove = true
                                 onSelectedCartObject = bucketData
                                 selectedPos = pos
-
                                 bucketAdapter.removeItem(pos)
                                 bucketDataList.removeAt(pos)
                                 // cart size
                                 val cartSize = bucketDataList.size
                                 tvMyCart.text =
                                     "My Cart (${cartSize} ${if (cartSize == 1) "Item" else "Items"})"
+
                                 if (cartSize < 1) {
                                     Config.isCouponApplied = false
                                     Config.isCouponRedeem = false
@@ -895,8 +909,6 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 }
             }
 
-
-
             bucketAdapter.setBucketData(bucketDataList)
             rvMyCart.apply {
                 layoutManager = LinearLayoutManager(this@MyBucketActivity)
@@ -962,7 +974,18 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
     @SuppressLint("SetTextI18n", "LongLogTag")
     private fun calculateFooterSection(bucketDataList: ArrayList<MyBucketCartRes>) {
+
+
         if (bucketDataList.size != 0) {
+            var total = 0
+            for (i in 0 until bucketDataList.size) {
+                total += bucketDataList[i].qty
+                Log.e("PrintCountss", total.toString())
+
+                tvMyCart.text =
+                    "My Cart (${total} ${if (total == 1) "Item" else "Items"})"
+            }
+
             try {
                 subTotal = 0.0
                 totalTax = 0.0
@@ -1055,6 +1078,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
             }
         }
     }
+
     override fun onClick(v: View?) {
         try {
             when (v) {

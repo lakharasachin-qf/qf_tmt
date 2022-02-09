@@ -121,14 +121,14 @@ class VendorDetailViewModel(application: Application) : BaseViewModel(applicatio
         occasion_id: String?,
         special_request: String?
     ) {
-        Log.e("service_id",service_id.toString())
-        Log.e("date",date.toString())
-        Log.e("time",time.toString())
-        Log.e("total_person",total_person.toString())
-        Log.e("adult",adult.toString())
-        Log.e("child",child.toString())
-        Log.e("occasion_id",occasion_id.toString())
-        Log.e("special_request",special_request.toString())
+        Log.e("service_id", service_id.toString())
+        Log.e("date", date.toString())
+        Log.e("time", time.toString())
+        Log.e("total_person", total_person.toString())
+        Log.e("adult", adult.toString())
+        Log.e("child", child.toString())
+        Log.e("occasion_id", occasion_id.toString())
+        Log.e("special_request", special_request.toString())
         isLoadingBookTable.value = true
         disposable = apiService
             .book_table(
@@ -150,16 +150,16 @@ class VendorDetailViewModel(application: Application) : BaseViewModel(applicatio
     }
 
     fun favourite_service(service_id: String?) {
-//        isLoading.value = true
+        isLoading.value = true
         disposable = apiService
             .favourite_services(service_id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result ->
                 responseFavoriteService.value = result
-//                    isLoading.value = false
+                isLoading.value = false
             }, { error ->
-//                    isLoading.value = false
+                isLoading.value = false
                 errorMsg.value = error.message
             })
     }
@@ -198,12 +198,12 @@ class VendorDetailViewModel(application: Application) : BaseViewModel(applicatio
         isDineIn: Int
     ) {
 
-        Log.e("service_id",service_id.toString())
-        Log.e("dish_id",dish_id.toString())
-        Log.e("is_redeem",is_redeem.toString())
-        Log.e("qty",qty.toString())
-        Log.e("booking_id",booking_id.toString())
-        Log.e("isDineIn",isDineIn.toString())
+        Log.e("service_id", service_id.toString())
+        Log.e("dish_id", dish_id.toString())
+        Log.e("is_redeem", is_redeem.toString())
+        Log.e("qty", qty.toString())
+        Log.e("booking_id", booking_id.toString())
+        Log.e("isDineIn", isDineIn.toString())
         isLoading.value = true
         disposable = apiService
             .menu_add_cart(service_id, dish_id, is_redeem, qty, booking_id, isLiveDeal, isDineIn)
@@ -239,10 +239,11 @@ class VendorDetailViewModel(application: Application) : BaseViewModel(applicatio
                 isLoading.value = false
             }, { error -> isLoading.value = false })
     }
-    fun menusNew(id: String?,booking_id: String?) {
+
+    fun menusNew(id: String?, booking_id: String?) {
         isLoading.value = true
         disposable = apiService
-            .menusNew(id,booking_id)
+            .menusNew(id, booking_id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result ->
@@ -268,8 +269,6 @@ class VendorDetailViewModel(application: Application) : BaseViewModel(applicatio
                 errorMsg.value = error.message!!.toString().trim()
             })
     }
-
-
 
 
 }

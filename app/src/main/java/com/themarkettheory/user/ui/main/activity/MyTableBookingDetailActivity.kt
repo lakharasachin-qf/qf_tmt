@@ -24,7 +24,9 @@ import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.restaurant.VendorDetailActivity
 import com.themarkettheory.user.viewmodel.MenuViewModel
 import kotlinx.android.synthetic.main.activity_my_table_booking_detail.*
+import kotlinx.android.synthetic.main.activity_my_table_booking_detail.tvMyTableBookingDetailTime
 import kotlinx.android.synthetic.main.activity_order_confirmation_new.*
+import kotlinx.android.synthetic.main.activity_order_detail.*
 
 class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
     //View Model
@@ -443,9 +445,15 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                         Config.requestDateFormat,
                         Config.defaultDateFormat
                     )
-                //Booking Time
-                tvMyTableBookingDetailTime.text =
-                    res.data!!.booking_time!!.trim()
+                Log.e("booking_time", gson.toJson(res.data!!.booking_time!!.trim()))//booking_time: "3:03 pm"
+                //Order Time
+                tvMyTableBookingDetailTime.text = PubFun.parseDate(
+                    res.data!!.booking_time!!,
+                    Config.requestTimeFormats, Config.defaultTimeFormats
+                )
+//                //Booking Time
+//                tvMyTableBookingDetailTime.text =
+//                    res.data!!.booking_time!!.trim()
 
                 //region Booking Status
                 tvMyTableBookingDetailStatus.text =

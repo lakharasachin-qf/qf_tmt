@@ -97,8 +97,10 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
         //initializing model
         menuViewModel = ViewModelProvider(this@MyOrdersActivity).get(MenuViewModel::class.java)
         getResponse()
+        refreshPage.visibility = View.VISIBLE
         //onclicklistener on back button
         ivBackOrderToolbar.setOnClickListener(this)
+        refreshPage.setOnClickListener(this)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -224,6 +226,13 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             ivBackOrderToolbar -> onBackPressed()
+            refreshPage ->
+                if (PubFun.isInternetConnection(this@MyOrdersActivity)) {
+                    menuViewModel.myOrders()
+                   // getResponse()
+                } else {
+                    showMsgDialogAndProceed(Config.msgToastForInternet)
+                }
         }
     }
 

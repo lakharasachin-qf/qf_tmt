@@ -480,6 +480,24 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                     prefs.setLoginModel(res.data)
                 }
 
+                if (res.data.emailVerified == 1 &&
+                    res.data.mobileVerified == 1 &&
+                    res.data.zip.isNotEmpty()
+                ) {
+                    if(res.message.isEmpty()) {
+                        startActivity(
+                            Intent(
+                                this@SigninActivity,
+                                CitySelectionActivity::class.java
+                            )
+                        )
+                        Utils.slideEnter(this@SigninActivity)
+                        finish()
+                        return
+                    }
+
+                }
+
                 if (res.data.emailVerified == 0) {
                     showMsgDialogAndProceed(res, "", false)
                 } else if (res.data.mobileVerified == 0) {

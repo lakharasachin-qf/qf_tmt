@@ -33,6 +33,8 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     private lateinit var ivBackToolBarOrderDetail: ShapeableImageView
     private lateinit var tvTitleToolBarOrderDetail: MaterialTextView
 
+    var bucketDataList = ArrayList<MyBucketCartRes>()
+
     //ViewModel
     lateinit var cartViewModel: CartViewModel
     lateinit var selectedOrder: MyTableBookingData
@@ -196,6 +198,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
                 Config.requestDateFormat, Config.defaultDateFormat
             )
 
+            Log.e("order_time", gson.toJson(res.data!!.time!!))
             //Order Time
             tvOrderDetailTextValue.text = PubFun.parseDate(
                 res.data!!.time!!,
@@ -220,8 +223,20 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
                 }
             )
 
-            //Total Cart Items
-            tvOrderDetailMyCart.text = "My Cart (${res.data!!.menuDetails!!.size} item)"
+            if (bucketDataList.size != 0) {
+                var total = 0
+                for (i in 0 until bucketDataList.size) {
+                    total += bucketDataList[i].qty
+                    Log.e("bucketDataList", total.toString())
+
+                    tvOrderDetailMyCart.text = "My Cart (${total} item)"
+
+                }
+            }else{
+                //Total Cart Items
+                tvOrderDetailMyCart.text = "My Cart (${res.data!!.menuDetails!!.size} item)"
+
+            }
 
             //RecyclerView
             val menuList = ArrayList<MyBucketCartRes>()
