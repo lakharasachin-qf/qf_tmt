@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.themarkettheory.user.R
+import com.themarkettheory.user.helper.AppSignatureHelper.Companion.TAG
 import com.themarkettheory.user.helper.Config
 import com.themarkettheory.user.helper.PubFun
 import com.themarkettheory.user.helper.Utils
@@ -98,7 +100,7 @@ class LiveDealsActivity : BaseActivity(), View.OnClickListener {
                             Intent(
                                 this@LiveDealsActivity,
                                 MyBucketLiveDealActivity::class.java
-                            )
+                            ).putExtra("RestorantId", "")
                         )
                         finish()
                     } else {
@@ -169,7 +171,7 @@ class LiveDealsActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun populateLiveDeals(res: NewLiveDealRes) {
-   //     Log.e("populateLive",gson.toJson(res))
+        //     Log.e("populateLive",gson.toJson(res))
         try {
             if (res.data!!.list.isNullOrEmpty()) {
                 clLiveDeal.visibility = View.GONE
@@ -192,6 +194,7 @@ class LiveDealsActivity : BaseActivity(), View.OnClickListener {
                     Locale.getDefault()
                 ).format(Calendar.getInstance().time)
                 val liveDealTime = res.data!!.list!![0].endTime!!.trim()
+                Log.e("liveDealTime", liveDealTime)
                 futureMinDate = sdf.parse("$currentDate $liveDealTime")!!
                 object : CountDownTimer(futureMinDate.time - System.currentTimeMillis(), 1000) {
                     override fun onTick(millisUntilFinished: Long) {
@@ -206,6 +209,7 @@ class LiveDealsActivity : BaseActivity(), View.OnClickListener {
                             tvLiveDealsHours.text = "$hr"
                             tvLiveDealsMins.text = "$min"
                             tvLiveDealsSecs.text = "$sec"
+
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -214,15 +218,42 @@ class LiveDealsActivity : BaseActivity(), View.OnClickListener {
                     @SuppressLint("SetTextI18n")
                     override fun onFinish() {
                         try {
+                            Log.e("Timer", "finished")
                             tvLiveDealsHours.text = "00"
                             tvLiveDealsMins.text = "00"
                             tvLiveDealsSecs.text = "00"
+
+                            showMsgDialogAndProceedForLiveDealEnds(
+                                "The Market Theory",
+                                "Live deal is completed",
+                                true
+                            )
+//                            if (tvLiveDealsHours.text.toString().trim() == "00" && tvLiveDealsMins.text.toString().trim() == "00" && tvLiveDealsSecs.text.toString().trim() == "00"
+//                            ) {
+//                                showMsgDialogAndProceedForLiveDealEnds(
+//                                    "The Market Theory",
+//                                    "Live deal is completed",
+//                                    true
+//                                )
+//                            }
+
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
                     }
                 }.start()
-                //endregion
+
+                if (tvLiveDealsHours.text.toString()
+                        .trim() == "00" && tvLiveDealsMins.text.toString()
+                        .trim() == "00" && tvLiveDealsSecs.text.toString().trim() == "00"
+                ) {
+                    showMsgDialogAndProceedForLiveDealEnds(
+                        "The Market Theory",
+                        "Live deal is completed",
+                        true
+                    )
+                }
+//                //endregion
 
                 //region Live deal RecyclerView & Adapter
                 val listener = object : ListClickListener {
@@ -307,6 +338,49 @@ class LiveDealsActivity : BaseActivity(), View.OnClickListener {
         try {
             rlLiveDealFooter.visibility = if (addedItemsList.isEmpty()) View.GONE else View.VISIBLE
             tvLiveDealNoOfItems.text = addedItemsList.size.toString().trim()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showMsgDialogAndProceedForLiveDealEnds(
+        Title: String,
+        msg: String,
+        isStatusTrue: Boolean
+    ) {
+        try {
+            val myDialog = DialogToast(this@LiveDealsActivity)
+            myDialog.show()
+            myDialog.holder?.let {
+                it.tvTitle.text = Title
+                it.tvMessage.text = msg
+                it.btnDialogCancel.visibility = View.GONE
+                var i = Config.autoDialogDismissTimeInSec
+                it.btnDialogLogout.apply {
+                    visibility = View.GONE
+                    post(object : Runnable {
+                        override fun run() {
+                            if (i == 0) {
+                                myDialog.dismiss()
+                                if (isStatusTrue) {
+                                    onBackPressed()
+                                }
+                            } else {
+                                i--
+                                postDelayed(this, 1000)
+                            }
+                        }
+                    })
+                }
+                /*it.btnDialogLogout.text = "OK"
+                it.btnDialogLogout.setOnClickListener {
+                    myDialog.dismiss()
+                    if (isStatusTrue) {
+                        onBackPressed()
+                    }
+                }*/
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

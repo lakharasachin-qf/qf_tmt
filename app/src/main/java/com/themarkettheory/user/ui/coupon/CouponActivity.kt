@@ -31,6 +31,8 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
     /*View Model*/
     private lateinit var offerViewModel: OfferViewModel
     private lateinit var offerListRes: NewOfferListRes
+    private lateinit var offerListResData: NewOfferListData
+
 
     /*General*/
     private var serviceId = "0"
@@ -131,6 +133,15 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
     override fun onBackPressed() {
         if (PubFun.isInternetConnection(this@CouponActivity)) {
 
+
+//            if(intent.hasExtra("backToHome"))
+//            {
+//            if (intent.hasExtra("backToHome")) {
+//                Config.bottomBarClickedName = Config.homeBottomBarClicked
+//                return
+//            }
+//            }
+
             Config.isCouponRedeemButtonVisible = false
             if (Config.isMyCouponClickedFromHome) {
                 Config.isMyCouponClickedFromHome = false
@@ -141,7 +152,7 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
                 finish()
             } else if (Config.isEventBottomBarClicked) {
                 Config.isEventBottomBarClicked = false
-                // lylCouponHomeBottomBar.performClick()
+                //lylCouponHomeBottomBar.performClick()
                 Config.isEventMoveToback = true
                 this.moveTaskToBack(true)
             } else if (!Config.isEventMoveToback) {
@@ -403,7 +414,13 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
                 }
             })
             //endregion
+            offerViewModel.responsePickNowNew.observe(this, {
 
+                Log.e("it",gson.toJson(it)+"ss")
+                if (Config.isCouponOpeningFromBucket) {
+                    onBackPressed()
+                }
+            })
             //region Check Promo Code Coupon Response
             offerViewModel.responseCheckPromoCodeNew.observe(this, {
                 try {
@@ -421,10 +438,14 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
                         1 -> {
                             tvCouponApplyResponse.text = it.message!!.trim()
                             Config.isCouponApplied = it.isValid!! == 1
-                            Log.e("CheckNowCoupon", Config.isCouponApplied.toString())
+                            Log.e("Api","dfgdf")
                             if (Config.isCouponOpeningFromBucket) {
                                 onBackPressed()
                             }
+//                            offerViewModel.pickNowNew(
+//                                offerListResData.id,
+//                                offerListResData.discountAmount
+//                            )
                         }
                     }
                     tvCouponApplyResponse.visibility =
@@ -479,6 +500,7 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+
     private fun populateOfferList(res: NewOfferListRes) {
         try {
             if (res.data!!.isEmpty()) {
@@ -489,6 +511,7 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
                     override fun onClickListener(view: View, pos: Int, objects: Any) {
                         if (PubFun.isInternetConnection(this@CouponActivity)) {
                             val data = objects as NewOfferListData
+                            offerListResData = objects as NewOfferListData
                             myRoomDatabase.daoConfig().apply {
                                 deleteConfigTableByField(Config.dbOfferListResRowData)
                                 insertConfigTable(

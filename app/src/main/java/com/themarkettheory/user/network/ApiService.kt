@@ -49,10 +49,10 @@ import retrofit2.Call
 interface ApiService {
 
     companion object {
-       // var BASE_URL = "https://dev.themarkettheory.com/api/user/v2/"
+        // var BASE_URL = "https://dev.themarkettheory.com/api/user/v2/"
         //var BASE_URL = "https://themarkettheory.com/api/v1/" //  Live
 
-       var BASE_URL = "https://themarkettheory.com/api/user/v2/"
+        var BASE_URL = "https://themarkettheory.com/api/user/v2/"
 
         fun create(token: String?): ApiService {
             val client = OkHttpClient.Builder()
@@ -537,6 +537,13 @@ interface ApiService {
     ): Observable<NewOfferListRes>
 
     @FormUrlEncoded
+    @POST("offers_list")
+    fun offers_list2(
+        @Field("id") id: String?
+    ): Observable<NewOfferListRes>
+
+
+    @FormUrlEncoded
     @POST("favourite_coupon")
     fun favourite_coupon(
         @Field("offer_id") offer_id: String
@@ -627,6 +634,14 @@ interface ApiService {
     ): Observable<PickupResponse>
 
     @FormUrlEncoded
+    @POST("pickup")
+    fun pickup_new(
+        @Field("coupon_id") coupon_id: Int?,
+        @Field("discount") discount: Int?
+    ): Observable<GeneralResponse>
+
+
+    @FormUrlEncoded
     @POST("check_service")
     fun check_service(
         @Field("service_id") service_id: String?,
@@ -658,6 +673,25 @@ interface ApiService {
         @Field("pickup_time") pickup_time: String?,
         @Field("tax") tax: String?,
         @Field("booking_id") booking_id: String?
+    ): Observable<NewConfirmOrderRes>
+
+
+    @FormUrlEncoded
+    @POST("pickup")
+    fun pickupNEW(
+        @Field("service_id") service_id: String?,
+        @Field("items") items: JSONArray?,
+        @Field("subtotal") subtotal: String?,
+        @Field("total") total: String?,
+        @Field("offer_id") offer_id: String?,
+        @Field("payment_id") payment_id: String?,
+        @Field("points") points: String?,
+        @Field("special_instruction") special_instruction: String?,
+        @Field("pickup_time") pickup_time: String?,
+        @Field("tax") tax: String?,
+        @Field("booking_id") booking_id: String?,
+        @Field("coupon_id") coupon_id: Int?,
+        @Field("discount") discount: Int?
     ): Observable<NewConfirmOrderRes>
 
     // new add order api integration
@@ -830,6 +864,16 @@ interface ApiService {
     fun schedule_pickup_type(
         @Field("type") type: String,
         @Field("schedule_time") schedule_time: String,
+        @Field("is_redeem") is_redeem: Int,
+        @Field("is_live_deal") is_live_deal: Int,
+        @Field("is_dine_in") is_dine_in: Int
+    ): Observable<GetCartNewRes>
+
+    @FormUrlEncoded
+    @POST("book_type")
+    fun schedule_pickup_type_dignin(
+        @Field("type") type: String,
+        @Field("table_no") table_no: String,
         @Field("is_redeem") is_redeem: Int,
         @Field("is_live_deal") is_live_deal: Int,
         @Field("is_dine_in") is_dine_in: Int

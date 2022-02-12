@@ -2,6 +2,8 @@ package com.themarkettheory.user.ui.restaurant.restaurant_detail
 
 import android.content.Context
 import android.graphics.Paint
+import android.icu.text.NumberFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import com.squareup.picasso.Picasso
 import com.themarkettheory.user.R
 import com.themarkettheory.user.databinding.RowMenuContainerBinding
 import com.themarkettheory.user.interfaces.ListClickListener
+import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -96,14 +99,19 @@ class MenuSearchAdapter(
             }
             //Food Category
             holder.bindingMenuSearch.tvMenuListCategory.text = menuX.categoryName.trim()
+
+            val df2 = DecimalFormat("#,###,###,##0.00")
+            val finalPriceFormat: Double = df2.format(menuX.finalPrice).toDouble()
+
             //Food Final Price
             holder.bindingMenuSearch.tvMenuListFinalPrice.text =
-                "${menuX.currency.trim()}${menuX.finalPrice.toString().trim()}"
+                "${menuX.currency.trim()}${finalPriceFormat}"
             //Food Actual Price
             if (menuX.finalPrice != menuX.actualPrice) {
                 holder.bindingMenuSearch.tvMenuListActualPrice.visibility = View.VISIBLE
+                val actualPriceFormat: Double = df2.format(menuX.actualPrice).toDouble()
                 holder.bindingMenuSearch.tvMenuListActualPrice.text =
-                    "${menuX.currency.trim()}${menuX.actualPrice.toString().trim()}"
+                    "${menuX.currency.trim()}${actualPriceFormat}"
                 holder.bindingMenuSearch.tvMenuListActualPrice.paintFlags =
                     Paint.STRIKE_THRU_TEXT_FLAG
             } else {
@@ -114,6 +122,9 @@ class MenuSearchAdapter(
                 listener.onClickListener(holder.view, position, menuX)
             }
 
+/*
+* Format format
+* */
             //Button Background and text properties
             if (menuX.isAdded) {
                 //Background

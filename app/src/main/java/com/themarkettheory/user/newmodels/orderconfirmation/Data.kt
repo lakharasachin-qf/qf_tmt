@@ -63,5 +63,7 @@ data class Data(
     @SerializedName("is_reviewed")
     var isReviewed: Int?,
     @SerializedName("service_details")
-    var serviceDetails: ServiceDetails?
+    var serviceDetails: ServiceDetails?,
+    @SerializedName("order_token")
+    var orderToken: String?
 )

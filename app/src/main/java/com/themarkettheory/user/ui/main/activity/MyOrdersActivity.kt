@@ -97,7 +97,7 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
         //initializing model
         menuViewModel = ViewModelProvider(this@MyOrdersActivity).get(MenuViewModel::class.java)
         getResponse()
-        refreshPage.visibility = View.VISIBLE
+        //refreshPage.visibility = View.VISIBLE
         //onclicklistener on back button
         ivBackOrderToolbar.setOnClickListener(this)
         refreshPage.setOnClickListener(this)
@@ -206,14 +206,13 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
         try {
             if (PubFun.isInternetConnection(this@MyOrdersActivity)) {
 
-                if (!Config.isMyPointClickedFromHome) {
-                    Config.bottomBarClickedName = Config.menuBottomBarClick
-                }
-                if (intent.hasExtra("notification")) {
-                    Config.bottomBarClickedName = Config.homeBottomBarClicked
-
-                }
-
+//                if (!Config.isMyPointClickedFromHome) {
+//                    Config.bottomBarClickedName = Config.menuBottomBarClick
+//                }
+//                if (intent.hasExtra("notification")) {
+//                    Config.bottomBarClickedName = Config.homeBottomBarClicked
+//                }
+                Config.bottomBarClickedName = Config.menuBottomBarClick
                 finish()
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
@@ -229,7 +228,7 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
             refreshPage ->
                 if (PubFun.isInternetConnection(this@MyOrdersActivity)) {
                     menuViewModel.myOrders()
-                   // getResponse()
+                    // getResponse()
                 } else {
                     showMsgDialogAndProceed(Config.msgToastForInternet)
                 }

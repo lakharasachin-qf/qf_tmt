@@ -323,7 +323,7 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
                         Intent(activity, MyOrdersActivity::class.java)
                             .putExtra("type", Constants.Order)
                     )
-                    removeFragment()
+                    //removeFragment()
                 } else {
                     showMsgDialogAndProceed(Config.msgToastForInternet)
                 }
@@ -335,7 +335,7 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
                     startActivity(
                         Intent(activity, MyTableBookingsActivity::class.java)
                     )
-                    removeFragment()
+                   // removeFragment()
                 } else {
                     showMsgDialogAndProceed(Config.msgToastForInternet)
                 }

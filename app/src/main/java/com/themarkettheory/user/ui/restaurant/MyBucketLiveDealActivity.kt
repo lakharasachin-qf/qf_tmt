@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -73,6 +74,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     private var lastEditText: Long = 0
     private val handlerEditText = Handler(Looper.getMainLooper())
     var selectedIndex: Int = 0
+    private lateinit var MyDiningInTableNumber: AppCompatEditText
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +90,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
         tvLiveDealBucketPickUpTime.setOnClickListener(this)
         btnLiveDealBucketConfirmYourOrder.setOnClickListener(this)
         tvLiveDealDiningIn.setOnClickListener(this)
-
+        MyDiningInTableNumber = findViewById(R.id.MyDiningInTableNumber)
         tvDiningIn = findViewById(R.id.tvLiveDealDiningIn)
         init()
     }
@@ -142,6 +144,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
             e.printStackTrace()
         }
     }
+
 
     private fun callApiForPickUpType(type: String, scheduleTime: String) {
         try {
@@ -282,14 +285,27 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                     )
                 }
                 tvLiveDealDiningIn -> {
-                    tvLiveDealDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        if (isLiveDealDiningInSelected) R.drawable.ic_radio_button_unchecked
-                        else R.drawable.ic_radio_button_checked,
-                        0,
-                        0,
-                        0
-                    )
-                    isLiveDealDiningInSelected = !isLiveDealDiningInSelected
+//                    tvLiveDealDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                        if (isLiveDealDiningInSelected) R.drawable.ic_radio_button_unchecked
+//                        else R.drawable.ic_radio_button_checked,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    isLiveDealDiningInSelected = !isLiveDealDiningInSelected
+//
+//                    if (isLiveDealDiningInSelected) {
+//
+//                        selectedIndex = 2
+//
+//                        MyDiningInTableNumber.visibility = View.VISIBLE
+//                        ivMyBucketClock.visibility = View.GONE
+//                        tvMyBucketPickUpTime.visibility = View.GONE
+//                        callApiForPickUpTypeDignin(
+//                            "DINING_IN",
+//                            ""
+//                        )
+//                    }
                 }
             }
         } catch (e: Exception) {
@@ -338,7 +354,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                             Intent(
                                 this@MyBucketLiveDealActivity,
                                 OrderConfirmationActivity::class.java
-                            )
+                            ).putExtra("liveDeal", "yes")
                         )
                         finish()
                     }
@@ -393,6 +409,103 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
             })
             //endregion
 
+            val runnableEditTextForDignin = Runnable {
+
+                if (System.currentTimeMillis() > ((lastEditText + delay) - 500)) {
+                    callApiForPickUpTypeDignin(
+                        "DINING_IN",
+                        MyDiningInTableNumber.text.toString().trim()
+                    )
+                }
+            }
+            MyDiningInTableNumber.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    handlerEditText.removeCallbacks(runnableEditTextForDignin)
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (s.toString().trim().isNotEmpty()) {
+                        lastEditText = System.currentTimeMillis()
+                        handlerEditText.postDelayed(runnableEditTextForDignin, delay)
+                    }
+                }
+            })
+            //region Radio Group Selection
+            with(radioGroupLiveDealBucket) {
+                this.setOnCheckedChangeListener { group, checkedId ->
+                    when (checkedId) {
+                        R.id.rbLiveDealBucketSchedulePickup -> {
+
+                            if (isDiningInSelected) {
+                                tvDiningIn.performClick()
+                            }
+
+                            MyDiningInTableNumber.visibility = View.GONE
+                            ivLiveDealBucketClock.visibility = View.VISIBLE
+                            tvLiveDealBucketPickUpTime.visibility = View.VISIBLE
+                            tvLiveDealBucketPickUpTime.text = "Select Schedule Time"
+                            selectedIndex = 0
+
+                            if (tvLiveDealBucketPickUpTime.text.toString() != "Select Schedule Time")
+                                callApiForPickUpType("SCHEDULE_PICKUP", "")
+                            else
+                                callApiForPickUpType(
+                                    "SCHEDULE_PICKUP",
+                                    tvLiveDealBucketPickUpTime.text.toString().trim()
+                                )
+                        }
+                        else -> {
+                            selectedIndex = 1
+                            if (isDiningInSelected) {
+                                tvDiningIn.performClick()
+                            }
+                            MyDiningInTableNumber.visibility = View.GONE
+                            ivLiveDealBucketClock.visibility = View.GONE
+                            tvLiveDealBucketPickUpTime.visibility = View.GONE
+                            callApiForPickUpType(pickUpNow, "")
+                        }
+                    }
+                }
+            }
+
+            tvDiningIn.setOnClickListener {
+                if (!isDiningInSelected) {
+                    with(radioGroupLiveDealBucket) { this?.clearCheck() }
+                }
+
+                tvDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    if (isDiningInSelected) R.drawable.ic_radio_button_unchecked else
+                        R.drawable.ic_radio_button_checked,
+                    0,
+                    0,
+                    0
+                )
+
+                isDiningInSelected = !isDiningInSelected
+                if (isDiningInSelected) {
+
+                    MyDiningInTableNumber.visibility = View.VISIBLE
+                    ivLiveDealBucketClock.visibility = View.GONE
+                    tvLiveDealBucketPickUpTime.visibility = View.GONE
+                    selectedIndex = 2
+
+                    callApiForPickUpTypeDignin(
+                        "DINING_IN",
+                        ""
+                    )
+                    //callApiForPickUpType("DINING_IN", "")
+                }
+            }
+
+
             //region Check Restaurant Time before Confirm Order Response
             vendorDetailViewModel.responseCheckRestaurantTime.observe(this, {
                 when (it.status!!) {
@@ -444,6 +557,21 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
         }
     }
 
+    private fun callApiForPickUpTypeDignin(type: String, tableNo: String) {
+        Log.e(type, tableNo)
+        Log.e("type", type)
+        Log.e("tableNo", tableNo)
+        try {
+            if (PubFun.isInternetConnection(this@MyBucketLiveDealActivity)) {
+                cartViewModel.pickup_type_dignin(type, tableNo, 0, 1, 0)
+            } else {
+                showMsgDialogAndProceed(Config.msgToastForInternet)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     private fun populateLiveDealBucket(res: GetCartNewRes) {
         try {
@@ -452,6 +580,7 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
             Log.e("Cart Data", gson.toJson(res))
             if (res.data != null) {
 
+                Log.e("Cart Data", gson.toJson(res.data!!.booking!!.type!!.toString()))
                 razorPayCurrentStr = res.data!!.serviceDetails!!.currencyStr!!.trim()
 
                 /*Vendor Title*/
@@ -505,71 +634,14 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                 cartArrayList = res.data!!.list!! as ArrayList<CartList>
                 liveDealBucketNewAdapter.addLiveDealCart(cartArrayList)
                 calculateFooterSection()
-                //endregion
-
-                //region Radio Group Selection
-                with(radioGroupLiveDealBucket) {
-                    this.setOnCheckedChangeListener { group, checkedId ->
-                        when (checkedId) {
-                            R.id.rbLiveDealBucketSchedulePickup -> {
-
-                                if (isDiningInSelected) {
-                                    tvDiningIn.performClick()
-                                }
-                                ivLiveDealBucketClock.visibility = View.VISIBLE
-                                tvLiveDealBucketPickUpTime.visibility = View.VISIBLE
-                                tvLiveDealBucketPickUpTime.text = "Select Schedule Time"
-                                selectedIndex = 0
-
-                                if (tvLiveDealBucketPickUpTime.text.toString() != "Select Schedule Time")
-                                    callApiForPickUpType("SCHEDULE_PICKUP", "")
-                                else
-                                    callApiForPickUpType(
-                                        "SCHEDULE_PICKUP",
-                                        tvLiveDealBucketPickUpTime.text.toString().trim()
-                                    )
-                            }
-                            else -> {
-                                selectedIndex = 1
-                                if (isDiningInSelected) {
-                                    tvDiningIn.performClick()
-                                }
-
-                                ivLiveDealBucketClock.visibility = View.GONE
-                                tvLiveDealBucketPickUpTime.visibility = View.GONE
-                                callApiForPickUpType(pickUpNow, "")
-                            }
-                        }
-                    }
-                }
-
-                tvDiningIn.setOnClickListener {
-                    if (!isDiningInSelected) {
-                        with(radioGroupLiveDealBucket) { this?.clearCheck() }
-                    }
-
-                    tvDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        if (isDiningInSelected) R.drawable.ic_radio_button_unchecked else
-                            R.drawable.ic_radio_button_checked,
-                        0,
-                        0,
-                        0
-                    )
-
-                    isDiningInSelected = !isDiningInSelected
-                    if (isDiningInSelected) {
-                        selectedIndex = 2
-                        callApiForPickUpType("DINING_IN", "")
-                    }
-                }
 
                 if (res.data!!.booking!!.type!!.toString()
                         .lowercase(Locale.getDefault()) == "dining in"
                 ) {
+
                     tvDiningIn.performClick()
                 } else {
                     // setting up radio group selection
-
                     radioGroupLiveDealBucket?.apply {
                         check(
                             getChildAt(
@@ -580,7 +652,10 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
                         )
                     }
                 }
+                MyDiningInTableNumber.setText(res.data!!.booking!!.table_no!!.toString())
 
+
+                //endregion
 
                 //endregion
 
@@ -648,7 +723,6 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
 
             }
             totalTax += (subTotal * cartArrayList[0].menu!!.tax!!.toDouble()) / 100
-
 
             /*Sub Total*/
             tvLiveDealBucketSubTotal.text = cartArrayList[0].menu!!.currency!!.trim() +

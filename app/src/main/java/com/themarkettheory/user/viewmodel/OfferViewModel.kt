@@ -1,12 +1,10 @@
 package com.themarkettheory.user.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.themarkettheory.user.helper.Constants
-import com.themarkettheory.user.model.CheckPromoCodeResponse
-import com.themarkettheory.user.model.GeneralResponse
-import com.themarkettheory.user.model.GetActivatedCouponsResponse
-import com.themarkettheory.user.model.OfferListResponse
+import com.themarkettheory.user.model.*
 import com.themarkettheory.user.newmodels.NewGeneralRes
 import com.themarkettheory.user.newmodels.coupons.NewOfferListRes
 import com.themarkettheory.user.newmodels.coupons.apply.CheckPromoCodeRes
@@ -31,6 +29,23 @@ class OfferViewModel(application: Application) : BaseViewModel(application) {
     val responseCheckPromoCodeNew = MutableLiveData<CheckPromoCodeRes>()
     val responseActivatedCoupons = MutableLiveData<GetActivatedCouponsResponse>()
     val responseActivateCoupon = MutableLiveData<GeneralResponse>()
+    val responsePickNowNew = MutableLiveData<GeneralResponse>()
+
+    fun pickNowNew(id: Int?, time: Int?) {
+
+        isLoading.value = true
+        disposable = apiService
+            .pickup_new(id, time)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                responsePickNowNew.value = it
+                isLoading.value = false
+            }, { error ->
+                isLoading.value = false
+                errorMsg.value = error.message!!.toString().trim()
+            })
+    }
 
     fun offer_list(
         id: String?,
@@ -38,7 +53,8 @@ class OfferViewModel(application: Application) : BaseViewModel(application) {
     ) {
         isLoading.value = true
         disposable = apiService
-            .offers_list(id, type)
+            //.offers_list(id,type)
+            .offers_list2(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result ->

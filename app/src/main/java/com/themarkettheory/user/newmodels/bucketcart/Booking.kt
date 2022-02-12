@@ -26,6 +26,8 @@ data class Booking(
     var status: String?,
     @SerializedName("table_id")
     var tableId: Int?,
+    @SerializedName("table_no")
+    var table_no: String?,
     @SerializedName("total_person")
     var totalPerson: Int?,
     @SerializedName("created_at")

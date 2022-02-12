@@ -484,7 +484,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                     res.data.mobileVerified == 1 &&
                     res.data.zip.isNotEmpty()
                 ) {
-                    if(res.message.isEmpty()) {
+                    if (res.message.isEmpty()) {
                         startActivity(
                             Intent(
                                 this@SigninActivity,
@@ -753,6 +753,10 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                 if (checkValidation()) {
                     if (PubFun.isInternetConnection(this@SigninActivity)) {
                         //showMsgDialogAndProceedForToken(prefs.getToken(this))
+                        Toast.makeText(
+                            this@SigninActivity, "Firebase : " + prefs.getToken(this),
+                            Toast.LENGTH_LONG
+                        ).show()
 
                         performLogin()
                     } else {

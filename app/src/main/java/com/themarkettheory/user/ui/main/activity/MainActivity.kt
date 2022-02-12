@@ -190,7 +190,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     Config.isCouponOpeningFromBucket = false
                     Config.isCouponComingFromMainActivity = true
                     myRoomDatabase.daoConfig().deleteConfigTableByField(Config.dbOfferListServiceId)
-                    startActivity(Intent(this@MainActivity, CouponActivity::class.java))
+                    startActivity(
+                        Intent(
+                            this@MainActivity,
+                            CouponActivity::class.java
+                        ).putExtra("backToHome", "HomeFragment")
+                    )
                 } else {
                     showMsgDialogAndProceed(Config.msgToastForInternet)
                 }

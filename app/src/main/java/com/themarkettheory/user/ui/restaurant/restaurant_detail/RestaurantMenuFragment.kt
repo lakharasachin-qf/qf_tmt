@@ -38,18 +38,12 @@ import kotlin.collections.LinkedHashSet
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MenuFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RestaurantMenuFragment : Fragment(), View.OnClickListener {
     private var param1: String? = null
     private var param2: String? = null
 
     /*ViewModel*/
     private lateinit var vendorDetailViewModel: VendorDetailViewModel
-
     //Adapters
     private lateinit var adapterMenu: MenuStickyHeaderAdapter
     private lateinit var adapterMenuSearch: MenuSearchAdapter

@@ -3,6 +3,7 @@ package com.themarkettheory.user.ui.restaurant.restaurant_detail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +61,7 @@ class ReviewsFragment : Fragment(), View.OnClickListener {
     private fun showFooter() {
         try {
             if (Config.inBucketPoints.toInt() > 0 && Config.inBucketCount.toInt() > 0) {
-                if(rlReviewFooter==null) return
+                if (rlReviewFooter == null) return
                 rlReviewFooter.visibility = View.VISIBLE
                 tvReviewNoOfItems.text = Config.inBucketCount
                 tvReviewTotalPoints.text = "Total Points : ${Config.inBucketPoints}"
@@ -92,7 +93,7 @@ class ReviewsFragment : Fragment(), View.OnClickListener {
         gson = GsonBuilder()
             .setLenient()
             .create()
-       // Log.e("review Id:", gson.toJson(vendorDetailViewModel.review(id)))
+        // Log.e("review Id:", gson.toJson(vendorDetailViewModel.review(id)))
         vendorDetailViewModel.review(id)
 
         vendorDetailViewModel.responseReviews.observe(viewLifecycleOwner, Observer {
@@ -109,9 +110,11 @@ class ReviewsFragment : Fragment(), View.OnClickListener {
 
         try {
 
-          //  Log.e("Review Data", gson.toJson(res.data))
+            //  Log.e("Review Data", gson.toJson(res.data))
 
             if (res.data!!.isNotEmpty()) {
+
+                Log.e("totalMyReviewData", gson.toJson(res.data!!))
                 //setting total no of rating
                 tvReviewTotalText.setText(" ${res.data!!.size} Reviews")
                 totalRating = 0.0

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.themarkettheory.user.model.GeneralResponse
 import com.themarkettheory.user.model.OccationsResponse
+import com.themarkettheory.user.model.PickupResponse
 import com.themarkettheory.user.model.ReviewListResponse
 import com.themarkettheory.user.newmodels.NewGeneralRes
 import com.themarkettheory.user.newmodels.booking.NewBookingRes
@@ -269,6 +270,5 @@ class VendorDetailViewModel(application: Application) : BaseViewModel(applicatio
                 errorMsg.value = error.message!!.toString().trim()
             })
     }
-
 
 }

@@ -18,6 +18,8 @@ import com.themarkettheory.user.R
 import com.themarkettheory.user.databinding.RowMenuContainerBinding
 import com.themarkettheory.user.databinding.RowMenuHeaderCategoryBinding
 import com.themarkettheory.user.interfaces.ListClickListener
+import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -120,13 +122,17 @@ class MenuStickyHeaderAdapter(
                 //Food Category
                 holder.rowMenuContainerBinding.tvMenuListCategory.text = menuX.categoryName.trim()
                 //Food Final Price
-                holder.rowMenuContainerBinding.tvMenuListFinalPrice.text =
-                    "${menuX.currency.trim()}${menuX.finalPrice.toString().trim()}"
+
+                val df2 = DecimalFormat("#,###,###,##0.00")
+                val finalPriceFormat: Double = df2.format(menuX.finalPrice).toDouble()
+                holder.rowMenuContainerBinding.tvMenuListFinalPrice.text ="${menuX.currency.trim()}${(menuX.finalPrice)}"
+                    //"${menuX.currency.trim()}${NumberFormat.getCurrencyInstance(Locale.ENGLISH).format(menuX.finalPrice)}"
                 //Food Actual Price
                 if (menuX.finalPrice != menuX.actualPrice) {
                     holder.rowMenuContainerBinding.tvMenuListActualPrice.visibility = View.VISIBLE
-                    holder.rowMenuContainerBinding.tvMenuListActualPrice.text =
-                        "${menuX.currency.trim()}${menuX.actualPrice.toString().trim()}"
+                    val actualPriceFormat: Double = df2.format(menuX.actualPrice).toDouble()
+                    holder.rowMenuContainerBinding.tvMenuListActualPrice.text ="${menuX.currency.trim()}${(menuX.actualPrice)}"
+                        //"${menuX.currency.trim()}${NumberFormat.getCurrencyInstance(Locale.ENGLISH).format(menuX.actualPrice)}"
                     holder.rowMenuContainerBinding.tvMenuListActualPrice.paintFlags =
                         Paint.STRIKE_THRU_TEXT_FLAG
                 } else {

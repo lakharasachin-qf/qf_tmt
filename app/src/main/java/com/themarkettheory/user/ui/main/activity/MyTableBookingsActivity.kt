@@ -76,15 +76,16 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
     override fun onBackPressed() {
         try {
             if (PubFun.isInternetConnection(this@MyTableBookingsActivity)) {
-                if (Config.isMyBookingClickedFromHome) {
-                    Config.isMyBookingClickedFromHome = false
-                } else {
-                    super.onBackPressed()
-                    Config.bottomBarClickedName = Config.menuBottomBarClick
-                }
-                if (Config.isMenuFragmentComingFrom == Config.isMenuFragmentComingFromBookingTable) {
-                    Config.isMenuFragmentComingFrom = ""
-                }
+//                if (Config.isMyBookingClickedFromHome) {
+//                    Config.isMyBookingClickedFromHome = false
+//                } else {
+//                    super.onBackPressed()
+//                    Config.bottomBarClickedName = Config.menuBottomBarClick
+//                }
+//                if (Config.isMenuFragmentComingFrom == Config.isMenuFragmentComingFromBookingTable) {
+//                    Config.isMenuFragmentComingFrom = ""
+//                }
+                Config.bottomBarClickedName = Config.menuBottomBarClick
                 finish()
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
@@ -120,7 +121,7 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
                 viewToolBarMyBooking.findViewById(R.id.ivBack)
             viewToolBarTitle = viewToolBarMyBooking.findViewById(R.id.tvTitle)
 
-            refreshPage.visibility = View.VISIBLE
+           // refreshPage.visibility = View.VISIBLE
 
             //Initialize View Model
             menuViewModel = ViewModelProvider(this).get(MenuViewModel::class.java)

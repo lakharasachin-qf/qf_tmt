@@ -20,6 +20,7 @@ import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.main.adapter.OrderDetailAdapter
 import com.themarkettheory.user.ui.restaurant.MyBucketCartRes
 import com.themarkettheory.user.viewmodel.CartViewModel
+import kotlinx.android.synthetic.main.activity_order_confirmation_new.*
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -162,25 +163,31 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         try {
 
             Log.e("Order Details:", res.toString())
+            Log.e("Order orderType:", gson.toJson(res.data!!.orderType!!))
+            Log.e("Order table_no:", gson.toJson(res.data!!.table_no!!))
             //Order Number
             tvOrderDetailOrderNumber.text = "#${res.data!!.orderNumber!!.trim()}"
 
             //Vendor Title
             tvOrderDetailVendorTitle.text = res.data!!.serviceDetails!!.title!!.trim()
+            tvOrderDetailOrderTokenLAbel.text = res.data!!.orderToken!!.trim()
 
             //Vendor Address
             tvOrderDetailAddress.text = res.data!!.serviceDetails!!.address!!.trim()
 
-//            //Order Type
-//            tvOrderDetailOrderType.text =
-//                PubFun.toCamelCase(res.data!!.orderType!!.trim()) + " code Table No: " + res.data!!.table_no!!.trim()
-            //Order Type
-            /*case BOOKING_TABLE = "BOOKING TABLE", PRE_ORDER = "PRE ORDER", SCHEDULE_PICKUP = "SCHEDULE PICKUP",
-            PICKUP_NOW = "PICKUP NOW", QR = "QR", INVITE_USER = "INVITE USER", DINING_IN = "DINING IN"*/
+
+            if (res.data!!.orderType!!.equals("DINING IN")) {
+                if (res.data!!.table_no!!.isNotEmpty())
+                    tvOrderConfirmationType.text =
+                        "Dining In - Table No: " + res.data!!.table_no!!
+                else
+                    tvOrderConfirmationType.text =
+                        "Dining In"// + res.data!!.table_no!!
+                //tvOrderDetailOrderType.text = "Dining In - Table No: " + res.data!!.table_no!!
+            }
 
             if (res.data!!.orderType!!.lowercase() == "schedule pickup" ||
                 res.data!!.orderType!!.lowercase() == "pickup now" ||
-                res.data!!.orderType!!.lowercase() == "dining in" ||
                 res.data!!.orderType!!.lowercase() == "invite user"
             ) {
                 tvOrderDetailOrderType.text = PubFun.toCamelCase(res.data!!.orderType!!.trim())
@@ -232,7 +239,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
                     tvOrderDetailMyCart.text = "My Cart (${total} item)"
 
                 }
-            }else{
+            } else {
                 //Total Cart Items
                 tvOrderDetailMyCart.text = "My Cart (${res.data!!.menuDetails!!.size} item)"
 

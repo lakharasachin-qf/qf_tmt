@@ -149,6 +149,9 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
 //        container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
 //        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
 
+        if(Config.isVendorComingFromCouponDetail){
+            tabs.getTabAt(2)?.select()
+        }
         listeners()
         container.offscreenPageLimit = 3
         container.currentItem = selectPosition!!

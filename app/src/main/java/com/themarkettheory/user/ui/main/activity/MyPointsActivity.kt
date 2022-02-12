@@ -93,7 +93,7 @@ class MyPointsActivity : BaseActivity(), View.OnClickListener {
                             .putExtra("category", "1")
                             .putExtra("serviceId", serviceId)
                             .putExtra("vendorTitle", Config.vendorDetailServiceName)
-                            .putExtra("selectPosition", 0)
+                            .putExtra("selectPosition", 2)
                     )
                 } else {
                     startActivity(Intent(this@MyPointsActivity, TotalPointsActivity::class.java))

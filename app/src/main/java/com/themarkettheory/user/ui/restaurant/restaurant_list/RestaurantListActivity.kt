@@ -542,21 +542,31 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
             val restaurantListener = object : ListClickListener {
                 override fun onClickListener(view: View, pos: Int, objects: Any) {
                     try {
-                       // val restaurant = objects as Restaurant
+                        // val restaurant = objects as Restaurant
                         Config.isMenuFragmentComingFrom = ""
                         if (PubFun.isInternetConnection(this@RestaurantListActivity)) {
                             val restaurant = objects as Restaurant
                             Config.vendorDetailServiceId = restaurant.id!!.toString().trim()
-                            startActivity(Intent(this@RestaurantListActivity, LiveDealsActivity::class.java))
-//                            startActivity(
-//                                Intent(
-//                                    this@RestaurantListActivity,
-//                                    VendorDetailActivity::class.java
-//                                )
-//                                    .putExtra("category", restaurant.categoryId.toString())
-//                                    .putExtra("serviceId", restaurant.id.toString())
-//                                    .putExtra("vendorTitle", restaurant.title)
-//                            )
+                            if (Config.isRestaurantListOpeningFrom == Config.restaurantListOpeningFromLiveDealSeeAll) {
+
+                                startActivity(
+                                    Intent(
+                                        this@RestaurantListActivity,
+                                        LiveDealsActivity::class.java
+                                    )
+                                )
+                            } else {
+                                startActivity(
+                                    Intent(
+                                        this@RestaurantListActivity,
+                                        VendorDetailActivity::class.java
+                                    )
+                                        .putExtra("category", restaurant.categoryId.toString())
+                                        .putExtra("serviceId", restaurant.id.toString())
+                                        .putExtra("vendorTitle", restaurant.title)
+                                )
+                            }
+
                         } else {
                             showMsgDialogAndProceed(Config.msgToastForInternet)
                         }
@@ -659,7 +669,7 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
                                 it.data!!.offers!!
                             )
                             else -> {
-                             //   Log.e("SEARCH",gson.toJson(it.data))
+                                //   Log.e("SEARCH",gson.toJson(it.data))
                                 if (it.data!!.restaurant!!.isNotEmpty()) {
                                     when (Config.isRestaurantListOpeningFrom) {
                                         Config.restaurantListOpeningFromPopularLocationSeeAll -> rvRestaurantListPopularLocation.visibility =
@@ -791,12 +801,12 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
         favorite: String,
         popularLocationId: String
     ) {
-        Log.e("CategoryName",subCategoryName)
-        Log.e("type",type)
-        Log.e("foodType",foodType)
-        Log.e("sortType",sortType)
-        Log.e("favorite",favorite)
-        Log.e("popularLocationId",popularLocationId)
+        Log.e("CategoryName", subCategoryName)
+        Log.e("type", type)
+        Log.e("foodType", foodType)
+        Log.e("sortType", sortType)
+        Log.e("favorite", favorite)
+        Log.e("popularLocationId", popularLocationId)
 
         try {
             if (PubFun.isInternetConnection(this@RestaurantListActivity)) {

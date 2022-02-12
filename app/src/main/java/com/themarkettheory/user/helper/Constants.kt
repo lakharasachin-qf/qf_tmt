@@ -33,7 +33,7 @@ object Constants {
 
     //coupon type
     const val regular = "regular"
-    const val buzzer = "buzzer"
+    const val buzzer = "personalized"
     const val cross_promotion = "cross promotion"
 
 

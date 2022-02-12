@@ -15,6 +15,7 @@ import android.view.WindowManager
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,7 @@ import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.interfaces.ListClickListenerCart
 import com.themarkettheory.user.newmodels.booking.bookingdetails.NewBookingDetailsRes
 import com.themarkettheory.user.newmodels.bucketcart.GetCartNewRes
+import com.themarkettheory.user.newmodels.bucketcart.Offer
 import com.themarkettheory.user.newmodels.bucketcart.ServiceDetails
 import com.themarkettheory.user.ui.coupon.CouponActivity
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
@@ -98,6 +100,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
     private lateinit var tvCouponCode: MaterialTextView
     private lateinit var tvDiningIn: MaterialTextView
+    private lateinit var MyDiningInTableNumber: AppCompatEditText
 
     var selectedIndex: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,6 +116,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
             tvCouponCode = findViewById(R.id.tvCouponCode)
             tvDiningIn = findViewById(R.id.tvDiningIn)
+            MyDiningInTableNumber = findViewById(R.id.MyDiningInTableNumber)
             init()
             Log.e("Config.", Config.getSelectedCouponCode)
         } catch (e: Exception) {
@@ -309,7 +313,8 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         Intent(
                             this@MyBucketActivity,
                             OrderConfirmationActivity::class.java
-                        )
+                        ).putExtra("orderConfirm", "yes").putExtra("serviceId", serviceId)
+                            .putExtra("vendorTitle", serviceName)
                     )
                     finish()
                 }
@@ -384,6 +389,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         if (isDiningInSelected) {
                             tvDiningIn.performClick()
                         }
+                        MyDiningInTableNumber.visibility = View.GONE
                         ivMyBucketClock.visibility = View.VISIBLE
                         tvMyBucketPickUpTime.visibility = View.VISIBLE
                         tvMyBucketPickUpTime.text = "Select Schedule Time"
@@ -398,6 +404,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         if (isDiningInSelected) {
                             tvDiningIn.performClick()
                         }
+                        MyDiningInTableNumber.visibility = View.GONE
                         ivMyBucketClock.visibility = View.GONE
                         tvMyBucketPickUpTime.visibility = View.GONE
                         selectedIndex = 1
@@ -433,13 +440,46 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
             isDiningInSelected = !isDiningInSelected
             if (isDiningInSelected) {
+                MyDiningInTableNumber.visibility = View.VISIBLE
+                ivMyBucketClock.visibility = View.GONE
+                tvMyBucketPickUpTime.visibility = View.GONE
                 selectedIndex = 2
-                callApiForPickUpType("DINING_IN", "")
+
+                callApiForPickUpTypeDignin(
+                    "DINING_IN",
+                    ""
+                )
+                //callApiForPickUpType("DINING_IN", "")
             }
         }
 
         // setting onclick listener to confirm your order button
         btnMyBucketCartConfirmYourOrder.setOnClickListener(this)
+
+        val runnableEditTextForDignin = Runnable {
+
+            if (System.currentTimeMillis() > ((lastEditText + delay) - 500)) {
+                callApiForPickUpTypeDignin(
+                    "DINING_IN",
+                    MyDiningInTableNumber.text.toString().trim()
+                )
+            }
+        }
+        MyDiningInTableNumber.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                handlerEditText.removeCallbacks(runnableEditTextForDignin)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().trim().isNotEmpty()) {
+                    lastEditText = System.currentTimeMillis()
+                    handlerEditText.postDelayed(runnableEditTextForDignin, delay)
+                }
+            }
+        })
 
         val runnableEditText = Runnable {
             //if (Config.isMenuFragmentComingFrom != Config.isMenuFragmentComingFromBookingTable) {
@@ -466,7 +506,6 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     handlerEditText.postDelayed(runnableEditText, delay)
                 }
             }
-
         })
     } catch (e: Exception) {
         e.printStackTrace()
@@ -475,6 +514,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     private fun applyCouponChanges() {
         try {
             /*Apply Coupon*/
+
 
             ivCouponCross.visibility = if (Config.isCouponApplied) View.VISIBLE else View.GONE
             tvMyBucketCouponDiscountText.visibility =
@@ -553,6 +593,21 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     }
 
 
+    private fun callApiForPickUpTypeDignin(type: String, tableNo: String) {
+        Log.e(type, tableNo)
+        Log.e("type", type)
+        Log.e("tableNo", tableNo)
+        try {
+            if (PubFun.isInternetConnection(this@MyBucketActivity)) {
+                cartViewModel.pickup_type_dignin(type, tableNo, 0, 0, 0)
+            } else {
+                showMsgDialogAndProceed(Config.msgToastForInternet)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private fun callApiForPickUpType(type: String, scheduleTime: String) {
         Log.e(type, scheduleTime)
         try {
@@ -583,15 +638,24 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 val currentTimess: String =
                     SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
 
-
                 var time = tvMyBucketPickUpTime.text.toString().trim()
                 Log.e("PickupNow", time)
                 Log.e("bookingId", bookingId)
-                val paymentId = paymentData.paymentId.toString() //"payment_id"
+                val paymentId = "payment_id" //paymentData.paymentId.toString()
+
+
+                var couponIdSelected = -1
+                var discountSelected = -1
+
+                if (Config.isCouponApplied) {
+                    couponIdSelected = couponId
+                    discountSelected = discout
+                }
+
                 if (Config.isMenuFragmentComingFrom == Config.isMenuFragmentComingFromBookingTable) {
                     time = bookingTime
                     Log.e("PickupNow", time)
-                    cartViewModel.confirmOrder(
+                    cartViewModel.confirmOrderForMyCart(
                         bucketDataList[0].serviceId.toString(),
                         menuArray,
                         subTotal.toString(),
@@ -602,13 +666,13 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         edMyBucketSpecialInstaruction.text.toString().trim(),
                         time,
                         totalTax.toString(),
-                        bookingId
+                        bookingId, couponIdSelected, discountSelected
                     )
                     return
                 }
 
                 if (selectedIndex == 1 || selectedIndex == 2) {
-                    cartViewModel.confirmOrder(
+                    cartViewModel.confirmOrderForMyCart(
                         bucketDataList[0].serviceId.toString(),
                         menuArray,
                         subTotal.toString(),
@@ -619,13 +683,13 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                         edMyBucketSpecialInstaruction.text.toString().trim(),
                         currentTimess,
                         totalTax.toString(),
-                        bookingId
+                        bookingId, couponIdSelected, discountSelected
                     )
                     return
                 }
 
 
-                cartViewModel.confirmOrder(
+                cartViewModel.confirmOrderForMyCart(
                     bucketDataList[0].serviceId.toString(),
                     menuArray,
                     subTotal.toString(),
@@ -636,7 +700,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     edMyBucketSpecialInstaruction.text.toString().trim(),
                     time,
                     totalTax.toString(),
-                    bookingId
+                    bookingId, couponIdSelected, discountSelected
                 )
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
@@ -673,9 +737,8 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
         try {
             Log.e("populateCartDetails", "populateCartDetails");
             Log.e("Cart Data", gson.toJson(res))
+
             if (res.data != null) {
-
-
                 //restaurant id
                 if (res.data!!.serviceDetails != null) {
                     Config.vendorDetailServiceId = res.data!!.serviceDetails!!.id!!.toString()
@@ -697,8 +760,8 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                     //Service Name
                     serviceName = res.data!!.serviceDetails!!.title!!.trim()
                 }
-
-
+                if (res.data!!.booking != null)
+                    MyDiningInTableNumber.setText(res.data!!.booking!!.table_no!!.toString())
                 //tvCouponDiscount.text = res.data!!.couponData!!.discountAmount.toString()
                 // setting time +30 if pickup type is pickup now
                 if (Config.isMenuFragmentComingFrom != Config.isMenuFragmentComingFromBookingTable) {
@@ -866,31 +929,60 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 bucketDataList.clear()
                 serviceDetails = res.data!!.serviceDetails!!
                 for (i in res.data!!.list!!.indices) {
-                    val bucketCartRes = MyBucketCartRes(
-                        res.data!!.serviceDetails!!.id!!,
-                        res.data!!.serviceDetails!!.title!!,
-                        res.data!!.list!![i].menu!!.foodType!!,
-                        res.data!!.list!![i].menu!!.isSpicy!!,
-                        res.data!!.list!![i].menu!!.id!!,
-                        res.data!!.list!![i].menu!!.title!!,
-                        res.data!!.list!![i].menu!!.categoryName!!,
-                        res.data!!.list!![i].menu!!.finalPrice!!,
-                        res.data!!.list!![i].menu!!.actualPrice!!,
-                        res.data!!.list!![i].menu!!.point!!,
-                        res.data!!.list!![i].menu!!.preparingTime!!,
-                        res.data!!.list!![i].qty!!,
-                        res.data!!.list!![i].menu!!.tax!!.toDouble(),
-                        res.data!!.list!![i].menu!!.currency!!,
-                        res.data!!.serviceDetails!!.currencyStr!!,
-                        res.data!!.serviceDetails!!.offers!![0].menuId!!,
-                        res.data!!.serviceDetails!!.offers!![0].couponCode!!.trim(),
-                        res.data!!.serviceDetails!!.offers!![0].discountType!!,
-                        res.data!!.serviceDetails!!.offers!![0].discountAmount!!,
-                        res.data!!.serviceDetails!!.offers!![0].buyQty!!,
-                        res.data!!.serviceDetails!!.offers!![0].getQty!!,
-                    )
+                    if (res.data!!.serviceDetails!!.offers!!.isNotEmpty()) {
+                        val bucketCartRes = MyBucketCartRes(
+                            res.data!!.serviceDetails!!.id!!,
+                            res.data!!.serviceDetails!!.title!!,
+                            res.data!!.list!![i].menu!!.foodType!!,
+                            res.data!!.list!![i].menu!!.isSpicy!!,
+                            res.data!!.list!![i].menu!!.id!!,
+                            res.data!!.list!![i].menu!!.title!!,
+                            res.data!!.list!![i].menu!!.categoryName!!,
+                            res.data!!.list!![i].menu!!.finalPrice!!,
+                            res.data!!.list!![i].menu!!.actualPrice!!,
+                            res.data!!.list!![i].menu!!.point!!,
+                            res.data!!.list!![i].menu!!.preparingTime!!,
+                            res.data!!.list!![i].qty!!,
+                            res.data!!.list!![i].menu!!.tax!!.toDouble(),
+                            res.data!!.list!![i].menu!!.currency!!,
+                            res.data!!.serviceDetails!!.currencyStr!!,
+                            res.data!!.serviceDetails!!.offers!![0].menuId!!,
+                            res.data!!.serviceDetails!!.offers!![0].couponCode!!.trim(),
+                            res.data!!.serviceDetails!!.offers!![0].discountType!!,
+                            res.data!!.serviceDetails!!.offers!![0].discountAmount!!,
+                            res.data!!.serviceDetails!!.offers!![0].buyQty!!,
+                            res.data!!.serviceDetails!!.offers!![0].getQty!!,
+                        )
+                        bucketDataList.add(bucketCartRes)
+
+                    } else {
+                        val bucketCartRes = MyBucketCartRes(
+                            res.data!!.serviceDetails!!.id!!,
+                            res.data!!.serviceDetails!!.title!!,
+                            res.data!!.list!![i].menu!!.foodType!!,
+                            res.data!!.list!![i].menu!!.isSpicy!!,
+                            res.data!!.list!![i].menu!!.id!!,
+                            res.data!!.list!![i].menu!!.title!!,
+                            res.data!!.list!![i].menu!!.categoryName!!,
+                            res.data!!.list!![i].menu!!.finalPrice!!,
+                            res.data!!.list!![i].menu!!.actualPrice!!,
+                            res.data!!.list!![i].menu!!.point!!,
+                            res.data!!.list!![i].menu!!.preparingTime!!,
+                            res.data!!.list!![i].qty!!,
+                            res.data!!.list!![i].menu!!.tax!!.toDouble(),
+                            res.data!!.list!![i].menu!!.currency!!,
+                            res.data!!.serviceDetails!!.currencyStr!!,
+                            0,
+                            "",
+                            0,
+                            0,
+                            0,
+                            0,
+                        )
+                        bucketDataList.add(bucketCartRes)
+                    }
+
                     //  Log.e("NEwCreated", gson.toJson(bucketCartRes))
-                    bucketDataList.add(bucketCartRes)
                 }
 
                 if (res.data!!.couponData.couponCode!!.isNotEmpty()) {
@@ -972,6 +1064,9 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
         )
     }
 
+    var couponId = 0
+    var discout = 0
+
     @SuppressLint("SetTextI18n", "LongLogTag")
     private fun calculateFooterSection(bucketDataList: ArrayList<MyBucketCartRes>) {
 
@@ -1005,6 +1100,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
                 totalTax += (subTotal * bucketDataList[0].tax) / 100
 
+
                 if (Config.isCouponApplied) {
                     for (obj in serviceDetails.offers!!) {
                         Log.e("final amount", gson.toJson(obj))
@@ -1015,6 +1111,9 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                                     Locale.getDefault()
                                 )
                             ) {
+                                couponId = obj.id!!
+                                discout = obj.discountAmount!!
+
                                 val discountAmt = obj.discountAmount
                                 if (discountAmt != null) {
                                     if (obj.discountType == couponPercentage) {

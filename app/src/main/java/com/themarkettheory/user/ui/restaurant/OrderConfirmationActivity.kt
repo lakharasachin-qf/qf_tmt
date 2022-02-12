@@ -27,11 +27,16 @@ import com.themarkettheory.user.R
 import com.themarkettheory.user.helper.Config
 import com.themarkettheory.user.helper.PubFun
 import com.themarkettheory.user.helper.Utils
+import com.themarkettheory.user.newmodels.bucketcart.GetCartNewRes
+import com.themarkettheory.user.newmodels.coupons.NewOfferListData
+import com.themarkettheory.user.newmodels.map.Restaurant
 import com.themarkettheory.user.newmodels.orderconfirmation.GetNewOrderConfirmRes
 import com.themarkettheory.user.newmodels.orderconfirmation.MenuDetail
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.dialog.dialogshare.DialogShare
 import com.themarkettheory.user.ui.main.activity.BaseActivity
+import com.themarkettheory.user.ui.main.activity.MainActivity
+import com.themarkettheory.user.ui.main.activity.MyPointsActivity
 import com.themarkettheory.user.viewmodel.CartViewModel
 import kotlinx.android.synthetic.main.activity_mybucket_new.*
 import kotlinx.android.synthetic.main.activity_order_confirmation.*
@@ -48,8 +53,14 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var adapterOrderConfirmation: OrderConfirmationAdapter
     private val orderConfirmationList = ArrayList<MenuDetail>()
+
+    //private lateinit var newOfferListData: NewOfferListData
+    private lateinit var newOfferListData: GetCartNewRes
     private lateinit var dialogShare: DialogShare
     private lateinit var mMessageReceiver: BroadcastReceiver
+
+    var serviceId: String? = ""
+    var venderTitle: String? = ""
 
     // General
     var orderId: String = ""
@@ -83,15 +94,66 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        //super.onBackPressed()
         try {
             if (PubFun.isInternetConnection(this@OrderConfirmationActivity)) {
-                //Check if lateinit var is initialized if yes then & then only dismiss the dialog
-                if (::dialogShare.isInitialized) dialogShare.dismiss()
-                if (!Config.isMyPointClickedFromHome) {
-                    Config.bottomBarClickedName = Config.menuBottomBarClick
+
+                if (intent.hasExtra("orderConfirm")) {
+                    if (!Config.isMyPointClickedFromHome) {
+                        Config.bottomBarClickedName = Config.homeBottomBarClicked
+                    }
+//                    Log.e("data", "yesssssssss")
+//                    startActivity(
+//                        Intent(this@OrderConfirmationActivity, MainActivity::class.java)
+//                            .putExtra("category", "1")
+//                            .putExtra(
+//                                "serviceId",
+//                                serviceId
+//                            )
+//                            .putExtra("vendorTitle", venderTitle)
+//                            .putExtra("selectPosition", 2)
+//                    )
+                } else if (intent.hasExtra("liveDeal")) {
+                    if (!Config.isMyPointClickedFromHome) {
+                        Config.bottomBarClickedName = Config.homeBottomBarClicked
+                    }
+//                    Config.vendorDetailServiceId
+//                    startActivity(
+//                        Intent(
+//                            this@OrderConfirmationActivity,
+//                            LiveDealsActivity::class.java
+//                        )
+//                    )
+                } else if (intent.hasExtra("myPoint")) {
+//                    Config.vendorDetailServiceId
+//                    startActivity(
+//                        Intent(
+//                            this@OrderConfirmationActivity,
+//                            VendorDetailActivity::class.java
+//                        )
+//                    )
+//
+//                    startActivity(
+//                        Intent(this@OrderConfirmationActivity, MyPointsActivity::class.java)
+//                            .putExtra("category", "1")
+//                            .putExtra("serviceId", intent.getStringExtra("serviceId"))
+//                            .putExtra("vendorTitle", intent.getStringExtra("vendorTitle"))
+//                            .putExtra("selectPosition", 2)
+//                    )
+
+                    if (!Config.isMyPointClickedFromHome) {
+                        Config.bottomBarClickedName = Config.homeBottomBarClicked
+                    }
                 }
                 finish()
+                return
+
+                //Check if lateinit var is initialized if yes then & then only dismiss the dialog
+                if (::dialogShare.isInitialized) dialogShare.dismiss()
+//                if (!Config.isMyPointClickedFromHome) {
+//                    Config.bottomBarClickedName = Config.menuBottomBarClick
+//                }
+//                finish()
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)
             }
@@ -115,6 +177,13 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
 
     private fun init() {
         try {
+
+            if (intent != null) {
+                serviceId = intent.getStringExtra("serviceId")
+                venderTitle = intent.getStringExtra("vendorTitle")
+            }
+
+
             //Getting Order Id
             orderId = myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbOrderId)!!
             //Initial View Model
@@ -238,6 +307,8 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
             if (res.data != null) {
 
                 Log.e("Order Confirmation Data", gson.toJson(res))
+                Log.e("Order Type", gson.toJson(res.data!!.table_no!!))
+                Log.e("Order Type", gson.toJson(res.data!!.orderType!!))
                 val currency = res.data!!.menuDetails!![0].menu!!.currency
 
                 // setting orderno
@@ -245,7 +316,19 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                     "Order #${res.data!!.orderNumber!!.trim()}"
 
                 // setting Pickuptype
-                tvOrderConfirmationType.text = PubFun.toCamelCase(res.data!!.orderType!!)
+
+                if (res.data!!.orderType!!.equals("DINING IN")) {
+                    if (res.data!!.table_no!!.isNotEmpty())
+                        tvOrderConfirmationType.text =
+                            "Dining In - Table No: " + res.data!!.table_no!!
+                    else
+                        tvOrderConfirmationType.text =
+                            "Dining In"// + res.data!!.table_no!!
+                } else {
+                    tvOrderConfirmationType.text = PubFun.toCamelCase(res.data!!.orderType!!)
+                }
+
+                tvOrderConfirmationOrderToken.text = "Token No: " + res.data!!.orderToken
 
                 //setting date
                 tvOrderConfirmationDate.text =

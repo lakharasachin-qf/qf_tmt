@@ -85,12 +85,25 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:gravity="center"
-                android:text="Order #1234"
+                android:text=""
                 android:textColor="@color/robins_egg_blue"
                 android:textSize="@dimen/_18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvOrderConfirmationText" />
+     <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationOrderToken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_bold"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/robins_egg_blue"
+                android:textSize="@dimen/_21sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrderConfirmationOrderNo" />
 
             <View
                 android:id="@+id/viewOrderConfirmationView"
@@ -99,7 +112,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:alpha="0.3"
                 android:background="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/tvOrderConfirmationOrderNo" />
+                app:layout_constraintTop_toBottomOf="@id/tvOrderConfirmationOrderToken" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvOrderConfirmationType"

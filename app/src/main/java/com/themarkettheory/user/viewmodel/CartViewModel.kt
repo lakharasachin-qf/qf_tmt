@@ -162,6 +162,77 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
             })
     }
 
+    fun confirmOrderForMyCart(
+        service_id: String?,
+        items: JSONArray,
+        subtotal: String?,
+        total: String?,
+        offer_id: String?,
+        payment_id: String?,
+        points: String?,
+        special_instruction: String?,
+        pickup_time: String?,
+        tax: String?,
+        booking_id: String?,
+        selectedCouponId: Int?, calDiscount: Int?
+
+    ) {
+
+        pickup_time?.let { Log.e("Order Confimation time", it) }
+        isLoading.value = true
+        if (selectedCouponId != -1) {
+            disposable = apiService
+                .pickupNEW(
+                    service_id,
+                    items,
+                    subtotal,
+                    total,
+                    offer_id,
+                    payment_id,
+                    points,
+                    special_instruction,
+                    pickup_time,
+                    tax,
+                    booking_id, selectedCouponId, calDiscount
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ result ->
+                    responseConfirmOrder.value = result
+                    isLoading.value = false
+                }, { error ->
+                    isLoading.value = false
+                    errorMsg.value = error.message
+                })
+
+        } else {
+            disposable = apiService
+                .pickup(
+                    service_id,
+                    items,
+                    subtotal,
+                    total,
+                    offer_id,
+                    payment_id,
+                    points,
+                    special_instruction,
+                    pickup_time,
+                    tax,
+                    booking_id
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ result ->
+                    responseConfirmOrder.value = result
+                    isLoading.value = false
+                }, { error ->
+                    isLoading.value = false
+                    errorMsg.value = error.message
+                })
+
+        }
+
+    }
     fun confirmOrder(
         service_id: String?,
         items: JSONArray,
@@ -174,7 +245,6 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
         pickup_time: String?,
         tax: String?,
         booking_id: String?
-
     ) {
 
         pickup_time?.let { Log.e("Order Confimation time", it) }
@@ -217,8 +287,8 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
             }, { error -> isLoading.value = false })
     }
 
-    fun get_cart(booking_id: Int, is_redeem: Int, isLiveDeal: Int,isDineIn: Int) {
-        Log.e("booking_id","{$booking_id}")
+    fun get_cart(booking_id: Int, is_redeem: Int, isLiveDeal: Int, isDineIn: Int) {
+        Log.e("booking_id", "{$booking_id}")
         isLoading.value = true
 
         disposable = apiService
@@ -249,9 +319,15 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
             }, { error -> isLoading.value = false })
     }
 
-    fun pickup_type(type: String, schedule_time: String, is_redeem: Int, isLiveDeal: Int,isDineIn: Int) {
+    fun pickup_type(
+        type: String,
+        schedule_time: String,
+        is_redeem: Int,
+        isLiveDeal: Int,
+        isDineIn: Int
+    ) {
         isLoading.value = true
-        if(schedule_time.isNotEmpty()) {
+        if (schedule_time.isNotEmpty()) {
             disposable = apiService
                 .schedule_pickup_type(type, schedule_time, is_redeem, isLiveDeal, isDineIn)
                 .subscribeOn(Schedulers.io())
@@ -260,9 +336,9 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
                     responseGetCartNew.value = result
                     isLoading.value = false
                 }, { error -> isLoading.value = false })
-        }else{
+        } else {
             disposable = apiService
-                .schedule_pickup_type_noTime(type,  is_redeem, isLiveDeal, isDineIn)
+                .schedule_pickup_type_noTime(type, is_redeem, isLiveDeal, isDineIn)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
@@ -271,8 +347,27 @@ class CartViewModel(application: Application) : BaseViewModel(application) {
                 }, { error -> isLoading.value = false })
         }
     }
-    //["is_live_deal": false, "is_dine_in": false, "type": "SCHEDULE_PICKUP", "is_redeem": false]
 
+    fun pickup_type_dignin(
+        type: String,
+        table_no: String,
+        is_redeem: Int,
+        isLiveDeal: Int,
+        isDineIn: Int
+    ) {
+        isLoading.value = true
+        disposable = apiService
+            .schedule_pickup_type_dignin(type, table_no, is_redeem, isLiveDeal, isDineIn)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ result ->
+                responseGetCartNew.value = result
+                isLoading.value = false
+            }, { error -> isLoading.value = false })
+    }
+
+
+    //["is_live_deal": false, "is_dine_in": false, "type": "SCHEDULE_PICKUP", "is_redeem": false]
 
 
     fun removePromoCode(

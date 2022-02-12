@@ -36,8 +36,13 @@
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/row_nearest.xml" value="0.1" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/row_recommended.xml" value="0.19635416666666666" />
         <entry key="..\:/_ANDROID_PROJECTS/root_tmt/app/src/main/res/layout/toolbar.xml" value="0.19635416666666666" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/drawable/bg_edittext_blue_border.xml" value="0.13783783783783785" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_city_selection.xml" value="0.5" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_coupon.xml" value="0.19635416666666666" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_coupon_detail_new.xml" value="0.1" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_live_deals.xml" value="0.12736486486486487" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_live_deals_new.xml" value="0.19635416666666666" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_my_bucket.xml" value="0.11554054054054054" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_my_bucket_live_deal.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_my_bucket_mypoints.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_my_orders.xml" value="0.19635416666666666" />
@@ -45,18 +50,24 @@
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_my_points_new.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_my_table_booking_detail.xml" value="0.33" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_my_table_bookings.xml" value="0.4184239733629301" />
-        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_mybucket_new.xml" value="0.19635416666666666" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_mybucket_new.xml" value="0.18" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_order_confirmation_new.xml" value="0.19635416666666666" />
-        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_order_detail.xml" value="0.19635416666666666" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_order_detail.xml" value="0.17" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_restaurant_list.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_total_points_new.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/activity_vendor_detail.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/fragment_all.xml" value="0.19635416666666666" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/fragment_menu.xml" value="0.134375" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/fragment_restaurant_menu.xml" value="0.134375" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/fragment_review_new.xml" value="0.12736486486486487" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/row_live_deal.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/row_live_deals_new.xml" value="0.19635416666666666" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/row_menu_container.xml" value="0.2410518626734843" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/row_my_cart_live_deal_new.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/row_my_cart_new.xml" value="0.25" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/row_popup_type.xml" value="0.12736486486486487" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/row_restaurant_list.xml" value="0.19635416666666666" />
+        <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/row_review_new.xml" value="0.25" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/row_table_bookings_new.xml" value="0.75" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/toolbar.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/TMT-2.0/app/src/main/res/layout/toolbar_restaurant.xml" value="0.19635416666666666" />

@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.RadioGroup
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textview.MaterialTextView
@@ -71,7 +72,7 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
     var cartTotal = 0
     private var isDiningInSelected = false
     private var isMyPointDiningInSelected = false
-    private lateinit var tvDiningIn: MaterialTextView
+
 
     // edit text delay
     val delay: Long = 3000
@@ -83,6 +84,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
 
     var radioGroupMyPoints: RadioGroup? = null
     var selectedIndex: Int = 0
+    private lateinit var MyDiningInTableNumber: AppCompatEditText
+    private lateinit var tvDiningIn: MaterialTextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +97,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE or
                             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
                 )
+
+            tvDiningIn = findViewById(R.id.tvMyPointsDiningIn)
 
             init()
         } catch (e: Exception) {
@@ -134,6 +139,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
         vendorDetailViewModel = ViewModelProvider(this).get(VendorDetailViewModel::class.java)
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
 
+        MyDiningInTableNumber = findViewById(R.id.MyDiningInTableNumber)
+
         // toolbar title
         tvTitle.text = getString(R.string.my_bucket)
 
@@ -151,6 +158,68 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                 e.printStackTrace()
             }
         })
+
+        tvDiningIn.setOnClickListener {
+            Log.e("data", "nothing")
+
+            if (!isDiningInSelected) {
+                with(radioGroupMyPoints) { this?.clearCheck() }
+            }
+
+            tvDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                if (isDiningInSelected) R.drawable.ic_radio_button_unchecked else
+                    R.drawable.ic_radio_button_checked,
+                0,
+                0,
+                0
+            )
+
+            isDiningInSelected = !isDiningInSelected
+            if (isDiningInSelected) {
+
+                MyDiningInTableNumber.visibility = View.VISIBLE
+                ivBucketPointClock.visibility = View.GONE
+                tvBucketPointPickUpTime.visibility = View.GONE
+                selectedIndex = 2
+                callApiForPickUpTypeDignin(
+                    "DINING_IN",
+                    ""
+                )
+                //callApiForPickUpType("DINING_IN", "")
+            }
+        }
+
+
+        val runnableEditTextForDignin = Runnable {
+
+            if (System.currentTimeMillis() > ((lastEditText + delay) - 500)) {
+                callApiForPickUpTypeDignin(
+                    "DINING_IN",
+                    MyDiningInTableNumber.text.toString().trim()
+                )
+            }
+        }
+        MyDiningInTableNumber.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                handlerEditText.removeCallbacks(runnableEditTextForDignin)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().trim().isNotEmpty()) {
+                    lastEditText = System.currentTimeMillis()
+                    handlerEditText.postDelayed(runnableEditTextForDignin, delay)
+                }
+            }
+        })
+
 
         //region For Booking Table for X person with date & time
         if (Config.isMenuFragmentComingFrom == Config.isMenuFragmentComingFromBookingTable) {
@@ -189,7 +258,7 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
 
         // setting up the text on picktime text
         radioGroupMyPoints = findViewById(R.id.radioGroupMyPoints)
-        tvDiningIn = findViewById(R.id.tvMyPointsDiningIn)
+
 
         with(radioGroupMyPoints) {
             this?.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
@@ -198,6 +267,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                         if (isDiningInSelected) {
                             tvDiningIn.performClick()
                         }
+
+                        MyDiningInTableNumber.visibility = View.GONE
                         ivBucketPointClock.visibility = View.VISIBLE
                         tvBucketPointPickUpTime.visibility = View.VISIBLE
                         tvBucketPointPickUpTime.text = "Select Schedule Time"
@@ -214,6 +285,7 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                             tvDiningIn.performClick()
                         }
                         selectedIndex = 1
+                        MyDiningInTableNumber.visibility = View.GONE
                         ivBucketPointClock.visibility = View.GONE
                         tvBucketPointPickUpTime.visibility = View.GONE
                         callApiForPickUpType("PICKUP_NOW", "")
@@ -254,7 +326,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                         Intent(
                             this@MyPointBucketActivity,
                             OrderConfirmationActivity::class.java
-                        )
+                        ).putExtra("myPoint", "yes").putExtra("serviceId", serviceId)
+                            .putExtra("vendorTitle", serviceName)
                     )
                     finish()
                 }
@@ -298,29 +371,40 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
         tvMyPointsDiningIn.setOnClickListener(this)
 
 
+//        tvDiningIn.setOnClickListener {
+//            Log.e("data", "nothing")
+//
+//            if (!isDiningInSelected) {
+//                with(radioGroupMyPoints) { this?.clearCheck() }
+//            }
+//
+//            tvDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                if (isDiningInSelected) R.drawable.ic_radio_button_unchecked else
+//                    R.drawable.ic_radio_button_checked,
+//                0,
+//                0,
+//                0
+//            )
+//
+//            isDiningInSelected = !isDiningInSelected
+//            if (isDiningInSelected) {
+//
+//                MyDiningInTableNumber.visibility = View.VISIBLE
+//                ivBucketPointClock.visibility = View.GONE
+//                tvBucketPointPickUpTime.visibility = View.GONE
+//                selectedIndex = 2
+//                callApiForPickUpTypeDignin(
+//                    "DINING_IN",
+//                    ""
+//                )
+//                //callApiForPickUpType("DINING_IN", "")
+//            }
+//        }
+
+
         // setting onclick listener to confirm your order button
         btnBucketPointCartConfirmYourOrder.setOnClickListener(this)
-        tvDiningIn.setOnClickListener {
-            Log.e("data", "nothing")
 
-            if (!isDiningInSelected) {
-                with(radioGroupMyPoints) { this?.clearCheck() }
-            }
-
-            tvDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                if (isDiningInSelected) R.drawable.ic_radio_button_unchecked else
-                    R.drawable.ic_radio_button_checked,
-                0,
-                0,
-                0
-            )
-
-            isDiningInSelected = !isDiningInSelected
-            if (isDiningInSelected) {
-                selectedIndex = 2
-                callApiForPickUpType("DINING_IN", "")
-            }
-        }
 
         val runnableEditText = Runnable {
             if (System.currentTimeMillis() > ((lastEditText + delay) - 500)) {
@@ -367,6 +451,21 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
         })
     } catch (e: Exception) {
         e.printStackTrace()
+    }
+
+    private fun callApiForPickUpTypeDignin(type: String, tableNo: String) {
+        Log.e(type, tableNo)
+        Log.e("type", type)
+        Log.e("tableNo", tableNo)
+        try {
+            if (PubFun.isInternetConnection(this@MyPointBucketActivity)) {
+                cartViewModel.pickup_type_dignin(type, tableNo, 1, 0, 0)
+            } else {
+                showMsgDialogAndProceed(Config.msgToastForInternet)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun callCheckRestaurantTimeApi(id: Int, time: String) {
@@ -493,6 +592,7 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                 tvBucketPointPoints.text = res.data!!.serviceDetails!!.points!!.toString().trim()
                 cartTotal = res.data!!.serviceDetails!!.points!!
 
+
                 //restaurant title
                 tvBucketPointVendorTitle.text = res.data!!.serviceDetails!!.title!!
                 // retaurant address
@@ -529,6 +629,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                         )
                     }
                 }
+
+                MyDiningInTableNumber.setText(res.data!!.booking!!.table_no!!.toString())
 
                 // setting time +30 if pickup type is pickup now
                 if (res.data!!.booking!!.type!!.toString()
@@ -713,9 +815,19 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                     "My Cart (${total} ${if (total == 1) "Item" else "Items"})"
             }
 
+            /*Sub Total*/
+            tvBucketPointSubtotal.text = bucketDataList[0].currency!!.trim() +
+                    if (subTotal == 0.0) "0.00" else numberFormat.format(subTotal)
+            /*Total Tax*/
+            tvBucketPointTax.text = bucketDataList[0].currency!!.trim() +
+                    if (totalTax == 0.0) "0.00" else numberFormat.format(totalTax)
             for (i in bucketDataList.indices) {
                 totalPoints += bucketDataList[i].qty * bucketDataList[i].point
             }
+            /*Total*/
+            totalAmt = totalTax + subTotal
+            tvBucketPointTotalAmount.text = bucketDataList[0].currency!!.trim() +
+                    if (totalAmt == 0.0) "0.00" else numberFormat.format(totalAmt)
 
             //Setting Total Item Point
             tvBucketPointTotalOrderPoints.text = totalPoints.toString()
@@ -760,14 +872,41 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                     //callApiForConfirmOrder()
                 }
                 tvMyPointsDiningIn -> {
-                    tvMyPointsDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        if (isMyPointDiningInSelected) R.drawable.ic_radio_button_unchecked
-                        else R.drawable.ic_radio_button_checked,
+//                    tvMyPointsDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                        if (isMyPointDiningInSelected) R.drawable.ic_radio_button_unchecked
+//                        else R.drawable.ic_radio_button_checked,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    isMyPointDiningInSelected = !isMyPointDiningInSelected
+
+                    if (!isDiningInSelected) {
+                        with(radioGroupMyPoints) { this?.clearCheck() }
+                    }
+
+                    tvDiningIn.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        if (isDiningInSelected) R.drawable.ic_radio_button_unchecked else
+                            R.drawable.ic_radio_button_checked,
                         0,
                         0,
                         0
                     )
-                    isMyPointDiningInSelected = !isMyPointDiningInSelected
+
+                    isDiningInSelected = !isDiningInSelected
+                    if (isDiningInSelected) {
+
+                        MyDiningInTableNumber.visibility = View.VISIBLE
+                        ivBucketPointClock.visibility = View.GONE
+                        tvBucketPointPickUpTime.visibility = View.GONE
+                        selectedIndex = 2
+                        callApiForPickUpTypeDignin(
+                            "DINING_IN",
+                            ""
+                        )
+                        //callApiForPickUpType("DINING_IN", "")
+                    }
+
                 }
             }
         } catch (e: Exception) {
