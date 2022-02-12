@@ -3,6 +3,7 @@ package com.themarkettheory.user.ui.restaurant.restaurant_detail
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +13,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.sathvik.stickyheaderexample.StickyHeaderItemDecoration
 import com.squareup.picasso.Picasso
 import com.themarkettheory.user.R
 import com.themarkettheory.user.databinding.RowMenuContainerBinding
 import com.themarkettheory.user.databinding.RowMenuHeaderCategoryBinding
 import com.themarkettheory.user.interfaces.ListClickListener
-import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -61,6 +62,8 @@ class MenuStickyHeaderAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         try {
             val menuX = menuList[position]
+            Log.e("Objec", Gson().toJson(menuX))
+
             if (holder is ViewHolder) {
                 //Food Image
                 if (!menuX.image.isNullOrEmpty()) {
@@ -123,8 +126,6 @@ class MenuStickyHeaderAdapter(
                 holder.rowMenuContainerBinding.tvMenuListCategory.text = menuX.categoryName.trim()
                 //Food Final Price
 
-                val df2 = DecimalFormat("#,###,###,##0.00")
-                val finalPriceFormat: Double = df2.format(menuX.finalPrice).toDouble()
                 holder.rowMenuContainerBinding.tvMenuListFinalPrice.text =
                         //       "${menuX.currency.trim()}${(menuX.finalPrice)}"
                     "${
@@ -134,7 +135,6 @@ class MenuStickyHeaderAdapter(
                 //Food Actual Price
                 if (menuX.finalPrice != menuX.actualPrice) {
                     holder.rowMenuContainerBinding.tvMenuListActualPrice.visibility = View.VISIBLE
-                    val actualPriceFormat: Double = df2.format(menuX.actualPrice).toDouble()
                     holder.rowMenuContainerBinding.tvMenuListActualPrice.text =
                             // "${menuX.currency.trim()}${(menuX.actualPrice)}"
                         "${
