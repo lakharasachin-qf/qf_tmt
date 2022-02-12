@@ -25,8 +25,6 @@ import com.themarkettheory.user.ui.main.adapter.OrderListAdapter
 import com.themarkettheory.user.viewmodel.MenuViewModel
 import kotlinx.android.synthetic.main.activity_my_orders.*
 import kotlinx.android.synthetic.main.toolbar.*
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.themarkettheory.user.ui.coupon.CouponActivity
 
 
 class MyOrdersActivity : BaseActivity(), View.OnClickListener {
@@ -192,7 +190,8 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
             adapterMyOrderList.addMyOrderDataList(myOrderNewDataList)
 
             // recyclerview
-            val selectedPosition = myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbMyOrderListRecyclerViewPosition)
+            val selectedPosition = myRoomDatabase.daoConfig()
+                .selectConfigTableByField(Config.dbMyOrderListRecyclerViewPosition)
             rvMyOrders.apply {
                 layoutManager = LinearLayoutManager(this@MyOrdersActivity)
                 adapter = adapterMyOrderList

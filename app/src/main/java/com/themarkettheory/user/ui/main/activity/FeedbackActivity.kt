@@ -150,7 +150,6 @@ class FeedbackActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-
-        //super.onBackPressed()
+        super.onBackPressed()
     }
 }

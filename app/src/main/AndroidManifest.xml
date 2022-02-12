@@ -282,6 +282,7 @@
             android:required="false" />
 
         <service
+            android:stopWithTask="false"
             android:name=".firebase.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>

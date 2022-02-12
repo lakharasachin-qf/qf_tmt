@@ -103,6 +103,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 NotificationUtils.playNotificationSound(applicationContext)
             }
         } else {
+            Log.e("app", "background")
             // If the app is in background, firebase itself handles the notification
         }
     }

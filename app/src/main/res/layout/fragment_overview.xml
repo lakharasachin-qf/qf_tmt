@@ -16,13 +16,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-
-            android:visibility="visible"
             android:id="@+id/llOverview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp">
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:visibility="gone">
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpager"
@@ -34,12 +33,12 @@
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/indicator"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="@dimen/_16sdp"
+                android:visibility="gone"
                 app:ci_drawable="@drawable/indicator_selected"
                 app:ci_drawable_unselected="@drawable/indicator_unselected"
                 app:layout_constraintBottom_toBottomOf="@+id/viewpager"

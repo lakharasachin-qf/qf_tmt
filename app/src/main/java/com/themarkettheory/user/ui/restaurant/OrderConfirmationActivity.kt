@@ -67,6 +67,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
     var shareingStringData: String = ""
     var restarurantName: String = ""
     var address: String = ""
+    var token: String = ""
     var orderIdText: String = ""
     var orderType: String = ""
     var date: String = ""
@@ -476,8 +477,28 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
         try {
             restarurantName = res.data!!.serviceDetails!!.title!!
             address = res.data!!.serviceDetails!!.address!!
-            orderId = res.data!!.id!!.toString().trim()
-            orderType = res.data!!.orderType!!
+            //orderId = res.data!!.id!!.toString().trim()
+            orderId = "#${res.data!!.orderNumber!!.trim()}"
+            token = res.data!!.orderToken!!
+            orderType = PubFun.toCamelCase(res.data!!.orderType!!.trim())!!
+            if (res.data!!.orderType!!.lowercase() == "schedule pickup" ||
+                res.data!!.orderType!!.lowercase() == "pickup now" ||
+                res.data!!.orderType!!.lowercase() == "invite user"
+            ) {
+                orderType = PubFun.toCamelCase(res.data!!.orderType!!.trim())!!
+            } else if (res.data!!.orderType!! == "QR") {
+                tvOrderConfirmationType.text =
+                    res.data!!.orderType!!.trim() + " code Table No: " + res.data!!.table_no!!.trim()
+            } else if (res.data!!.orderType!!.equals("DINING IN")) {
+                orderType = if (res.data!!.table_no!!.isNotEmpty())
+                    "Dining In - Table No: " + res.data!!.table_no!!
+                else
+                    "Dining In"// + res.data!!.table_no!!
+            } else {
+                orderType = "Table For " + res.data!!.table_no!! + " Person"
+            }
+
+
             date = PubFun.parseDate(
                 res.data!!.date,
                 Config.requestDateFormat,
@@ -614,7 +635,8 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
         try {
             shareingStringData =
                 "Restaurant Details: \nName: \n${restarurantName} \nAddress: \n${address} " +
-                        "\nOrder Detail: \nOrder Id:\n${orderId} \nOrder Type:  ${orderType} \n" +
+                        "\nOrder Detail: \nToken Number:\n${token}\n" +
+                        "Order Number:  ${orderId}  \nOrder Type:  ${orderType} \n" +
                         "Date ${date} \nTime \n${time}"
 
             callbackManager = CallbackManager.Factory.create();
@@ -637,7 +659,8 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
         try {
             shareingStringData =
                 "*Restaurant Details:* \n *Name:* \n ${restarurantName} \n *Address:* \n ${address} " +
-                        "\n *Order Detail:* \n *Order Id:* \n ${orderId} \n *Order Type:*  ${orderType} \n " +
+                        "\n *Order Detail:* \n *Token Number:* \n ${token}\n*Order Number:* \n" +
+                        " ${orderId} \n *Order Type:*  ${orderType} \n " +
                         "*Date* ${date} \n *Time* \n ${time}"
             val sendIntent = Intent()
             sendIntent.setPackage("com.whatsapp")
@@ -656,7 +679,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
         try {
             shareingStringData =
                 "<b>Restaurant Details:</b><br/> Name:<br/> ${restarurantName} <br/><br/>Address:<br/> ${address} " +
-                        "<br/><br/>Order Detail:<br/><br/>Order Id:<br/> ${orderId} <br/><br/>Order Type:<br/>${orderType}<br/><br/>" +
+                        "<br/><br/>Order Detail:<br/><br/>Token Number:<br/> ${token} <br/><br/>Order Number:<br/> ${orderId} <br/><br/>Order Type:<br/>${orderType}<br/><br/>" +
                         "Date<br/>${date} <br/><br/>Time<br/> ${time}"
 
             val sendIntent = Intent()
@@ -680,7 +703,8 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
             {
                 shareingStringData =
                     "Restaurant Details: \nName: \n${restarurantName} \nAddress: \n${address} " +
-                            "\nOrder Detail: \nOrder Id:\n${orderId} \nOrder Type:  ${orderType} \n" +
+                            "\nOrder Detail: \nToken Number:\n${token}\nOrder Number:\n" +
+                            "${orderId} \nOrder Type:  ${orderType} \n" +
                             "Date ${date} \nTime \n${time}"
                 val defaultSmsPackageName =
                     Telephony.Sms.getDefaultSmsPackage(this)
