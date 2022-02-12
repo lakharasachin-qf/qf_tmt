@@ -19,7 +19,6 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.text.Html
-import android.text.format.DateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -194,7 +193,7 @@ class OverviewFragment : Fragment(), View.OnClickListener {
             when (it.status!!) {
                 0 -> showMsgDialogAndProceed(it.message.toString())
                 1 -> {
-                    Log.e("SERVICE",gson.toJson(it));
+                    Log.e("SERVICE", gson.toJson(it));
                     llOverview.visibility = View.VISIBLE
                     data.clear()
                     data.addAll(it.data?.image!!)
@@ -244,10 +243,12 @@ class OverviewFragment : Fragment(), View.OnClickListener {
                     tvAddress.text = it.data?.address
                     tvDistance.text = it.data?.distance
                     tvPoints.setText(it.data?.points.toString())
-//                tvDescr.setTextMaxLength(80)
-//                tvDescr.toggle()
-//                tvDescr.setSeeMoreText(getString(R.string.see_more),getString(R.string.see_less))
-//                tvDescr.setContent(it.data?.description)
+
+//                    tvDescr.setTextMaxLength(80)
+//                    tvDescr.toggle()
+//                    tvDescr.setSeeMoreText(getString(R.string.see_more),getString(R.string.see_less))
+//                    tvDescr.setContent(it.data?.description)
+
                     if (it.data?.isLiveDeal == true) {
                         btnLiveDeals.visibility = View.VISIBLE
                     } else {
@@ -260,11 +261,16 @@ class OverviewFragment : Fragment(), View.OnClickListener {
                     tvDescr.visibility =
                         if (it.data!!.description!!.isEmpty()) View.GONE else View.VISIBLE
 
+                    var descriptionDATA = it.data?.description.toString()
+                    if (it.data?.description?.length!! > 60) {
+                        descriptionDATA = it.data?.description.toString().substring(0, 80)
+
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         tvDescr.text = Html.fromHtml(
                             getString(
                                 R.string.restaurant_desc_all,
-                                it.data?.description
+                                descriptionDATA
                             ),
                             Html.FROM_HTML_MODE_COMPACT
                         )
@@ -273,7 +279,7 @@ class OverviewFragment : Fragment(), View.OnClickListener {
                         tvDescr.text = Html.fromHtml(
                             getString(
                                 R.string.restaurant_desc_all,
-                                it.data?.description
+                                descriptionDATA
                             )
                         )
                     }
@@ -800,8 +806,8 @@ class OverviewFragment : Fragment(), View.OnClickListener {
                         } else {
                             Config.isMyPointClickedFromHome = true
                         }
-                     /*Config.isMyPointClickedFromHome = true*/
-                                Config.isMyPointsActivityComingFromOverviewFragment = true
+                        /*Config.isMyPointClickedFromHome = true*/
+                        Config.isMyPointsActivityComingFromOverviewFragment = true
                         startActivity(
                             Intent(activity, MyPointsActivity::class.java)
                                 .putExtra("serviceId", serviceId)
@@ -913,7 +919,7 @@ class OverviewFragment : Fragment(), View.OnClickListener {
 
     fun updateFragment() {
         try {
-            Log.e("Update","Callled")
+            Log.e("Update", "Callled")
             // calling api for service detail
             if (PubFun.isInternetConnection(requireActivity())) {
                 vendorDetailViewModel.service_details(serviceId)

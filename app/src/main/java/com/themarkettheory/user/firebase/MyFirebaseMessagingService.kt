@@ -21,7 +21,10 @@ import com.gotem.firebase.NotificationUtils
 import com.themarkettheory.user.R
 import com.themarkettheory.user.helper.Constants
 import com.themarkettheory.user.helper.Prefs
+import com.themarkettheory.user.ui.main.activity.FeedbackActivity
 import com.themarkettheory.user.ui.main.activity.MainActivity
+import com.themarkettheory.user.ui.main.activity.MyOrdersActivity
+import com.themarkettheory.user.ui.main.activity.MyTableBookingsActivity
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -103,24 +106,34 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             // If the app is in background, firebase itself handles the notification
         }
     }
-//{user_message=Your order id : #TMT000615 is confirmed, service_id=0, notification_type=5, sound=Default, title=Mirch Masala Restaurant,
-// message=Your order id : #TMT000615 is confirmed,
-// isScheduled=false, order_id=0, scheduledTime=}
+
+
+    var ORDER_DELIVER = "3"
+    var ORDER_ACCEPT = "5"
+    var ORDER_REJECT = "6"
+    var ORDER_CANCEL = "15"
+    var BOOKING_ACCEPT = "8"
+    var BOOKING_REJECT = "4"
+    var BOOKING_CANCEL = "18"
+    var FEEDBACK_REQUEST = "10"
+
     private fun handleDataMessage(map: Map<String, String>) {
         try {
-            Log.e("RECEEVED",map.toString())
+            Log.e("RECEEVED", map.toString())
             val title = map["title"]
             var message: String?
             var imageUrl = map["image"]
             val type = map["type"]
             val notification_type = map["notification_type"]
+
+
             val sender_id = map["sender_id"]
             val sender_name = map["sender_name"]
             val sender_image = map["sender_image"]
             val receiver_id = map["receiver_id"]
             val message_type = map["chat_type"]
             val message_text = map["chat_text"]
-            var serviceId =0 //map["chat_text"]
+            var serviceId = 0 //map["chat_text"]
             val timestamp = System.currentTimeMillis()
             val prefs = Prefs(applicationContext)
             message = map["body"]
@@ -130,7 +143,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             if (message_type == "image")
                 imageUrl = message_text
 
-            if(notification_type == "10")
+            if (notification_type == "10")
                 serviceId = map["service_id"]!!.toUInt().toInt()
 
             val pushNotification = Intent(Config.PUSH_NOTIFICATION)
@@ -149,7 +162,38 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
                 LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification)
 
-                val resultIntent = Intent(applicationContext, MainActivity::class.java)
+                var resultIntent = Intent(applicationContext, MainActivity::class.java)
+
+                when (notification_type) {
+                    ORDER_DELIVER -> {
+                        resultIntent = Intent(applicationContext, MyOrdersActivity::class.java)
+                    }
+                    ORDER_ACCEPT -> {
+                        resultIntent = Intent(applicationContext, MyOrdersActivity::class.java)
+                    }
+                    ORDER_REJECT -> {
+                        resultIntent = Intent(applicationContext, MyOrdersActivity::class.java)
+                    }
+                    ORDER_CANCEL -> {
+                        resultIntent = Intent(applicationContext, MyOrdersActivity::class.java)
+                    }
+                    BOOKING_ACCEPT -> {
+                        resultIntent =
+                            Intent(applicationContext, MyTableBookingsActivity::class.java)
+                    }
+                    BOOKING_REJECT -> {
+                        resultIntent =
+                            Intent(applicationContext, MyTableBookingsActivity::class.java)
+                    }
+                    BOOKING_CANCEL -> {
+                        resultIntent =
+                            Intent(applicationContext, MyTableBookingsActivity::class.java)
+                    }
+                    FEEDBACK_REQUEST -> {
+                        resultIntent = Intent(applicationContext, FeedbackActivity::class.java)
+                    }
+                }
+                Log.e("FDGDFgd", "Notification Type")
                 /*val resultIntent = Intent(applicationContext, NotificationActivity::class.java)
                 resultIntent.putExtra("message", message)
                 resultIntent.putExtra("notificationFlag", true)*/
@@ -174,25 +218,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-
-    private fun showDialog(applicationContext: Context?) {
-        val builder = AlertDialog.Builder(applicationContext)
-        builder.setTitle("Alert")
-        builder.setMessage("Your account has been unverified. Alternatively you can try removing this account and adding it again with diferrent email for verification process.")
-        //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
-
-        builder.setPositiveButton("yes") { dialog, which ->
-            val prefs = Prefs(applicationContext!!)
-            prefs.clear()
-            /*startActivity(
-                Intent(applicationContext, LoginActivity::class.java)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            )*/
-        }
-//        builder.show()
-        val alertDialog = builder.create()
-        alertDialog.show()
     }
 
 

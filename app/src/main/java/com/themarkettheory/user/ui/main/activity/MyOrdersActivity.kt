@@ -192,8 +192,7 @@ class MyOrdersActivity : BaseActivity(), View.OnClickListener {
             adapterMyOrderList.addMyOrderDataList(myOrderNewDataList)
 
             // recyclerview
-            val selectedPosition = myRoomDatabase.daoConfig()
-                .selectConfigTableByField(Config.dbMyOrderListRecyclerViewPosition)
+            val selectedPosition = myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbMyOrderListRecyclerViewPosition)
             rvMyOrders.apply {
                 layoutManager = LinearLayoutManager(this@MyOrdersActivity)
                 adapter = adapterMyOrderList

@@ -13,7 +13,7 @@ import com.themarkettheory.user.R
 import com.themarkettheory.user.helper.Config
 import com.themarkettheory.user.helper.PubFun
 import com.themarkettheory.user.helper.Utils
-import com.themarkettheory.user.model.SocialLoginResponse
+import com.themarkettheory.user.newmodels.coupons.NewOfferListData
 import com.themarkettheory.user.newmodels.mytablebookings.MyTableBookingData
 import com.themarkettheory.user.newmodels.orderconfirmation.GetNewOrderConfirmRes
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
@@ -22,6 +22,7 @@ import com.themarkettheory.user.ui.restaurant.MyBucketCartRes
 import com.themarkettheory.user.viewmodel.CartViewModel
 import kotlinx.android.synthetic.main.activity_order_confirmation_new.*
 import kotlinx.android.synthetic.main.activity_order_detail.*
+import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -34,6 +35,9 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     private lateinit var ivBackToolBarOrderDetail: ShapeableImageView
     private lateinit var tvTitleToolBarOrderDetail: MaterialTextView
 
+    private val couponPercentage = 1
+    private val couponFlat = 2
+    private val couponBuyGet = 3
     var bucketDataList = ArrayList<MyBucketCartRes>()
 
     //ViewModel
@@ -158,6 +162,9 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+
+    var numFormatNew: NumberFormat = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+
     @SuppressLint("SetTextI18n")
     private fun populateOrderDetails(res: GetNewOrderConfirmRes) {
         try {
@@ -211,6 +218,53 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
                 res.data!!.time!!,
                 Config.requestTimeFormat, Config.defaultTimeFormat
             )
+
+            if (res.data!!.couponDetail != null && res.data!!.couponDetail!!.couponCode!!.isNotEmpty()) {
+                tvOrderDetailMyBuckeCouponText.visibility = View.VISIBLE
+                tvOrderDetailCouponDiscount.visibility = View.VISIBLE
+
+                val subTotal = 0.0
+                var totalTax = 0.0
+                var totalPoints = 0
+                var totalAmt = 0.0
+                var discountCouponTotal = 0.0
+                val discountAmt = res.data!!.couponDetail!!.discountAmount
+                if (res.data!!.couponDetail!!.discountType == couponPercentage) {
+                    discountCouponTotal = (subTotal * discountAmt!!) / 100
+                    if (res.data!!.couponDetail!!.maxDiscount != 0 && discountCouponTotal > res.data!!.couponDetail!!.maxDiscount!!) {
+                        discountCouponTotal = res.data!!.couponDetail!!.maxDiscount!!.toDouble()
+                    }
+                } else if (res.data!!.couponDetail!!.discountType == couponFlat) {
+                    discountCouponTotal = discountAmt!!.toDouble()
+
+                } else {
+                    val offerData = Config.gson.fromJson(
+                        myRoomDatabase.daoConfig()
+                            .selectConfigTableByField(Config.dbOfferListResRowData),
+                        NewOfferListData::class.java
+                    )
+                    Log.e("offerData", gson.toJson(offerData) + "ss")
+                    for (i in res.data!!.menuDetails!!.indices) {
+                        if (res.data!!.menuDetails!![i].menuId == offerData.menuId) {
+                            val menuPrice = res.data!!.menuDetails!![i].price!!.toDouble()
+                            discountCouponTotal = menuPrice * res.data!!.couponDetail!!.getQty!!
+                        }
+                    }
+                }
+
+
+
+                tvOrderDetailCouponDiscount.text =
+                    "${
+                        numFormatNew.format(
+                            discountCouponTotal // res.data!!.couponDetail!!.discountAmount!!
+                        )
+                    }"
+            } else {
+                tvOrderDetailMyBuckeCouponText.visibility = View.GONE
+                tvOrderDetailCouponDiscount.visibility = View.GONE
+            }
+
 
             //Order Status
             tvOrderDetailStatus.text = when (res.data!!.status!!) {

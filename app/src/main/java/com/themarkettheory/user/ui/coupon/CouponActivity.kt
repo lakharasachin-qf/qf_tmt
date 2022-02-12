@@ -511,6 +511,7 @@ class CouponActivity : BaseActivity(), View.OnClickListener {
                     override fun onClickListener(view: View, pos: Int, objects: Any) {
                         if (PubFun.isInternetConnection(this@CouponActivity)) {
                             val data = objects as NewOfferListData
+                            Log.e("data",gson.toJson(data))
                             offerListResData = objects as NewOfferListData
                             myRoomDatabase.daoConfig().apply {
                                 deleteConfigTableByField(Config.dbOfferListResRowData)

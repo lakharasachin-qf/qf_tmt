@@ -2,6 +2,7 @@ package com.themarkettheory.user.newmodels.orderconfirmation
 
 
 import com.google.gson.annotations.SerializedName
+import com.themarkettheory.user.newmodels.coupons.NewOfferListData
 
 data class Data(
     @SerializedName("id")
@@ -64,6 +65,8 @@ data class Data(
     var isReviewed: Int?,
     @SerializedName("service_details")
     var serviceDetails: ServiceDetails?,
+    @SerializedName("coupon_detail")
+    var couponDetail: NewOfferListData?,
     @SerializedName("order_token")
     var orderToken: String?
 )

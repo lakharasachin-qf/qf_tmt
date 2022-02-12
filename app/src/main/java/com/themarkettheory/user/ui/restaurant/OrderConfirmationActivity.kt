@@ -29,18 +29,16 @@ import com.themarkettheory.user.helper.PubFun
 import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.newmodels.bucketcart.GetCartNewRes
 import com.themarkettheory.user.newmodels.coupons.NewOfferListData
-import com.themarkettheory.user.newmodels.map.Restaurant
 import com.themarkettheory.user.newmodels.orderconfirmation.GetNewOrderConfirmRes
 import com.themarkettheory.user.newmodels.orderconfirmation.MenuDetail
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.dialog.dialogshare.DialogShare
 import com.themarkettheory.user.ui.main.activity.BaseActivity
-import com.themarkettheory.user.ui.main.activity.MainActivity
-import com.themarkettheory.user.ui.main.activity.MyPointsActivity
 import com.themarkettheory.user.viewmodel.CartViewModel
 import kotlinx.android.synthetic.main.activity_mybucket_new.*
 import kotlinx.android.synthetic.main.activity_order_confirmation.*
 import kotlinx.android.synthetic.main.activity_order_confirmation_new.*
+import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -65,6 +63,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
     // General
     var orderId: String = ""
     private val numberFormat: NumberFormat = DecimalFormat("#0.00")
+    var numFormatNew: NumberFormat = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
     var shareingStringData: String = ""
     var restarurantName: String = ""
     var address: String = ""
@@ -299,6 +298,10 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
         })
     }
 
+    private val couponPercentage = 1
+    private val couponFlat = 2
+    private val couponBuyGet = 3
+
     // populating and storing data
     @SuppressLint("SetTextI18n")
     private fun populateResDetails(res: GetNewOrderConfirmRes) {
@@ -328,6 +331,28 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                     tvOrderConfirmationType.text = PubFun.toCamelCase(res.data!!.orderType!!)
                 }
 
+
+                if (res.data!!.orderType!!.lowercase() == "schedule pickup" ||
+                    res.data!!.orderType!!.lowercase() == "pickup now" ||
+                    res.data!!.orderType!!.lowercase() == "invite user"
+                ) {
+                    tvOrderConfirmationType.text = PubFun.toCamelCase(res.data!!.orderType!!.trim())
+                } else if (res.data!!.orderType!! == "QR") {
+                    tvOrderConfirmationType.text =
+                        res.data!!.orderType!!.trim() + " code Table No: " + res.data!!.table_no!!.trim()
+                } else if (res.data!!.orderType!!.equals("DINING IN")) {
+                    if (res.data!!.table_no!!.isNotEmpty())
+                        tvOrderConfirmationType.text =
+                            "Dining In - Table No: " + res.data!!.table_no!!
+                    else
+                        tvOrderConfirmationType.text =
+                            "Dining In"// + res.data!!.table_no!!
+                } else {
+                    tvOrderConfirmationType.text =
+                        "Table For " + res.data!!.table_no!! + " Person"
+                }
+
+
                 tvOrderConfirmationOrderToken.text = "Token No: " + res.data!!.orderToken
 
                 //setting date
@@ -346,27 +371,74 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                         Config.defaultTimeFormat
                     )!!
 
+                if (res.data!!.couponDetail != null && res.data!!.couponDetail!!.couponCode!!.isNotEmpty()) {
+                    tvOrderConfirmationCouponText.visibility = View.VISIBLE
+                    tvOrderConfirmationCouponDiscount.visibility = View.VISIBLE
+
+                    val subTotal = 0.0
+                    var totalTax = 0.0
+                    var totalPoints = 0
+                    var totalAmt = 0.0
+                    var discountCouponTotal = 0.0
+                    val discountAmt = res.data!!.couponDetail!!.discountAmount
+                    if (res.data!!.couponDetail!!.discountType == couponPercentage) {
+                        discountCouponTotal = (subTotal * discountAmt!!) / 100
+                        if (res.data!!.couponDetail!!.maxDiscount != 0 && discountCouponTotal > res.data!!.couponDetail!!.maxDiscount!!) {
+                            discountCouponTotal = res.data!!.couponDetail!!.maxDiscount!!.toDouble()
+                        }
+                    } else if (res.data!!.couponDetail!!.discountType == couponFlat) {
+                        discountCouponTotal = discountAmt!!.toDouble()
+
+                    } else {
+                        val offerData = Config.gson.fromJson(
+                            myRoomDatabase.daoConfig()
+                                .selectConfigTableByField(Config.dbOfferListResRowData),
+                            NewOfferListData::class.java
+                        )
+                        Log.e("offerData", gson.toJson(offerData) + "ss")
+                        for (i in res.data!!.menuDetails!!.indices) {
+                            if (res.data!!.menuDetails!![i].menuId == offerData.menuId) {
+                                val menuPrice = res.data!!.menuDetails!![i].price!!.toDouble()
+                                discountCouponTotal = menuPrice * res.data!!.couponDetail!!.getQty!!
+                            }
+                        }
+                    }
+
+
+                    tvOrderConfirmationCouponDiscount.text =
+                        "${
+                            numFormatNew.format(
+                                discountCouponTotal//res.data!!.couponDetail!!.discountAmount!!
+                            )
+                        }"
+
+
+                } else {
+                    tvOrderConfirmationCouponText.visibility = View.GONE
+                    tvOrderConfirmationCouponDiscount.visibility = View.GONE
+                }
+
 
                 //setting subtotal
                 tvOrderConfirmationSubTotal.text =
-                    "${currency}${
-                        numberFormat.format(
+                    "${
+                        numFormatNew.format(
                             res.data!!.orderDetails!!.subTotal!!.replace(",", "").toDouble()
                         )
                     }"
 
                 //setting tax
                 tvOrderConfirmationTaxTotal.text =
-                    "${currency}${
-                        numberFormat.format(
+                    "${
+                        numFormatNew.format(
                             res.data!!.orderDetails!!.tax!!.replace(",", "").toDouble()
                         )
                     }"
 
                 //setting Total
                 tvOrderConfirmationTotal.text =
-                    "${currency}${
-                        numberFormat.format(
+                    "${
+                        numFormatNew.format(
                             res.data!!.orderDetails!!.total!!.replace(",", "").toDouble()
                         )
                     }"
@@ -389,6 +461,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                     rvOrderConfirmationOrderList.apply {
                         layoutManager = LinearLayoutManager(this@OrderConfirmationActivity)
                         adapter = adapterOrderConfirmation
+                        isNestedScrollingEnabled = false
                     }
                 }
                 prepareDataToShare(res)

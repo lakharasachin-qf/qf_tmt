@@ -447,10 +447,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                     )
                 Log.e("booking_time", gson.toJson(res.data!!.booking_time!!.trim()))//booking_time: "3:03 pm"
                 //Order Time
-                tvMyTableBookingDetailTime.text = PubFun.parseDate(
-                    res.data!!.booking_time!!,
-                    Config.requestTimeFormats, Config.defaultTimeFormats
-                )
+                tvMyTableBookingDetailTime.text =   res.data!!.booking_time!!.uppercase() // PubFun.parseDate(res.data!!.booking_time!!,Config.requestTimeFormats, Config.defaultTimeFormat)
 //                //Booking Time
 //                tvMyTableBookingDetailTime.text =
 //                    res.data!!.booking_time!!.trim()

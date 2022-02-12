@@ -76,16 +76,22 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
     override fun onBackPressed() {
         try {
             if (PubFun.isInternetConnection(this@MyTableBookingsActivity)) {
-//                if (Config.isMyBookingClickedFromHome) {
-//                    Config.isMyBookingClickedFromHome = false
-//                } else {
-//                    super.onBackPressed()
-//                    Config.bottomBarClickedName = Config.menuBottomBarClick
-//                }
+                when {
+                    Config.isMyBookingClickedFromHome -> {
+                        Config.isMyBookingClickedFromHome = false
+                    }
+                    Config.isMenuFragmentComingFrom == Config.isMenuFragmentComingFromBookingTable -> {
+                        Config.bottomBarClickedName = Config.menuBottomBarClick
+                    }
+                    else -> {
+                        super.onBackPressed()
+                        Config.bottomBarClickedName = Config.menuBottomBarClick
+                    }
+                }
 //                if (Config.isMenuFragmentComingFrom == Config.isMenuFragmentComingFromBookingTable) {
 //                    Config.isMenuFragmentComingFrom = ""
 //                }
-                Config.bottomBarClickedName = Config.menuBottomBarClick
+
                 finish()
             } else {
                 showMsgDialogAndProceed(Config.msgToastForInternet)

@@ -125,14 +125,26 @@ class MenuStickyHeaderAdapter(
 
                 val df2 = DecimalFormat("#,###,###,##0.00")
                 val finalPriceFormat: Double = df2.format(menuX.finalPrice).toDouble()
-                holder.rowMenuContainerBinding.tvMenuListFinalPrice.text ="${menuX.currency.trim()}${(menuX.finalPrice)}"
-                    //"${menuX.currency.trim()}${NumberFormat.getCurrencyInstance(Locale.ENGLISH).format(menuX.finalPrice)}"
+                holder.rowMenuContainerBinding.tvMenuListFinalPrice.text =
+                        //       "${menuX.currency.trim()}${(menuX.finalPrice)}"
+                    "${
+                        NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+                            .format(menuX.finalPrice)
+                    }"
                 //Food Actual Price
                 if (menuX.finalPrice != menuX.actualPrice) {
                     holder.rowMenuContainerBinding.tvMenuListActualPrice.visibility = View.VISIBLE
                     val actualPriceFormat: Double = df2.format(menuX.actualPrice).toDouble()
-                    holder.rowMenuContainerBinding.tvMenuListActualPrice.text ="${menuX.currency.trim()}${(menuX.actualPrice)}"
-                        //"${menuX.currency.trim()}${NumberFormat.getCurrencyInstance(Locale.ENGLISH).format(menuX.actualPrice)}"
+                    holder.rowMenuContainerBinding.tvMenuListActualPrice.text =
+                            // "${menuX.currency.trim()}${(menuX.actualPrice)}"
+                        "${
+                            NumberFormat.getCurrencyInstance(
+                                Locale(
+                                    "en",
+                                    "IN"
+                                )
+                            ).format(menuX.actualPrice)
+                        }"
                     holder.rowMenuContainerBinding.tvMenuListActualPrice.paintFlags =
                         Paint.STRIKE_THRU_TEXT_FLAG
                 } else {

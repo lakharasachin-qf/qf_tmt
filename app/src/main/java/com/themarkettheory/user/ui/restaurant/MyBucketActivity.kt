@@ -29,8 +29,8 @@ import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.interfaces.ListClickListenerCart
 import com.themarkettheory.user.newmodels.booking.bookingdetails.NewBookingDetailsRes
 import com.themarkettheory.user.newmodels.bucketcart.GetCartNewRes
-import com.themarkettheory.user.newmodels.bucketcart.Offer
 import com.themarkettheory.user.newmodels.bucketcart.ServiceDetails
+import com.themarkettheory.user.newmodels.coupons.NewOfferListData
 import com.themarkettheory.user.ui.coupon.CouponActivity
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
 import com.themarkettheory.user.ui.main.activity.BaseActivity
@@ -69,6 +69,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
     var isLoadedFirstTime = true
     var totalAmt = 0.0
     val numberFormat: NumberFormat = DecimalFormat("#0.00")
+    var numFormatNew: NumberFormat = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
     var subTotal = 0.0
     var totalTax = 0.0
     var discountCouponTotal = 0.0
@@ -1102,9 +1103,15 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
 
                 if (Config.isCouponApplied) {
-                    for (obj in serviceDetails.offers!!) {
-                        Log.e("final amount", gson.toJson(obj))
-                        Log.e("final getSelectedCouponCode", Config.getSelectedCouponCode)
+                   // for (obj in serviceDetails.offers!!) {
+                        val obj = Config.gson.fromJson(
+                            myRoomDatabase.daoConfig()
+                                .selectConfigTableByField(Config.dbOfferListResRowData),
+                            NewOfferListData::class.java
+                        )
+                    Log.e("final getSelectedCouponCode", Config.getSelectedCouponCode)
+
+                    Log.e("final amount", gson.toJson(obj))
 
                         if (obj.couponCode != null) {
                             if (obj.couponCode!!.lowercase(Locale.getDefault()) == Config.getSelectedCouponCode.lowercase(
@@ -1125,47 +1132,45 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                                         discountCouponTotal = discountAmt.toDouble()
 
                                     } else {
-//                                        discountCouponTotal = if (Config.isCouponBuyGetSelected)
-//                                            discountCouponTotal
-//                                        else
-//                                            0.0
-
+                                        val offerData = Config.gson.fromJson(
+                                            myRoomDatabase.daoConfig()
+                                                .selectConfigTableByField(Config.dbOfferListResRowData),
+                                            NewOfferListData::class.java
+                                        )
+                                        Log.e("offerData", gson.toJson(offerData)+"ss")
                                         for (i in bucketDataList.indices) {
-                                            if (bucketDataList[i].menuID == obj.menuId) {
+                                            if (bucketDataList[i].menuID == offerData.menuId) {
                                                 discountCouponTotal =
                                                     bucketDataList[i].finalPrice * obj.getQty!!
                                             }
                                         }
-
-
                                     }
                                 }
-                                break
+                              //  break
                             }
-                        }
+                        //}
                     }
                 }
 
                 //Setting Sub Total Amount
-                tvSubtotal.text =
-                    bucketDataList[0].currency + if (subTotal == 0.0) "0.00" else numberFormat.format(
-                        subTotal
-                    )
+                tvSubtotal.text = if (subTotal == 0.0) "0.00" else numFormatNew.format(
+                    subTotal
+                )
 
                 //Discount Coupon
-                tvCouponDiscount.text = "-${bucketDataList[0].currency}" +
-                        numberFormat.format(discountCouponTotal)
+                tvCouponDiscount.text = "- " +
+                        numFormatNew.format(discountCouponTotal)
 
                 //Setting Tax Amount
                 tvtax.text =
-                    bucketDataList[0].currency + if (totalTax == 0.0) "0.00" else numberFormat.format(
+                    if (totalTax == 0.0) "0.00" else numFormatNew.format(
                         totalTax
                     )
 
                 //Setting Total Amount = Sub Total Amount + Tax Amount
                 totalAmt = subTotal - discountCouponTotal + totalTax
-                tvMyBucketTotalAmount.text = "${bucketDataList[0].currency}${
-                    if (totalAmt == 0.0) "0.00" else numberFormat.format(totalAmt)
+                tvMyBucketTotalAmount.text = "${
+                    if (totalAmt == 0.0) "0.00" else numFormatNew.format(totalAmt)
                 }"
 
                 //Setting Total Item Point

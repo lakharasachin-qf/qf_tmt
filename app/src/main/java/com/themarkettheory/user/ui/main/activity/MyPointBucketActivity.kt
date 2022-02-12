@@ -61,6 +61,8 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
     //general
     var isLoadedFirstTime = true
     var totalAmt = 0.0
+    var numFormatNew : NumberFormat =NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+
     val numberFormat: NumberFormat = DecimalFormat("#0.00")
     var subTotal = 0.0
     var totalTax = 0.0
@@ -816,18 +818,15 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
             }
 
             /*Sub Total*/
-            tvBucketPointSubtotal.text = bucketDataList[0].currency!!.trim() +
-                    if (subTotal == 0.0) "0.00" else numberFormat.format(subTotal)
+            tvBucketPointSubtotal.text =   if (subTotal == 0.0) "0.00" else numFormatNew.format(subTotal)
             /*Total Tax*/
-            tvBucketPointTax.text = bucketDataList[0].currency!!.trim() +
-                    if (totalTax == 0.0) "0.00" else numberFormat.format(totalTax)
+            tvBucketPointTax.text =  if (totalTax == 0.0) "0.00" else numFormatNew.format(totalTax)
             for (i in bucketDataList.indices) {
                 totalPoints += bucketDataList[i].qty * bucketDataList[i].point
             }
             /*Total*/
             totalAmt = totalTax + subTotal
-            tvBucketPointTotalAmount.text = bucketDataList[0].currency!!.trim() +
-                    if (totalAmt == 0.0) "0.00" else numberFormat.format(totalAmt)
+            tvBucketPointTotalAmount.text =   if (totalAmt == 0.0) "0.00" else numFormatNew.format(totalAmt)
 
             //Setting Total Item Point
             tvBucketPointTotalOrderPoints.text = totalPoints.toString()

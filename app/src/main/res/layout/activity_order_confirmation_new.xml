@@ -43,6 +43,8 @@
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/_50sdp"
         app:layout_constraintBottom_toTopOf="@+id/clOrderInvite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -230,6 +232,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvOrderConfirmationOrderList"
                 android:layout_width="match_parent"
+                tools:itemCount="0"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -260,6 +263,30 @@
                 app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmationSubTotalText" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationCouponText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="Coupon Discount: "
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintStart_toStartOf="@id/viewOrderConfirmationBillSection"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrderConfirmationSubTotalText" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderConfirmationCouponDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:text="123"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrderConfirmationCouponText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvOrderConfirmationCouponText" />
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvOrderConfirmationTaxTotalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -270,7 +297,7 @@
                 android:textColor="@color/slate_gray"
                 android:textSize="@dimen/_12sp"
                 app:layout_constraintStart_toStartOf="@id/viewOrderConfirmationBillSection"
-                app:layout_constraintTop_toBottomOf="@+id/tvOrderConfirmationSubTotal" />
+                app:layout_constraintTop_toBottomOf="@+id/tvOrderConfirmationCouponText" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvOrderConfirmationTaxTotal"

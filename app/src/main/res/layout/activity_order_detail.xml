@@ -288,6 +288,38 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvOrderDetailTextView" />
 
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderDetailMyBuckeCouponText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_semibold"
+                android:maxLines="1"
+                android:text="Coupon Discount"
+                android:textColor="@color/slate_gray"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintStart_toStartOf="@+id/tvOrderDetailTextView"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrderDetailTextView" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvOrderDetailCouponDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:ellipsize="end"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:maxLines="1"
+                android:text="₹243"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOrderDetailMyBuckeCouponText"
+                app:layout_constraintEnd_toEndOf="@+id/tvOrderDetailSubtotal"
+                app:layout_constraintTop_toTopOf="@+id/tvOrderDetailMyBuckeCouponText" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvOrderDetailMyBucketTaxText"
                 android:layout_width="wrap_content"
@@ -299,8 +331,8 @@
                 android:text="@string/tax"
                 android:textColor="@color/slate_gray"
                 android:textSize="@dimen/_15sp"
-                app:layout_constraintStart_toStartOf="@+id/tvOrderDetailTextView"
-                app:layout_constraintTop_toBottomOf="@+id/tvOrderDetailTextView" />
+                app:layout_constraintStart_toStartOf="@+id/tvOrderDetailMyBuckeCouponText"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrderDetailMyBuckeCouponText" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvOrderDetailTax"

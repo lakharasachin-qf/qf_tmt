@@ -250,6 +250,9 @@ class RestaurantListActivity : BaseActivity(), View.OnClickListener {
                     ivRestaurantListBack.visibility = View.VISIBLE
                     lylRestaurantListBottomBar.visibility = View.GONE
                     ivRestaurantListLocationBottomBar.visibility = View.GONE
+
+                    //update by sachin 12-02-2022
+                    rvRestaurantListCategory.visibility=View.GONE
                 }
                 Config.restaurantListOpeningFromTrendingOfferSeeAll -> {
                     ivRestaurantListMenu.visibility = View.GONE

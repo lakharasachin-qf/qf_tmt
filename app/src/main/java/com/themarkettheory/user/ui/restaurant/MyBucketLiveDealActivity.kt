@@ -64,6 +64,8 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
     private var totalTax = 0.0
     private var totalPoints = 0
     private var totalAmt = 0.0
+    var numFormatNew : NumberFormat =NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+
     private val numberFormat: NumberFormat = DecimalFormat("#0.00")
     private var razorPayCurrentStr = ""
     private var isLiveDealDiningInSelected = false
@@ -725,19 +727,18 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
             totalTax += (subTotal * cartArrayList[0].menu!!.tax!!.toDouble()) / 100
 
             /*Sub Total*/
-            tvLiveDealBucketSubTotal.text = cartArrayList[0].menu!!.currency!!.trim() +
-                    if (subTotal == 0.0) "0.00" else numberFormat.format(subTotal)
+            tvLiveDealBucketSubTotal.text =
+                    if (subTotal == 0.0) "0.00" else numFormatNew.format(subTotal)
 
             /*Total Tax*/
-            tvLiveDealBucketTax.text = cartArrayList[0].menu!!.currency!!.trim() +
-                    if (totalTax == 0.0) "0.00" else numberFormat.format(totalTax)
+            tvLiveDealBucketTax.text =
+                    if (totalTax == 0.0) "0.00" else numFormatNew.format(totalTax)
 
             tvLiveBucketTotalOrderPoints.text = totalPoints.toString()
 
             /*Total Amount*/
             totalAmt = subTotal + totalTax
-            tvLiveDealBucketTotal.text = cartArrayList[0].menu!!.currency!!.trim() +
-                    if (totalAmt == 0.0) "0.00" else numberFormat.format(totalAmt)
+            tvLiveDealBucketTotal.text = if (totalAmt == 0.0) "0.00" else numFormatNew.format(totalAmt)
         } catch (e: Exception) {
             e.printStackTrace()
         }
