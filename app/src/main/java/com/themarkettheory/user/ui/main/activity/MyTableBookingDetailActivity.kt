@@ -5,12 +5,18 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Telephony
+import android.text.Html
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.facebook.CallbackManager
+import com.facebook.share.model.ShareLinkContent
+import com.facebook.share.widget.ShareDialog
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.themarkettheory.user.R
@@ -21,10 +27,10 @@ import com.themarkettheory.user.helper.Utils
 import com.themarkettheory.user.newmodels.booking.bookingdetails.NewBookingDetailsRes
 import com.themarkettheory.user.newmodels.mytablebookings.MyTableBookingData
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
+import com.themarkettheory.user.ui.dialog.dialogshare.DialogShare
 import com.themarkettheory.user.ui.restaurant.VendorDetailActivity
 import com.themarkettheory.user.viewmodel.MenuViewModel
 import kotlinx.android.synthetic.main.activity_my_table_booking_detail.*
-import kotlinx.android.synthetic.main.activity_my_table_booking_detail.tvMyTableBookingDetailTime
 import kotlinx.android.synthetic.main.activity_order_confirmation_new.*
 import kotlinx.android.synthetic.main.activity_order_detail.*
 
@@ -114,7 +120,137 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                 viewToolBarMyBookingDetailBackButton -> onBackPressed()
                 btnMyTableBookingDetailPreOrder -> navigateToMenuFragment()
                 btnMyTableBookingDetailCancelBooking -> callCancelTableApi()
+                btnOrderInviteCon -> openSharedDialog()
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private lateinit var dialogShare: DialogShare
+    var shareingStringData: String = ""
+    var restarurantName: String = ""
+    var address: String = ""
+    var token: String = ""
+    var orderType: String = ""
+    var date: String = ""
+    var time: String = ""
+    var orderId: String = ""
+
+    //facebook
+    private lateinit var shareDialog: ShareDialog
+    private lateinit var callbackManager: CallbackManager
+    private fun openSharedDialog() {
+        try {
+            dialogShare = DialogShare(this@MyTableBookingDetailActivity)
+            dialogShare.show()
+
+            // sharing on facebook
+            dialogShare.holder!!.ivFacebook.setOnClickListener {
+                shareOnFacebook()
+            }
+            //sharing on whatsapp
+            dialogShare.holder!!.ivWhatsApp.setOnClickListener {
+                shareOnWhatsapp()
+            }
+            // sharing on email
+            dialogShare.holder!!.ivEmail.setOnClickListener {
+                shareOnEmail()
+            }
+            //sharing on text message app
+            dialogShare.holder!!.ivText.setOnClickListener {
+                shareOnMessage()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun shareOnFacebook() {
+        try {
+            shareingStringData =
+                "Restaurant Details:\nName: $restarurantName\nAddress: $address" +
+                        "\n\nOrder Detail:\nToken Number: ${token}\n" +
+                        "Order Number:  $orderId\nOrder Type:  $orderType\n" +
+                        "Date: $date\nTime: $time"
+
+            callbackManager = CallbackManager.Factory.create();
+            shareDialog = ShareDialog(this);
+
+            if (ShareDialog.canShow(ShareLinkContent::class.java)) {
+                val linkContent = ShareLinkContent.Builder()
+                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
+                    .setQuote(shareingStringData)
+                    .build()
+                shareDialog.show(linkContent)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun shareOnWhatsapp() {
+        try {
+            shareingStringData =
+                "*Restaurant Details:*\n*Name:* $restarurantName\n*Address:* $address" +
+                        "\n\n*Order Detail:*\n*Token Number:* ${token}\n*Order Number:* " +
+                        " $orderId\n*Order Type:* $orderType\n" +
+                        "*Date: * $date\n*Time: * $time"
+            val sendIntent = Intent()
+            sendIntent.setPackage("com.whatsapp")
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareingStringData)
+            sendIntent.type = "text/html"
+            startActivity(sendIntent)
+            dialogShare.dismiss()
+//                finish()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun shareOnEmail() {
+        try {
+            shareingStringData =
+                "<b>Restaurant Details:</b><br/>Name: $restarurantName<br/>Address: $address" +
+                        "<br/><br/>Order Detail:<br/>Token Number: $token<br/>Order Number: $orderId<br/>Order Type: ${orderType}<br/>" +
+                        "Date: $date<br/>Time: $time"
+
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                Html.fromHtml(StringBuilder().append(shareingStringData).toString())
+            )
+            sendIntent.type = "text/html"
+            sendIntent.setType("message/rfc822")
+            startActivity(Intent.createChooser(sendIntent, "Email:"))
+            dialogShare.dismiss()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun shareOnMessage() {
+        try {
+            shareingStringData =
+                "Restaurant Details: \nName: ${restarurantName}\nAddress: $address" +
+                        "\n\nOrder Detail: \nToken Number: ${token}\nOrder Number: " +
+                        "$orderId\nOrder Type: $orderType\n" +
+                        "Date: $date\nTime: $time"
+
+            val defaultSmsPackageName =
+                Telephony.Sms.getDefaultSmsPackage(this)
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.type = "text/plain"
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareingStringData.trim())
+            if (defaultSmsPackageName != null) {
+                sendIntent.setPackage(defaultSmsPackageName)
+            }
+            startActivity(sendIntent)
+            dialogShare.dismiss()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -123,6 +259,8 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
     private fun init() {
         try {
             //ToolBar
+            menuViewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
+
             viewToolBarMyBookingDetail = findViewById(R.id.toolBarMyTableBookingDetail)
             viewToolBarMyBookingDetailBackButton =
                 viewToolBarMyBookingDetail.findViewById(R.id.ivBack)
@@ -153,7 +291,9 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                                 )
                             )
                             btnMyTableBookingDetailPreOrder.visibility = View.VISIBLE
-
+                            btnOrderInviteCon.visibility = View.VISIBLE
+                            shareIconCon.visibility = View.VISIBLE
+                            //showMsgDialogAndProceedForNotification(false, message)
                         }
                         if (intent.getStringExtra("notification_type")!! == "4") {
                             //  BOOKING_REJECT
@@ -181,9 +321,9 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
             viewToolBarMyBookingDetailBackButton.setOnClickListener(this)
             btnMyTableBookingDetailPreOrder.setOnClickListener(this)
             btnMyTableBookingDetailCancelBooking.setOnClickListener(this)
+            btnOrderInviteCon.setOnClickListener(this)
 
             //Initial View Model
-            menuViewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
 
             //Getting Booking ID
             bookingId =
@@ -379,6 +519,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
     @SuppressLint("SetTextI18n")
     private fun populateTableBookingDetails(res: NewBookingDetailsRes) {
         try {
+            Log.e("Table Boking", gson.toJson(res))
             if (res.data != null) {
                 //Capturing Booking Response into roomDB
                 myRoomDatabase.daoConfig().apply {
@@ -445,9 +586,13 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                         Config.requestDateFormat,
                         Config.defaultDateFormat
                     )
-                Log.e("booking_time", gson.toJson(res.data!!.booking_time!!.trim()))//booking_time: "3:03 pm"
+                Log.e(
+                    "booking_time",
+                    gson.toJson(res.data!!.booking_time!!.trim())
+                )//booking_time: "3:03 pm"
                 //Order Time
-                tvMyTableBookingDetailTime.text =   res.data!!.booking_time!!.uppercase() // PubFun.parseDate(res.data!!.booking_time!!,Config.requestTimeFormats, Config.defaultTimeFormat)
+                tvMyTableBookingDetailTime.text =
+                    res.data!!.booking_time!!.uppercase() // PubFun.parseDate(res.data!!.booking_time!!,Config.requestTimeFormats, Config.defaultTimeFormat)
 //                //Booking Time
 //                tvMyTableBookingDetailTime.text =
 //                    res.data!!.booking_time!!.trim()
@@ -477,6 +622,10 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                 //region Pre Order Button Visibility
                 btnMyTableBookingDetailPreOrder.visibility =
                     if (res.data!!.status!! == 1) View.VISIBLE else View.GONE
+
+                btnOrderInviteCon.visibility =
+                    if (res.data!!.status!! == 1) View.VISIBLE else View.GONE
+                shareIconCon.visibility = if (res.data!!.status!! == 1) View.VISIBLE else View.GONE
                 //endregion
 
                 //region Cancel Booking Visibility
@@ -487,11 +636,39 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                     }
                 //endregion
             }
+            prepareDataToShare(res)
+
         } catch (e: Exception) {
             menuViewModel.isLoading.value = false
             e.printStackTrace()
         }
     }
+
+    private fun prepareDataToShare(res: NewBookingDetailsRes) {
+        try {
+            restarurantName = res.data!!.title!!
+            address = res.data!!.address!!
+            //orderId = "#${res.data!!.orderNumber!!.trim()}"
+            //token = res.data!!.orderToken!!
+            orderType = "Table For " + res.data!!.total_person!! + " Person"
+
+
+            date = PubFun.parseDate(
+                res.data!!.booking_date,
+                Config.requestDateFormat,
+                Config.defaultDateFormat
+            ).toString()
+            time = PubFun.parseDate(
+                res.data!!.booking_time!!,
+                Config.requestTimeFormat,
+                Config.defaultTimeFormat
+            ).toString()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 
     @SuppressLint("SetTextI18n")
     private fun showMsgDialogAndProceed(msg: String) {

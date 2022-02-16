@@ -21,11 +21,11 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-//        val options = FirebaseOptions.Builder()
-//            .setApplicationId(getString(R.string.googleApplicationID)) // Required for Analytics.
-//            .setProjectId(getString(R.string.googleProjectID)) // Required for Firebase Installations.
-//            .setApiKey(getString(R.string.google_key)) // Required for Auth.
-//            .build()
+        //val options = FirebaseOptions.Builder()
+        //.setApplicationId(getString(R.string.googleApplicationID)) // Required for Analytics.
+        //.setProjectId(getStrinFirebase.messaging.isAutoInitEnabledg(R.string.googleProjectID)) // Required for Firebase Installations.
+        //.setApiKey(getString(R.string.google_key)) // Required for Auth.
+        //.build()
 
         //FirebaseApp.initializeApp(applicationContext)
 

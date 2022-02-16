@@ -37,7 +37,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/tvOrderDetailOrderNumber"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-           <TextView
+
+            <TextView
                 android:id="@+id/tvOrderDetailOrderNumber"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -74,8 +75,8 @@
                 android:text=""
                 android:textColor="@color/robins_egg_blue"
                 android:textSize="@dimen/_25sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/tvOrderDetailOrderToken"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvOrderDetailOrderNumberText"
                 app:layout_constraintTop_toTopOf="@+id/tvOrderDetailOrderToken" />
 
@@ -289,7 +290,6 @@
                 app:layout_constraintTop_toTopOf="@+id/tvOrderDetailTextView" />
 
 
-
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvOrderDetailMyBuckeCouponText"
                 android:layout_width="wrap_content"
@@ -448,5 +448,52 @@
             android:textSize="@dimen/_18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btnOrderInviteDetail"
+            style="@style/button_style"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:drawablePadding="@dimen/_40sdp"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:gravity="center"
+            android:text="Invite Friends/Guest"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dummy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Invite Friends/Guest"
+            android:textSize="@dimen/_14sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shareIconDetails"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:adjustViewBounds="true"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_share"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/btnOrderInviteDetail"
+            app:layout_constraintEnd_toStartOf="@+id/dummy"
+            app:layout_constraintTop_toTopOf="@+id/btnOrderInviteDetail" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -80,6 +80,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
     private lateinit var shareDialog: ShareDialog
     private lateinit var callbackManager: CallbackManager
 
+    var isTableBooking = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -351,6 +352,7 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                 } else {
                     tvOrderConfirmationType.text =
                         "Table For " + res.data!!.table_no!! + " Person"
+                    isTableBooking = true
                 }
 
 
@@ -498,7 +500,6 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                 orderType = "Table For " + res.data!!.table_no!! + " Person"
             }
 
-
             date = PubFun.parseDate(
                 res.data!!.date,
                 Config.requestDateFormat,
@@ -568,8 +569,11 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                                 myDialog.dismiss()
                                 if (isOrderAccepted) {
                                     // ivOrderConfirmationCross.visibility = View.VISIBLE
-                                    btnOrderInvite.visibility = View.VISIBLE
-                                    shareIcon.visibility = View.VISIBLE
+                                    if (isTableBooking) {
+                                        btnOrderInvite.visibility = View.VISIBLE
+                                        shareIcon.visibility = View.VISIBLE
+
+                                    }
                                     tvConfirmationText.visibility = View.GONE
                                     pbOrderConfirmation.visibility = View.GONE
                                 } else {
@@ -634,10 +638,10 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
     private fun shareOnFacebook() {
         try {
             shareingStringData =
-                "Restaurant Details: \nName: \n${restarurantName} \nAddress: \n${address} " +
-                        "\nOrder Detail: \nToken Number:\n${token}\n" +
-                        "Order Number:  ${orderId}  \nOrder Type:  ${orderType} \n" +
-                        "Date ${date} \nTime \n${time}"
+                "Restaurant Details:\nName: $restarurantName\nAddress: $address" +
+                        "\n\nOrder Detail:\nToken Number: ${token}\n" +
+                        "Order Number:  $orderId\nOrder Type:  $orderType\n" +
+                        "Date: $date\nTime: $time"
 
             callbackManager = CallbackManager.Factory.create();
             shareDialog = ShareDialog(this);
@@ -658,10 +662,10 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
     private fun shareOnWhatsapp() {
         try {
             shareingStringData =
-                "*Restaurant Details:* \n *Name:* \n ${restarurantName} \n *Address:* \n ${address} " +
-                        "\n *Order Detail:* \n *Token Number:* \n ${token}\n*Order Number:* \n" +
-                        " ${orderId} \n *Order Type:*  ${orderType} \n " +
-                        "*Date* ${date} \n *Time* \n ${time}"
+                "*Restaurant Details:*\n*Name:* $restarurantName\n*Address:* $address" +
+                        "\n\n*Order Detail:*\n*Token Number:* ${token}\n*Order Number:* " +
+                        " $orderId\n*Order Type:* $orderType\n" +
+                        "*Date: * $date\n*Time: * $time"
             val sendIntent = Intent()
             sendIntent.setPackage("com.whatsapp")
             sendIntent.action = Intent.ACTION_SEND
@@ -678,9 +682,9 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
     private fun shareOnEmail() {
         try {
             shareingStringData =
-                "<b>Restaurant Details:</b><br/> Name:<br/> ${restarurantName} <br/><br/>Address:<br/> ${address} " +
-                        "<br/><br/>Order Detail:<br/><br/>Token Number:<br/> ${token} <br/><br/>Order Number:<br/> ${orderId} <br/><br/>Order Type:<br/>${orderType}<br/><br/>" +
-                        "Date<br/>${date} <br/><br/>Time<br/> ${time}"
+                "<b>Restaurant Details:</b><br/>Name: $restarurantName<br/>Address: $address" +
+                        "<br/><br/>Order Detail:<br/>Token Number: $token<br/>Order Number: $orderId<br/>Order Type: ${orderType}<br/>" +
+                        "Date: $date<br/>Time: $time"
 
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
@@ -699,31 +703,23 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
 
     private fun shareOnMessage() {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) // At least KitKat
-            {
-                shareingStringData =
-                    "Restaurant Details: \nName: \n${restarurantName} \nAddress: \n${address} " +
-                            "\nOrder Detail: \nToken Number:\n${token}\nOrder Number:\n" +
-                            "${orderId} \nOrder Type:  ${orderType} \n" +
-                            "Date ${date} \nTime \n${time}"
-                val defaultSmsPackageName =
-                    Telephony.Sms.getDefaultSmsPackage(this)
-                val sendIntent = Intent(Intent.ACTION_SEND)
-                sendIntent.type = "text/plain"
-                sendIntent.putExtra(Intent.EXTRA_TEXT, shareingStringData.trim())
-                if (defaultSmsPackageName != null) {
-                    sendIntent.setPackage(defaultSmsPackageName)
-                }
-                startActivity(sendIntent)
-            } else {
-                val smsIntent = Intent(Intent.ACTION_VIEW)
-                smsIntent.type = "vnd.android-dir/mms-sms"
-                smsIntent.putExtra("address", "")
-                smsIntent.putExtra("sms_body", shareingStringData)
-                startActivity(smsIntent)
+            shareingStringData =
+                "Restaurant Details: \nName: ${restarurantName}\nAddress: $address" +
+                        "\n\nOrder Detail: \nToken Number: ${token}\nOrder Number: " +
+                        "$orderId\nOrder Type: $orderType\n" +
+                        "Date: $date\nTime: $time"
+
+            val defaultSmsPackageName =
+                Telephony.Sms.getDefaultSmsPackage(this)
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.type = "text/plain"
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareingStringData.trim())
+            if (defaultSmsPackageName != null) {
+                sendIntent.setPackage(defaultSmsPackageName)
             }
+            startActivity(sendIntent)
             dialogShare.dismiss()
-//            finish()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }

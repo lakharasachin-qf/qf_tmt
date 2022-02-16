@@ -1,12 +1,19 @@
 package com.themarkettheory.user.ui.main.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Telephony
+import android.text.Html
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.facebook.CallbackManager
+import com.facebook.share.model.ShareLinkContent
+import com.facebook.share.widget.ShareDialog
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.themarkettheory.user.R
@@ -17,6 +24,7 @@ import com.themarkettheory.user.newmodels.coupons.NewOfferListData
 import com.themarkettheory.user.newmodels.mytablebookings.MyTableBookingData
 import com.themarkettheory.user.newmodels.orderconfirmation.GetNewOrderConfirmRes
 import com.themarkettheory.user.ui.dialog.dialogToast.DialogToast
+import com.themarkettheory.user.ui.dialog.dialogshare.DialogShare
 import com.themarkettheory.user.ui.main.adapter.OrderDetailAdapter
 import com.themarkettheory.user.ui.restaurant.MyBucketCartRes
 import com.themarkettheory.user.viewmodel.CartViewModel
@@ -62,6 +70,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
             //Button SetOnClickListener
             ivBackToolBarOrderDetail.setOnClickListener(this)
             btnOrderDetailCancelOrder.setOnClickListener(this)
+            btnOrderInviteDetail.setOnClickListener(this)
             if (intent.hasExtra("data")) {
                 selectedOrder = gson.fromJson(
                     intent.getStringExtra("data"),
@@ -92,6 +101,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
             when (v) {
                 ivBackToolBarOrderDetail -> onBackPressed()
                 btnOrderDetailCancelOrder -> openCancelDialogConfirmation()
+                btnOrderInviteDetail -> openSharedDialog()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -204,6 +214,8 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
             } else {
                 tvOrderDetailOrderType.text =
                     "Table For " + selectedOrder.total_person + " Person"
+                btnOrderInviteDetail.visibility = View.VISIBLE
+                shareIconDetails.visibility = View.VISIBLE
             }
 
             //Order Date
@@ -372,6 +384,8 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
                     approvedType, cancelledType, completedType, declineType -> View.GONE
                     else -> View.VISIBLE
                 }
+
+            prepareDataToShare(res);
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -437,6 +451,164 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
                     myDialog.dismiss()
                 }*/
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+    var shareingStringData: String = ""
+    var restarurantName: String = ""
+    var address: String = ""
+    var token: String = ""
+    var orderIdText: String = ""
+    var orderType: String = ""
+    var date: String = ""
+    var time: String = ""
+
+    //facebook
+    private lateinit var dialogShare: DialogShare
+
+    private lateinit var shareDialog: ShareDialog
+    private lateinit var callbackManager: CallbackManager
+    private fun prepareDataToShare(res: GetNewOrderConfirmRes) {
+        try {
+            restarurantName = res.data!!.serviceDetails!!.title!!
+            address = res.data!!.serviceDetails!!.address!!
+             orderId = res.data!!.id!!.toString().trim()
+            orderId = "#${res.data!!.orderNumber!!.trim()}"
+            token = res.data!!.orderToken!!
+            orderType = PubFun.toCamelCase(res.data!!.orderType!!.trim())!!
+            orderType = "Table For " + res.data!!.table_no!! + " Person"
+
+            date = PubFun.parseDate(
+                res.data!!.date,
+                Config.requestDateFormat,
+                Config.defaultDateFormat
+            ).toString()
+            time = PubFun.parseDate(
+                res.data!!.time!!,
+                Config.requestTimeFormat,
+                Config.defaultTimeFormat
+            ).toString()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun openSharedDialog() {
+        try {
+            dialogShare = DialogShare(this@OrderDetailActivity)
+            dialogShare.show()
+
+            // sharing on facebook
+            dialogShare.holder!!.ivFacebook.setOnClickListener {
+                shareOnFacebook()
+            }
+            //sharing on whatsapp
+            dialogShare.holder!!.ivWhatsApp.setOnClickListener {
+                shareOnWhatsapp()
+            }
+            // sharing on email
+            dialogShare.holder!!.ivEmail.setOnClickListener {
+                shareOnEmail()
+            }
+            //sharing on text message app
+            dialogShare.holder!!.ivText.setOnClickListener {
+                shareOnMessage()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun shareOnFacebook() {
+        try {
+            shareingStringData =
+                "Restaurant Details:\nName: $restarurantName\nAddress: $address" +
+                        "\n\nOrder Detail:\nToken Number: ${token}\n" +
+                        "Order Number:  $orderId\nOrder Type:  $orderType\n" +
+                        "Date: $date\nTime: $time"
+
+            callbackManager = CallbackManager.Factory.create();
+            shareDialog = ShareDialog(this);
+
+            if (ShareDialog.canShow(ShareLinkContent::class.java)) {
+                val linkContent = ShareLinkContent.Builder()
+                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
+                    .setQuote(shareingStringData)
+                    .build()
+                shareDialog.show(linkContent)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun shareOnWhatsapp() {
+        try {
+            shareingStringData =
+                "*Restaurant Details:*\n*Name:* $restarurantName\n*Address:* $address" +
+                        "\n\n*Order Detail:*\n*Token Number:* ${token}\n*Order Number:* " +
+                        " $orderId\n*Order Type:* $orderType\n" +
+                        "*Date: * $date\n*Time: * $time"
+            val sendIntent = Intent()
+            sendIntent.setPackage("com.whatsapp")
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareingStringData)
+            sendIntent.type = "text/html"
+            startActivity(sendIntent)
+            dialogShare.dismiss()
+//                finish()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun shareOnEmail() {
+        try {
+            shareingStringData =
+                "<b>Restaurant Details:</b><br/>Name: $restarurantName<br/>Address: $address" +
+                        "<br/><br/>Order Detail:<br/>Token Number: $token<br/>Order Number: $orderId<br/>Order Type: ${orderType}<br/>" +
+                        "Date: $date<br/>Time: $time"
+
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                Html.fromHtml(StringBuilder().append(shareingStringData).toString())
+            )
+            sendIntent.type = "text/html"
+            sendIntent.setType("message/rfc822")
+            startActivity(Intent.createChooser(sendIntent, "Email:"))
+            dialogShare.dismiss()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+    private fun shareOnMessage() {
+        try {
+            shareingStringData =
+                "Restaurant Details: \nName: ${restarurantName}\nAddress: $address" +
+                        "\n\nOrder Detail: \nToken Number: ${token}\nOrder Number: " +
+                        "$orderId\nOrder Type: $orderType\n" +
+                        "Date: $date\nTime: $time"
+
+            val defaultSmsPackageName =
+                Telephony.Sms.getDefaultSmsPackage(this)
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.type = "text/plain"
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareingStringData.trim())
+            if (defaultSmsPackageName != null) {
+                sendIntent.setPackage(defaultSmsPackageName)
+            }
+            startActivity(sendIntent)
+            dialogShare.dismiss()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }

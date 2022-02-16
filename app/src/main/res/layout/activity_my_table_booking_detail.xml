@@ -179,8 +179,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
-        android:fontFamily="@font/proxima_nova_semibold"
         android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/proxima_nova_semibold"
         android:textColor="@color/slate_gray"
         android:textSize="@dimen/_14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -202,9 +202,9 @@
         android:id="@+id/requestMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/proxima_nova_semibold"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_20sdp"
+        android:fontFamily="@font/proxima_nova_semibold"
         android:text="Special Request Message"
         android:textColor="@color/white"
         android:textSize="@dimen/_16sp"
@@ -219,8 +219,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:maxLines="1"
         android:fontFamily="@font/proxima_nova_semibold"
+        android:maxLines="1"
         android:text=""
         android:textColor="@color/slate_gray"
         android:textSize="@dimen/_14sp"
@@ -265,7 +265,7 @@
         android:layout_height="@dimen/_40sdp"
         android:layout_marginStart="@dimen/_40sdp"
         android:layout_marginEnd="@dimen/_40sdp"
-        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:background="@drawable/ic_button_black_rock_bg"
         android:fontFamily="@font/proxima_nova_semibold"
         android:gravity="center"
@@ -273,7 +273,55 @@
         android:textAllCaps="false"
         android:textColor="@color/myWhite"
         android:textSize="@dimen/_14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnOrderInviteCon"
         app:layout_constraintStart_toStartOf="@+id/tvMyTableBookingDetailStatusLabel" />
+
+
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+        android:id="@+id/btnOrderInviteCon"
+        style="@style/button_style"
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_38sdp"
+        android:layout_marginStart="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_40sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:drawablePadding="@dimen/_40sdp"
+        android:fontFamily="@font/proxima_nova_bold"
+        android:gravity="center"
+        android:text="Invite Friends/Guest"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dummy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invite Friends/Guest"
+        android:textSize="@dimen/_14sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/shareIconCon"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:adjustViewBounds="true"
+        android:fitsSystemWindows="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_share"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnOrderInviteCon"
+        app:layout_constraintEnd_toStartOf="@+id/dummy"
+        app:layout_constraintTop_toTopOf="@+id/btnOrderInviteCon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

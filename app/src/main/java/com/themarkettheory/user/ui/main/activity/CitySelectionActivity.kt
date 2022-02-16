@@ -137,6 +137,7 @@ class CitySelectionActivity : BaseActivity(), View.OnClickListener {
                         )
                     )
                 }
+
                 addressViewModel.addLocation(
                     list.name,
                     location[0].trim(),
@@ -147,6 +148,7 @@ class CitySelectionActivity : BaseActivity(), View.OnClickListener {
                 updateCurrentCitySelection(list.name)
             }
         }
+
         hideShowRecentList(false)
         hideShowPopularList(false)
         ivLocationCitySelection.setOnClickListener(this)
@@ -489,14 +491,6 @@ class CitySelectionActivity : BaseActivity(), View.OnClickListener {
                         requestNewLocationData()
                     } else {
 
-                        val sydney = LatLng(location.latitude, location.longitude)
-//                        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//                        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-                        val zoomLevel = 16.0f //This goes up to 21
-
-//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoomLevel))
-
-
                         val geocoder = Geocoder(this, Locale.getDefault())
 
                         val addresses: List<Address> =
@@ -554,29 +548,6 @@ class CitySelectionActivity : BaseActivity(), View.OnClickListener {
                             "",
                             typeCity
                         )
-
-                        /*addressViewModel.add_address(
-                            google_address,
-                            "",
-                            "",
-                            "",
-                            "4",
-                            "1",
-                            "",
-                            latitude.toString(),
-                            longitude.toString()
-                        )*/
-//                        edt_address.setText(address)
-//                        mMap.setMyLocationEnabled(true);
-
-
-//                        findViewById<TextView>(R.id.latTextView).text = location.latitude.toString()
-//                        findViewById<TextView>(R.id.lonTextView).text = location.longitude.toString()
-                        /*getCurrentLocation(
-                            location.latitude.toString(),
-                            location.longitude.toString()
-                        )*/
-
                     }
                 }
             } else {
@@ -621,15 +592,6 @@ class CitySelectionActivity : BaseActivity(), View.OnClickListener {
         override fun onLocationResult(locationResult: LocationResult) {
             var mLastLocation: Location = locationResult.lastLocation
 
-
-            // Add a marker in Sydney and move the camera
-            val sydney = LatLng(mLastLocation.latitude, mLastLocation.longitude)
-//            mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-
-            val zoomLevel = 16.0f //This goes up to 21
-
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoomLevel))
 
             val geocoder = Geocoder(this@CitySelectionActivity, Locale.getDefault())
 

@@ -13,10 +13,14 @@ import com.themarkettheory.user.databinding.RowPointsHistoryNewBinding
 import com.themarkettheory.user.helper.Config
 import com.themarkettheory.user.helper.PubFun
 import com.themarkettheory.user.newmodels.pointhistory.NewPointHistoryData
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NewPointHistoryListAdapter : RecyclerView.Adapter<NewPointHistoryListAdapter.ViewHolder>() {
 
     private var totalHistoryPointList = ArrayList<NewPointHistoryData>()
+    var numFormatNew: NumberFormat = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -59,10 +63,12 @@ class NewPointHistoryListAdapter : RecyclerView.Adapter<NewPointHistoryListAdapt
             holder.bindingRowPointsHistoryNewBinding.tvDate.text =
                 "${date} at ${time.toString().uppercase()}"
 
+            var total = totalHistoryPointData.finalPrice!!.toDouble()
+
             // setting up the price
             holder.bindingRowPointsHistoryNewBinding.tvTotalPrice.text =
-                "${totalHistoryPointData.currency}${
-                    totalHistoryPointData.finalPrice!!.toString().trim()
+                "${
+                    numFormatNew.format(total) //totalHistoryPointData.finalPrice!!.toString().trim()
                 }"
 
             // setting up the points
