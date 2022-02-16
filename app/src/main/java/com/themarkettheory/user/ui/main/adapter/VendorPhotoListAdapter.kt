@@ -53,7 +53,6 @@ class VendorPhotoListAdapter(
         } else {
             ivPlay.visibility = View.GONE
         }
-
 // purposly commentd by harish
 //        ivRestaurant.setOnClickListener {
 //            if (!flag) {
