@@ -43,7 +43,7 @@ data class Data(
     var refundId: Any?,
     @SerializedName("reason")
     var reason: Any?,
-    @SerializedName("order_type")
+    @SerializedName("type") //order_type
     var orderType: String?,
     @SerializedName("update_by")
     var updateBy: Int?,

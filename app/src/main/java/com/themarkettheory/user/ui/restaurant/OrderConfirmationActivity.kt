@@ -303,12 +303,13 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
     private val couponPercentage = 1
     private val couponFlat = 2
     private val couponBuyGet = 3
+    lateinit var res: GetNewOrderConfirmRes
 
     // populating and storing data
     @SuppressLint("SetTextI18n")
     private fun populateResDetails(res: GetNewOrderConfirmRes) {
         try {
-
+            this.res = res;
             if (res.data != null) {
 
                 Log.e("Order Confirmation Data", gson.toJson(res))
@@ -497,7 +498,8 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
                 else
                     "Dining In"// + res.data!!.table_no!!
             } else {
-                orderType = "Table For " + res.data!!.table_no!! + " Person"
+                orderType =
+                    PubFun.toCamelCase(res.data!!.orderType!!.trim()) + "\nTable For " + res.data!!.totalPerson!! + " Person"
             }
 
             date = PubFun.parseDate(
@@ -681,6 +683,8 @@ class OrderConfirmationActivity : BaseActivity(), View.OnClickListener {
 
     private fun shareOnEmail() {
         try {
+            orderType =
+                PubFun.toCamelCase(res.data!!.orderType!!.trim()) + "Table For " + res.data!!.totalPerson!! + " Person"
             shareingStringData =
                 "<b>Restaurant Details:</b><br/>Name: $restarurantName<br/>Address: $address" +
                         "<br/><br/>Order Detail:<br/>Token Number: $token<br/>Order Number: $orderId<br/>Order Type: ${orderType}<br/>" +

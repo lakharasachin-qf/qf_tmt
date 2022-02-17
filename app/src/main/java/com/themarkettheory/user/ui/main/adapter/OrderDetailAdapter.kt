@@ -17,12 +17,15 @@ import com.themarkettheory.user.ui.restaurant.MyBucketCartRes
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class OrderDetailAdapter :
     RecyclerView.Adapter<OrderDetailAdapter.Holder>() {
     private var orderMenuList = ArrayList<MyBucketCartRes>()
     private val numberFormat: NumberFormat = DecimalFormat("#0.00")
     private lateinit var res: GetNewOrderConfirmRes
+    var numFormatNew: NumberFormat = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val itemView = LayoutInflater.from(parent.context).inflate(
@@ -72,7 +75,7 @@ class OrderDetailAdapter :
 
             // final price
             holder.RowMyOrderDetailsNewBinding.tvRowOrderDetailsListFinalPrice.text =
-                "${bucketCartData.currency}${numberFormat.format(bucketCartData.finalPrice)}"
+                "${numFormatNew.format(bucketCartData.finalPrice)}"
 
             //actual price
             holder.RowMyOrderDetailsNewBinding.tvRowOrderDetailsListActualPrice.apply {
@@ -80,7 +83,7 @@ class OrderDetailAdapter :
                     if (bucketCartData.finalPrice != bucketCartData.actualPrice)
                         View.VISIBLE else View.GONE
                 text =
-                    "${bucketCartData.currency}${numberFormat.format(bucketCartData.actualPrice)}"
+                    "${numFormatNew.format(bucketCartData.actualPrice)}"
                 paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             }
 

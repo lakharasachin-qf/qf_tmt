@@ -23,7 +23,6 @@ class CrossPromotionListAdapter(val context: Context, val list: List<CrossPromot
                 p0,
                 false
             )
-
         return ViewHolder(binding.root)
     }
 

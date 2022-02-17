@@ -2,6 +2,7 @@ package com.themarkettheory.user.newmodels.booking.bookingdetails
 
 data class Data(
     var id: Int?,
+    var booking_token: String?,
     var booking_date: String?,
     var booking_time: String?,
     var total_person: Int?,

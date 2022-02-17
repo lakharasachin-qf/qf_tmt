@@ -171,7 +171,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
             shareingStringData =
                 "Restaurant Details:\nName: $restarurantName\nAddress: $address" +
                         "\n\nOrder Detail:\nToken Number: ${token}\n" +
-                        "Order Number:  $orderId\nOrder Type:  $orderType\n" +
+                        "Order Type:  $orderType\n" +
                         "Date: $date\nTime: $time"
 
             callbackManager = CallbackManager.Factory.create();
@@ -194,8 +194,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
         try {
             shareingStringData =
                 "*Restaurant Details:*\n*Name:* $restarurantName\n*Address:* $address" +
-                        "\n\n*Order Detail:*\n*Token Number:* ${token}\n*Order Number:* " +
-                        " $orderId\n*Order Type:* $orderType\n" +
+                        "\n\n*Order Detail:*\n*Token Number:* ${token}\n*Order Type:* $orderType\n" +
                         "*Date: * $date\n*Time: * $time"
             val sendIntent = Intent()
             sendIntent.setPackage("com.whatsapp")
@@ -212,9 +211,16 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
 
     private fun shareOnEmail() {
         try {
+
+            try {
+                orderType ="Booking Table<br/>Table For " + res.data!!.total_person!! + " Person"
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
             shareingStringData =
                 "<b>Restaurant Details:</b><br/>Name: $restarurantName<br/>Address: $address" +
-                        "<br/><br/>Order Detail:<br/>Token Number: $token<br/>Order Number: $orderId<br/>Order Type: ${orderType}<br/>" +
+                        "<br/><br/>Order Detail:<br/>Token Number: $token<br/>Order Type: ${orderType}<br/>" +
                         "Date: $date<br/>Time: $time"
 
             val sendIntent = Intent()
@@ -236,8 +242,7 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
         try {
             shareingStringData =
                 "Restaurant Details: \nName: ${restarurantName}\nAddress: $address" +
-                        "\n\nOrder Detail: \nToken Number: ${token}\nOrder Number: " +
-                        "$orderId\nOrder Type: $orderType\n" +
+                        "\n\nOrder Detail: \nToken Number: ${token}\nOrder Type: $orderType\n" +
                         "Date: $date\nTime: $time"
 
             val defaultSmsPackageName =
@@ -516,9 +521,11 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    lateinit var res : NewBookingDetailsRes
     @SuppressLint("SetTextI18n")
     private fun populateTableBookingDetails(res: NewBookingDetailsRes) {
         try {
+            this.res =res;
             Log.e("Table Boking", gson.toJson(res))
             if (res.data != null) {
                 //Capturing Booking Response into roomDB
@@ -649,8 +656,8 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
             restarurantName = res.data!!.title!!
             address = res.data!!.address!!
             //orderId = "#${res.data!!.orderNumber!!.trim()}"
-            //token = res.data!!.orderToken!!
-            orderType = "Table For " + res.data!!.total_person!! + " Person"
+            token = res.data!!.booking_token!!
+            orderType ="Booking Table\nTable For " + res.data!!.total_person!! + " Person"
 
 
             date = PubFun.parseDate(
@@ -658,11 +665,12 @@ class MyTableBookingDetailActivity : BaseActivity(), View.OnClickListener {
                 Config.requestDateFormat,
                 Config.defaultDateFormat
             ).toString()
-            time = PubFun.parseDate(
-                res.data!!.booking_time!!,
-                Config.requestTimeFormat,
-                Config.defaultTimeFormat
-            ).toString()
+            time = res.data!!.booking_time!!.toString().uppercase()
+//            PubFun.parseDate(
+//                res.data!!.booking_time!!,
+//                Config.requestTimeFormat,
+//                Config.defaultTimeFormat
+//            ).toString()
 
         } catch (e: Exception) {
             e.printStackTrace()

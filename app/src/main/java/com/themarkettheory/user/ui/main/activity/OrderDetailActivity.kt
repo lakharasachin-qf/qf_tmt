@@ -174,14 +174,16 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
 
 
     var numFormatNew: NumberFormat = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+    lateinit var res: GetNewOrderConfirmRes
 
     @SuppressLint("SetTextI18n")
     private fun populateOrderDetails(res: GetNewOrderConfirmRes) {
         try {
-
+            this.res = res
             Log.e("Order Details:", res.toString())
             Log.e("Order orderType:", gson.toJson(res.data!!.orderType!!))
             Log.e("Order table_no:", gson.toJson(res.data!!.table_no!!))
+            //Log.e("Order totalPerson:", gson.toJson(res.data!!.totalPerson!!))
             //Order Number
             tvOrderDetailOrderNumber.text = "#${res.data!!.orderNumber!!.trim()}"
 
@@ -359,13 +361,15 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
             val currencySymbol = res.data!!.serviceDetails!!.currency!!.trim()
 
             //SubTotal
-            tvOrderDetailSubtotal.text = "${currencySymbol}${res.data!!.subtotal!!}"
+            tvOrderDetailSubtotal.text =
+                "${numFormatNew.format(res.data!!.subtotal!!.toString().trim().toDouble())}"
 
             //Tax
-            tvOrderDetailTax.text = "${currencySymbol}${res.data!!.tax!!}"
+            tvOrderDetailTax.text = "${numFormatNew.format(res.data!!.tax!!.trim().toDouble())}"
 
             //Total
-            tvOrderDetailTotalAmount.text = "${currencySymbol}${res.data!!.total!!}"
+            tvOrderDetailTotalAmount.text =
+                "${numFormatNew.format(res.data!!.total!!.trim().toDouble())}"
 
             //Total Points
             tvOrderDetailTotalOrderPoints.text = res.data!!.points!!.toString().trim()
@@ -475,11 +479,11 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         try {
             restarurantName = res.data!!.serviceDetails!!.title!!
             address = res.data!!.serviceDetails!!.address!!
-             orderId = res.data!!.id!!.toString().trim()
+            orderId = res.data!!.id!!.toString().trim()
             orderId = "#${res.data!!.orderNumber!!.trim()}"
             token = res.data!!.orderToken!!
             orderType = PubFun.toCamelCase(res.data!!.orderType!!.trim())!!
-            orderType = "Table For " + res.data!!.table_no!! + " Person"
+            orderType = orderType + "\nTable For " + selectedOrder.total_person!! + " Person"
 
             date = PubFun.parseDate(
                 res.data!!.date,
@@ -569,6 +573,10 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
 
     private fun shareOnEmail() {
         try {
+            orderType =
+                PubFun.toCamelCase(res.data!!.orderType!!) + "<br/>Table For " + selectedOrder.total_person!! + " Person"
+
+
             shareingStringData =
                 "<b>Restaurant Details:</b><br/>Name: $restarurantName<br/>Address: $address" +
                         "<br/><br/>Order Detail:<br/>Token Number: $token<br/>Order Number: $orderId<br/>Order Type: ${orderType}<br/>" +
