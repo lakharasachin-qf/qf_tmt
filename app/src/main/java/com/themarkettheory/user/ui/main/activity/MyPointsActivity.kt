@@ -157,10 +157,7 @@ class MyPointsActivity : BaseActivity(), View.OnClickListener {
                 when (it.status) {
                     0 -> showMsgDialogAndProceed(it.message!!.trim())
                     1 -> {
-                        myPointListAdapter.isRedeemButton(
-                            isRedeemButtonPosition,
-                            if (newPointsDataRow.isRedeem!! == 0) 1 else 0
-                        )
+                        myPointListAdapter.isRedeemButton(isRedeemButtonPosition, if (newPointsDataRow.isRedeem!! == 0) 1 else 0)
 
                         /*Calculate Footer part*/
                         myPointsList[isRedeemButtonPosition].isRedeem =

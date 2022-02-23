@@ -111,6 +111,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         try {
+            cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
             orderId = myRoomDatabase.daoConfig().selectConfigTableByField(Config.dbOrderId)!!
             if (PubFun.isInternetConnection(this@OrderDetailActivity)) {
                 cartViewModel.my_order_details(orderId)

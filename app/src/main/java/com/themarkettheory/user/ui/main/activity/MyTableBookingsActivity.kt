@@ -66,6 +66,8 @@ class MyTableBookingsActivity : BaseActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+        menuViewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
+
         try {
             callMyTableBookingApi()
         } catch (e: Exception) {

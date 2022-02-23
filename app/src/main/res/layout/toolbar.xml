@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:id="@+id/refreshPage"
         android:layout_width="@dimen/_25sdp"
         android:layout_height="@dimen/_25sdp"
@@ -49,21 +49,3 @@
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <!--    <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:ellipsize="end"
-            android:fontFamily="@font/proxima_nova_bold"
-            android:maxLines="1"
-            android:text="@string/my_bucket"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />-->
