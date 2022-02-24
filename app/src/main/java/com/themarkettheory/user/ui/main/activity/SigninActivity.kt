@@ -287,7 +287,7 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
             socialModel.profileImage = photoUrl.toString()
             socialModel.google_token = uid
             socialModel.email = email
-            Toast.makeText(this, "Authentication successful.", Toast.LENGTH_LONG).show()
+            //  Toast.makeText(this, "Authentication successful.", Toast.LENGTH_LONG).show()
 
             loginViewModel.social_login(
                 Constants.loginViaGoogle,
@@ -753,10 +753,10 @@ class SigninActivity : BaseActivity(), View.OnClickListener {
                 if (checkValidation()) {
                     if (PubFun.isInternetConnection(this@SigninActivity)) {
                         //showMsgDialogAndProceedForToken(prefs.getToken(this))
-                        Toast.makeText(
-                            this@SigninActivity, "Firebase : " + prefs.getToken(this),
-                            Toast.LENGTH_LONG
-                        ).show()
+//                        Toast.makeText(
+//                            this@SigninActivity, "Firebase : " + prefs.getToken(this),
+//                            Toast.LENGTH_LONG
+//                        ).show()
 
                         performLogin()
                     } else {

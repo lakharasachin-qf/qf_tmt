@@ -113,7 +113,7 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
             ivEditProfile.setOnClickListener(this)
             ivMenuEditProfile.setOnClickListener(this)
 
-            flReferAndEarn.visibility=View.GONE
+            flReferAndEarn.visibility = View.GONE
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -335,7 +335,7 @@ class MenuFragment : BaseFragment(), View.OnClickListener {
                     startActivity(
                         Intent(activity, MyTableBookingsActivity::class.java)
                     )
-                   // removeFragment()
+                    // removeFragment()
                 } else {
                     showMsgDialogAndProceed(Config.msgToastForInternet)
                 }

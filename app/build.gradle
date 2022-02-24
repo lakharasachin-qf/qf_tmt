@@ -11,8 +11,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 7
-        versionName '1.0'
+        versionCode 12
+        versionName '3.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         applicationId 'com.themarkettheory.user'

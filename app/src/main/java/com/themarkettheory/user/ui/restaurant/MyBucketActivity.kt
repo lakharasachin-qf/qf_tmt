@@ -642,7 +642,7 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
                 var time = tvMyBucketPickUpTime.text.toString().trim()
                 Log.e("PickupNow", time)
                 Log.e("bookingId", bookingId)
-                val paymentId = "payment_id" //paymentData.paymentId.toString()
+                val paymentId = paymentData.paymentId.toString() //"payment_id"
 
 
                 var couponIdSelected = -1

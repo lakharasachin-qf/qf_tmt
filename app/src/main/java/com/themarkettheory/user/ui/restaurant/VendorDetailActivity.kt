@@ -149,7 +149,7 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
 //        container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
 //        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
 
-        if(Config.isVendorComingFromCouponDetail){
+        if (Config.isVendorComingFromCouponDetail) {
             tabs.getTabAt(2)?.select()
         }
         listeners()
@@ -233,7 +233,7 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
             when (it.status!!) {
                 0 -> showMsgDialogAndProceed(it.message!!.trim())
                 1 -> {
-                    Log.e("ERRRRR","SSSSS");
+                    Log.e("ERRRRR", "SSSSS");
 
                     overViewFragment.updateFragment()
                 }
@@ -389,6 +389,7 @@ class VendorDetailActivity : BaseActivity(), View.OnClickListener {
                         toolBarFavorite.setImageResource(R.drawable.ic_like_unselected)
 
                     isFavorite = !isFavorite
+
                     is_liked = is_liked!!.xor(1)
                     vendorDetailViewModel.favourite_service(serviceId)
 
