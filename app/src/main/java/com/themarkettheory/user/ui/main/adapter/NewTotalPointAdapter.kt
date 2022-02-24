@@ -31,6 +31,7 @@ class NewTotalPointAdapter(
     private var totalPointsDataListFilter = ArrayList<NewTotalPointData>()
 
     var colors = arrayOf("#2fb8ee", "#ffbe00", "#19b254", "#8230ff", "#da532f", "#2fb8ee")
+    var colorIndex:Int=-1;
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -101,10 +102,16 @@ class NewTotalPointAdapter(
             clPointListener.onClickListener(holder.view, position, totalPointNewData)
         }
         // setting the background
+        if(colorIndex > 5)
+            colorIndex = 0
+        else
+            colorIndex++
+
         holder.bindingRowTotalPoints.clTotalPointMainLayout.background.setColorFilter(
-            Color.parseColor(colors[position]),
+            Color.parseColor(totalPointNewData.colorCode),
             android.graphics.PorterDuff.Mode.SRC_ATOP
         )
+
     }
 
     override fun getItemCount(): Int {

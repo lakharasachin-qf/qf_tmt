@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -48,6 +49,8 @@ class TotalPointsActivity : BaseActivity(), View.OnClickListener {
     private lateinit var newHomeRes: NewHomeRes
 
     private var subCategoriesList = ArrayList<Category>()
+    var colors = arrayOf("#2fb8ee", "#ffbe00", "#19b254", "#8230ff", "#da532f", "#2fb8ee")
+    var colorIndex: Int = -1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -198,7 +201,7 @@ class TotalPointsActivity : BaseActivity(), View.OnClickListener {
                     val data = objects as NewTotalPointData
                     Config.isMenuFragmentComingFrom = ""
                     Config.isBookingDetailOpeningFrom = Config.isBookingDetailOpeningFromTotalPoints
-                    if (!Config.isMyPointClickedFromHome){
+                    if (!Config.isMyPointClickedFromHome) {
                         Config.isVendorDetailComingFromTotalPoints = true
                     }
                     startActivity(
@@ -247,7 +250,24 @@ class TotalPointsActivity : BaseActivity(), View.OnClickListener {
         if (res.data!!.isNotEmpty()) {
             rvTotalPoints.visibility = View.VISIBLE
             clTotalPointsHeader.visibility = View.VISIBLE
-            adapterMyPoint.addTotalPointList(res.data!! as ArrayList<NewTotalPointData>)
+
+            val adapt: ArrayList<NewTotalPointData> = res.data!! as ArrayList<NewTotalPointData>
+//
+//            for (i in 0..15) {
+//                val data : NewTotalPointData= NewTotalPointData(0,0,null,"","")
+//                adapt.add(data)
+//            }
+            val colors = arrayOf("#2fb8ee", "#ffbe00", "#19b254", "#8230ff", "#da532f")
+            var colorIndex: Int = 0
+
+            for (i in adapt.indices) {
+                if (colorIndex > 4)
+                    colorIndex = 0
+                adapt[i].colorCode = colors[colorIndex]
+                colorIndex += 1
+            }
+            adapterMyPoint.addTotalPointList(adapt)
+
         } else {
             rvTotalPoints.visibility = View.GONE
             clTotalPointsHeader.visibility = View.GONE

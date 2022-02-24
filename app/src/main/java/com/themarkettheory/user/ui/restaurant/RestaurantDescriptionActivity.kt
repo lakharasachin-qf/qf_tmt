@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -123,14 +124,18 @@ class RestaurantDescriptionActivity : BaseActivity(), View.OnClickListener {
                             StaggeredGridLayoutManager.HORIZONTAL
                         )*/
                     }
-
-                    if (it.data?.openAt.isNullOrEmpty()) {
-                        res_desc_isOpen.setText("Open")
-                        res_desc_isOpen.setTextColor(Color.parseColor("#1CBD54"))
-                    } else {
-                        res_desc_isOpen.setText("Open At " + it.data?.openAt)
-                        res_desc_isOpen.setTextColor(Color.parseColor("#1CBD54"))
+                    Log.e("GSON", gson.toJson(it.data!!.openingTime))
+                        if (it.data?.openAt.isNullOrEmpty()) {
+                            res_desc_isOpen.setText("Open")
+                            res_desc_isOpen.setTextColor(Color.parseColor("#1CBD54"))
+                        } else {
+                            res_desc_isOpen.setText("Open At " + it.data?.openAt)
+                            res_desc_isOpen.setTextColor(Color.parseColor("#1CBD54"))
+                        }
+                    if (it.data!!.openingTime.isNullOrEmpty()) {
+                        res_desc_isOpen.visibility = View.INVISIBLE
                     }
+
 
                     if (!it.data?.openingTime.isNullOrEmpty()) {
                         val openHoursAdapter = OpenHoursAdapter(this, it.data?.openingTime!!)
@@ -149,6 +154,13 @@ class RestaurantDescriptionActivity : BaseActivity(), View.OnClickListener {
                     }
                     if (it.data?.twitterUrl.isNullOrEmpty()) {
                         rlTwitter.visibility = View.GONE
+                    }
+                    if(it.data?.facebookUrl.isNullOrBlank() &&
+                        it.data?.instagramUrl.isNullOrBlank() &&
+                        it.data?.googleUrl.isNullOrBlank() &&
+                        it.data?.twitterUrl.isNullOrBlank()){
+                        restaurant_desc_social.visibility = View.GONE
+                        restaurant_desc_view3.visibility = View.INVISIBLE
                     }
                 }
             }

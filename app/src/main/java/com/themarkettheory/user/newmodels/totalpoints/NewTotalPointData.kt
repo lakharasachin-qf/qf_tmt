@@ -11,5 +11,6 @@ data class NewTotalPointData(
     @SerializedName("service_details")
     var serviceDetails: ServiceDetails? = ServiceDetails(),
     @SerializedName("total")
-    var total: String? = ""
+    var total: String? = "",
+    var colorCode :String?
 )
