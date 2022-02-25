@@ -761,12 +761,12 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                         res.data!!.list!![i].menu!!.tax!!.toDouble(),
                         res.data!!.list!![i].menu!!.currency!!,
                         res.data!!.serviceDetails!!.currencyStr!!,
-                        res.data!!.serviceDetails!!.offers!![0].menuId!!,
-                        res.data!!.serviceDetails!!.offers!![0].couponCode!!.trim(),
-                        res.data!!.serviceDetails!!.offers!![0].discountType!!,
-                        res.data!!.serviceDetails!!.offers!![0].discountAmount!!,
-                        res.data!!.serviceDetails!!.offers!![0].buyQty!!,
-                        res.data!!.serviceDetails!!.offers!![0].getQty!!,
+                        0,
+                        "",
+                        0,
+                        0,
+                        0,
+                        0,
                     )
                     bucketDataList.add(bucketCartRes)
 
