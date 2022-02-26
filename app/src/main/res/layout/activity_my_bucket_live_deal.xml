@@ -47,6 +47,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:visibility="gone"
         android:id="@+id/nsvLiveDealBucket"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -631,6 +632,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/_10sdp"
+        android:visibility="gone"
         android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
