@@ -735,6 +735,8 @@ class MyBucketActivity : BaseActivity(), View.OnClickListener, PaymentResultWith
 
     @SuppressLint("SetTextI18n")
     private fun populateCartDetails(res: GetCartNewRes) {
+        nestedScrollNor.visibility=View.VISIBLE
+        rlMyBucketFooter.visibility=View.VISIBLE
         try {
             Log.e("populateCartDetails", "populateCartDetails");
             Log.e("Cart Data", gson.toJson(res))

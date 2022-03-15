@@ -76,9 +76,9 @@ class AddReportActivity : BaseActivity(), View.OnClickListener {
                     try {
                         showMsgDialogAndProceed("Reported successfully")
                         reportAddedSuccefully = 1
-                       /* Handler(Looper.getMainLooper()).postDelayed({
-                            finish()
-                        }, 2000)*/
+                        /* Handler(Looper.getMainLooper()).postDelayed({
+                             finish()
+                         }, 2000)*/
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -98,7 +98,7 @@ class AddReportActivity : BaseActivity(), View.OnClickListener {
                 var spSelectedItem = ""
                 if (spSelectIssue.selectedItemPosition == 0) {
                     spSelectedItem = ""
-                    showMsgDialogAndProceed("Please select issue for your service report")
+
                     return
                 } else {
                     spSelectedItem = listOfReportService[spSelectIssue.selectedItemPosition]
@@ -138,7 +138,7 @@ class AddReportActivity : BaseActivity(), View.OnClickListener {
                     override fun run() {
                         if (i == 0) {
                             myDialog.dismiss()
-                            if(reportAddedSuccefully==1){
+                            if (reportAddedSuccefully == 1) {
                                 this@AddReportActivity.finish()
                             }
                         } else {

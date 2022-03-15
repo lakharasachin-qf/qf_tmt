@@ -576,6 +576,9 @@ class MyBucketLiveDealActivity : BaseActivity(), View.OnClickListener,
 
     @SuppressLint("SetTextI18n")
     private fun populateLiveDealBucket(res: GetCartNewRes) {
+        nsvLiveDealBucket.visibility = View.VISIBLE
+        rlLiveDealBucketFooter.visibility = View.VISIBLE
+
         try {
             //     Log.e("API-DATa", gson.toJson(res))
             /*Razorpay Currency String*/
