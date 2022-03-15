@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/_80sdp"
         android:layout_marginBottom="@dimen/_20sdp"
         android:fontFamily="@font/proxima_nova_regular"
-        android:text="App Version: 3.2"
+        android:text="App Version: 4.0"
         android:textColor="@color/grayTextColor"
         android:textSize="@dimen/_12sdp"
         app:layout_constraintBottom_toBottomOf="parent"
