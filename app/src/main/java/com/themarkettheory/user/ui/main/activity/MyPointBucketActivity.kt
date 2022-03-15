@@ -585,12 +585,14 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    var vendorPoint=0;
     @SuppressLint("SetTextI18n")
     private fun populateCartDetails(res: GetCartNewRes) {
         Log.e("PopulateCart", gson.toJson(res))
         try {
             if (res.data != null) {
                 //setting up the total points
+
                 tvBucketPointPoints.text = res.data!!.serviceDetails!!.points!!.toString().trim()
                 cartTotal = res.data!!.serviceDetails!!.points!!
 
@@ -677,14 +679,6 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                             //calling api for adding and removing items
                             if (bucketData.qty > 0) {
 
-                                var total = 0
-                                for (i in 0 until bucketDataList.size) {
-                                    total += bucketDataList[i].qty!!
-                                    Log.e("PrintCountss", total.toString())
-                                }
-                                tvBucketPointMyCart.text =
-                                    "My Cart (${total} ${if (total == 1) "Item" else "Items"})"
-
 
                                 /*Validation with total points*/
                                 if (cartTotal - bucketData.point < 0 && isItemAdded) {
@@ -692,6 +686,13 @@ class MyPointBucketActivity : BaseActivity(), View.OnClickListener {
                                     bucketMyPointAdapter.notifyDataSetChanged()
                                     showMsgDialogAndProceed("You don't have enough points")
                                 } else {
+                                    var total = 0
+                                    for (i in 0 until bucketDataList.size) {
+                                        total += bucketDataList[i].qty!!
+                                        Log.e("PrintCountss", total.toString())
+                                    }
+                                    tvBucketPointMyCart.text =   "My Cart (${total} ${if (total == 1) "Item" else "Items"})"
+
                                     bucketDataList[pos].qty = bucketData.qty
                                     bucketMyPointAdapter.notifyDataSetChanged()
                                     calculateFooterSection(bucketDataList)

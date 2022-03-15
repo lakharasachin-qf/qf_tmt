@@ -84,6 +84,7 @@
         <entry key="..\:/__1.QueryFinders/TMT-Project -Backup/TMT1.0.4/app/src/main/res/layout/row_my_orders_new.xml" value="0.19635416666666666" />
         <entry key="..\:/__1.QueryFinders/TMT-Project -Backup/TMT1.0.4/app/src/main/res/layout/row_table_bookings_new.xml" value="0.67" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/activity_add_address.xml" value="0.3671875" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/activity_business_profile.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/activity_coupon.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/activity_coupon_detail_new.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/activity_full_screen.xml" value="0.23190789473684212" />
@@ -104,9 +105,11 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/calendar_item.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/fragment_booking.xml" value="0.3671875" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/fragment_home.xml" value="0.3671875" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/fragment_map.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/fragment_overview.xml" value="0.3671875" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/fragment_restaurant_menu.xml" value="0.2296416938110749" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/fragment_review_new.xml" value="0.3671875" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/infowindow.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/row_amenities_list.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/row_coupon_new.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/row_cross_promotion_partners.xml" value="0.3671875" />
@@ -117,6 +120,7 @@
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/row_my_cart_point_new.xml" value="0.3671875" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/row_nearest.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/row_number_of_guests.xml" value="0.3671875" />
+        <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/row_order_confirmation_new.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/row_points_history_new.xml" value="0.3671875" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/row_popular_location.xml" value="0.23190789473684212" />
         <entry key="..\:/__ANDROID_PROJECTS/GithubProjects/qf_tmt/app/src/main/res/layout/row_popup_type.xml" value="0.3671875" />

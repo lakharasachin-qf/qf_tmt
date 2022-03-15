@@ -208,8 +208,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
 
             if (res.data!!.orderType!!.lowercase() == "schedule pickup" ||
                 res.data!!.orderType!!.lowercase() == "pickup now" ||
-                res.data!!.orderType!!.lowercase() == "invite user"
-            ) {
+                res.data!!.orderType!!.lowercase() == "invite user") {
                 tvOrderDetailOrderType.text = PubFun.toCamelCase(res.data!!.orderType!!.trim())
             } else if (res.data!!.orderType!! == "QR") {
                 tvOrderDetailOrderType.text =
