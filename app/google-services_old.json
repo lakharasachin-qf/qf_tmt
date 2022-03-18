@@ -22,14 +22,6 @@
           }
         },
         {
-          "client_id": "250742114157-g3bd5radpndn8lrg2dhhgrmj72kalb8o.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.themarkettheory.user",
-            "certificate_hash": "3f6852c55f855a5da9aaa625a7cf6a77bf06c38a"
-          }
-        },
-        {
           "client_id": "250742114157-jlpsnoicm2i0ro2i4brs7j4dfore3dl0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
